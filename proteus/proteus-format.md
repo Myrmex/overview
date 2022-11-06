@@ -59,4 +59,10 @@ In fact, as a final remark in this very short sketch, it must be emphasized that
 
 This way, we can effectively recover a big quantity of legacy digital resources (or even paper resources, digitized with OCR software), encoding them into more semantic and structured output, which makes them much more usable and fit to modern usages.
 
-Also, another creative use case of this system is parallel to the one seen for typing in Greek: in fact, a subsystem of it can be used to ease the composition and markup of XML-based texts, without having the users enter a single tag. I call this kind of aided editing Visimark.
+Also, another creative use case of this system is parallel to the one seen for typing in Greek: in fact, a subsystem of it can be used to ease the composition and markup of XML-based texts, without having the users enter a single tag.
+
+Anyway, the main usage of Proteus happens in connection with [Cadmus](../cadmus.md), my content creation system, allowing it to become a sort of content hub at the crossroads of data flows and integration.
+
+In the video below you can see a short sample about recovering critical apparatus and remodeling it into the Cadmus system.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/27_7iBQVjg0" title="Daniele Fusi and Daniel Kiss, Encoding a critical apparatus" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
