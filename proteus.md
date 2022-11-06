@@ -32,3 +32,7 @@ Finally, a more unexpected application of the conversion system is found in cont
 
 - [Text Encoding](./proteus/proteus-encoding.md)
 - [Format Encoding](./proteus/proteus-format.md)
+
+Downloads:
+
+- [Theuth]({{ site.url }}/downloads/theuth-demo.zip)
