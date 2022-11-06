@@ -1,0 +1,74 @@
+---
+layout: page
+title: Abacus
+subtitle: "Custom HTML Element in Action"
+---
+
+<div>
+  <p>A language 'game' from the Roman Egypt, some 18 centuries ago.</p>
+  <p>
+    This page shows an epigraphical "abacus", as attested in the Romanized Greek
+    world by SEG 7,464 (<em>carmina votiva,</em> s. II/III*), from Xoi (Sakha),
+    in the Greek-speaking Egypt.
+  </p>
+  <figure>
+    <iframe
+      width="425"
+      height="350"
+      src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=sakha,egypt&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=40.59616,86.572266&amp;ie=UTF8&amp;hq=&amp;hnear=Sakha,+Kafr+Abu+Tabl,+Kafr+El-Shaikh,+Egypt&amp;ll=31.086666,30.949073&amp;spn=1.375974,2.705383&amp;t=m&amp;z=9&amp;output=embed"
+      frameborder="0"
+      marginwidth="0"
+      marginheight="0"
+      scrolling="no"
+    ></iframe>
+  </figure>
+  <div>
+    <small
+      ><a
+        style="color: #0000ff; text-align: left"
+        href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=sakha,egypt&amp;aq=&amp;sll=37.0625,-95.677068&amp;sspn=40.59616,86.572266&amp;ie=UTF8&amp;hq=&amp;hnear=Sakha,+Kafr+Abu+Tabl,+Kafr+El-Shaikh,+Egypt&amp;ll=31.086666,30.949073&amp;spn=1.375974,2.705383&amp;t=m&amp;z=9"
+        >Show larger map</a
+      ></small
+    >
+  </div>
+  <p>
+    This is a votive inscription dedicated by Moschion to Osirides after his
+    foot was healed by the goddess. The text is composed in such a way that
+    letters are laid out in a sort of grid; starting from the grid's center and
+    reading in any straight direction up to the borders and eventually
+    continuing along them, either upwards, downwards, leftwards or rightwards
+    you always read the same sentence. Here is the description quoted from SEG:
+  </p>
+  <blockquote class="blockquote">
+    <span lang="la">
+      Stela arcuata lap. alabastr. cum titulis et abacis biling.
+      (graeco-demot.).&nbsp;Litterae ita sunt dispositae, ut, si ab O in medio
+      abaco posito ad quamvis e quattuor regionibus versus legere coeperis, de
+      unoquoque quadro in quodvis latus declinare possis; si marginem attigeris
+      atque inde sinistrorsus dextrorsusve usque ad angulum perrexeris,
+      invenies</span
+    >: <span lang="el">Ὀσίριδι Μοσχίων ὑγιασθεὶς τὸν πόδα ἰατρείαις</span>.
+  </blockquote>
+  <p>
+    This game has obvious connections to the magic and religious sphere, but I
+    found it funny to reproduce it with a custom Angular element just to show
+    this technology in action to my students. Enter any text in the below
+    textbox, and see the results.
+  </p>
+  <app-abacus
+    initial-text="ΟΣΙΡΙΔΙ ΜΟΣΧΙΩΝ ΥΓΙΑΣΘΕΙΣ ΤΟΝ ΠΟΔΑ ΙΑΤΡΕΙΑΙΣ"
+  ></app-abacus>
+  <p>
+    If you inspect the source code of this page, you will just find the custom
+    element markup (and the link to its Javascript code):
+  </p>
+  <div>
+    <pre>
+&lt;app-abacus initial-text="ΟΣΙΡΙΔΙ ΜΟΣΧΙΩΝ ΥΓΙΑΣΘΕΙΣ ΤΟΝ ΠΟΔΑ ΙΑΤΡΕΙΑΙΣ"&gt;&lt;/app-abacus&gt;</pre
+    >
+  </div>
+  <p>
+    Currently, the custom element file is about 189 KB. The whole functionality
+    and its infrastructure are all enclosed.
+  </p>
+</div>
