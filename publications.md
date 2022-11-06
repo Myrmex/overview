@@ -36,5 +36,3 @@ layout: page
 - 2000 D. Fusi, Review to Renato Raffaelli (ed.), _Sui cantica di Plauto – interventi di Mario De Nonno, Giovanni Polara, Cesare Questa_, Sarsina 1997 («Maia» n.s. 52,1 (2000) 194-196).
 - 1999 D. Fusi, Review to Jean Soubiran, _Prosodie et métrique du Miles gloriosus de Plaute. Introduction et commentaire_, Louvain-Paris 1995 («Maia» ns 51,1 (1999) 133-139).
 - 1999 D. Fusi, Review to Cesare Questa, _Titi Macci Plauti cantica_, Urbino 1995 («Maia» ns 51,1 (1999) 133-139).
-
-TODO

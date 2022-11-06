@@ -4,9 +4,9 @@ title: Cadmus
 subtitle: "Structured Content Creation System"
 ---
 
-👉 [Cadmus Presentation (under construction)](https://cadmus.fusi-soft.com)
+👉 [Cadmus Presentation](https://cadmus.fusi-soft.com): refer to this site for a general introduction to Cadmus. The site is still under development, especially for its interactive resources, but it still represents the most complete introduction to the system philosophy.
 
-⚙️ [Cadmus Source Code](https://github.com/vedph/)
+⚙️ [Cadmus Source Code](https://github.com/vedph/): the full source code of Cadmus is found in several VeDPH GitHub repositories. Some of the repositories implement the general infrastructure, while others are versions specialized for each real-world project using Cadmus.
 
 ## Cadmus
 
