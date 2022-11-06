@@ -157,3 +157,11 @@ Thus, I used the my conversion system to aid in typing characters with diacritic
 All this can be accomplished by using the conversion system, as fundamentally this is right what is required here: we want e.g. to convert an unaccented alpha letter into an accented one, or the like. Any combination of diacritics can be seen as the conversion from a character with any number of diacritics into that character with any number of other diacritics. We thus need a conversion system which, given e.g. an alpha with an acute accent, knows how to analyze the corresponding Unicode character representing it, decomposing the character from its diacritics; then, the decomposed description of this character is modified by adding or removing diacritics as requested from the user, and this updated description is finally used to recompose a new character.
 
 This is right the decode-encode process performed by the converter sketeched above, and this is the mechanism used to ease the experience of typing Greek (or other languages) texts. You can play with it by downloading and installing the free Theuth demo. Ultimately, this is just a real-time conversion where a set of entries decoded from an input text gets modified by the user, and then recomposed into an output text.
+
+▶️ Next:
+
+- [Format Encoding](./proteus/proteus-format.md)
+
+◀️ Previous:
+
+- [Text Encoding](./proteus/proteus-encoding.md)

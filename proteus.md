@@ -30,9 +30,11 @@ A more specialized application of the same system also concerns documental archi
 
 Finally, a more unexpected application of the conversion system is found in content creation processes, ranging from simple typing aids (see the Theuth demo) to full-fledged, XML-oriented user friendly editing experiences. In fact, this is essentially a real-time, bidirectional, and modular converter between any XML dialect and a user-defined rich text, used to provide a visual, word-processor like editing experience for simple TEI-based corpora or specialized XML dialects (e.g. in lexicography).
 
+▶️ Next:
+
 - [Text Encoding](./proteus/proteus-encoding.md)
 - [Format Encoding](./proteus/proteus-format.md)
 
-Downloads:
+📁 Downloads:
 
 - [Theuth]({{ site.url }}/downloads/theuth-demo.zip)
