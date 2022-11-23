@@ -25,6 +25,7 @@ In what follows, `<PRJ>` represents the short name you chose for your project.
 ## Requirements
 
 - Visual Studio Community Edition or higher.
+- basic knowledge of C# language.
 
 ## Creating Solution
 
@@ -36,9 +37,9 @@ In what follows, `<PRJ>` represents the short name you chose for your project.
 
 ![adding new project](../../img/cadmus/a02_add-new-project.png)
 
-3. add another _C# .NET Standard class library_ named `Cadmus.Seed.<PRJ>.Parts` to provide the mock data seeders for your components. This is not strictly a requirement, but it's suggested to let you play with the editor while building it. Once created, delete the empty `Class1.cs` file from it.
+3. add another _C# .NET 7 class library_ named `Cadmus.Seed.<PRJ>.Parts` to provide the mock data seeders for your components. This is not strictly a requirement, but it's suggested to let you play with the editor while building it. Once created, delete the empty `Class1.cs` file from it.
 
-4. add another _C# .NET Standard class library_ named `Cadmus.<PRJ>.Services` to provide some API services to plug into your API. Once created, delete the empty `Class1.cs` file from it.
+4. add another _C# .NET 7 class library_ named `Cadmus.<PRJ>.Services` to provide some API services to plug into your API. Once created, delete the empty `Class1.cs` file from it.
 
 5. add a _XUnit Test Project_ named `Cadmus.<PRJ>.Parts.Test` to contain the tests for the `Cadmus.<PRJ>.Parts` library. Alternatively, any other unit test framework can be used; this just reflects my preferences, and is suggested as the test templates I provide use XUnit. Once created, delete the empty `UnitTest1.cs` class.
 
@@ -112,8 +113,8 @@ For each part or fragment you should provide a corresponding mock data seeder to
 
 2. add a plain C# class for each part or fragment seeder. Please refer to these pages for details:
 
-- [adding parts](../adding-parts.md)
-- [adding fragments](../adding-fragments.md)
+- [adding parts](../backend-part)
+- [adding fragments]
 
 ## Adding Tests for Parts or Fragments
 
