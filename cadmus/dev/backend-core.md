@@ -95,7 +95,7 @@ Should you need existing components to build your own (e.g. to extend or integra
 2. add a plain C# class for each part or fragment, representing its data model. Please refer to these pages for details:
 
 - [adding parts](backend-part.md)
-- [adding fragments]
+- [adding fragments](backend-fragment.md)
 
 ## (C) Adding Part or Fragment Seeders
 

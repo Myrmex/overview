@@ -12,7 +12,10 @@ subtitle: "Creating Parts"
     - [Part - Multiple Entities](#part---multiple-entities)
   - [Part Test Templates](#part-test-templates)
     - [Part Test - Single Entity](#part-test---single-entity)
+    - [Part Test - Multiple Entities](#part-test---multiple-entities)
     - [Part Test Helper](#part-test-helper)
+- [Layer Parts](#layer-parts)
+  - [Layer Fragment Test Template](#layer-fragment-test-template)
 
 ## Parts
 
@@ -325,6 +328,108 @@ public sealed class __NAME__PartTest
 }
 ```
 
+#### Part Test - Multiple Entities
+
+```cs
+using Cadmus.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
+
+// ...
+
+public sealed class __NAME__PartTest
+{
+    private static __NAME__Part GetPart()
+    {
+        __NAME__PartSeeder seeder = new();
+        IItem item = new Item
+        {
+            FacetId = "default",
+            CreatorId = "zeus",
+            UserId = "zeus",
+            Description = "Test item",
+            Title = "Test Item",
+            SortKey = ""
+        };
+        return (__NAME__Part)seeder.GetPart(item, null, null)!;
+    }
+
+    private static __NAME__Part GetEmptyPart()
+    {
+        return new __NAME__Part
+        {
+            ItemId = Guid.NewGuid().ToString(),
+            RoleId = "some-role",
+            CreatorId = "zeus",
+            UserId = "another",
+        };
+    }
+
+    [Fact]
+    public void Part_Is_Serializable()
+    {
+        __NAME__Part part = GetPart();
+
+        string json = TestHelper.SerializePart(part);
+        __NAME__Part part2 =
+            TestHelper.DeserializePart<__NAME__Part>(json)!;
+
+        Assert.Equal(part.Id, part2.Id);
+        Assert.Equal(part.TypeId, part2.TypeId);
+        Assert.Equal(part.ItemId, part2.ItemId);
+        Assert.Equal(part.RoleId, part2.RoleId);
+        Assert.Equal(part.CreatorId, part2.CreatorId);
+        Assert.Equal(part.UserId, part2.UserId);
+
+        Assert.Equal(part.Entries.Count, part2.Entries.Count);
+    }
+
+    [Fact]
+    public void GetDataPins_NoEntries_Ok()
+    {
+        __NAME__Part part = GetPart();
+        part.Entries.Clear();
+
+        List<DataPin> pins = part.GetDataPins(null).ToList();
+
+        Assert.Single(pins);
+        DataPin pin = pins[0];
+        Assert.Equal("tot-count", pin.Name);
+        TestHelper.AssertPinIds(part, pin);
+        Assert.Equal("0", pin.Value);
+    }
+
+    [Fact]
+    public void GetDataPins_Entries_Ok()
+    {
+        __NAME__Part part = GetEmptyPart();
+
+        for (int n = 1; n <= 3; n++)
+        {
+            // TODO add entry to part setting its pin-related
+            // properties in a predictable way, so we can test them
+        }
+
+        List<DataPin> pins = part.GetDataPins(null).ToList();
+
+        Assert.Equal(5, pins.Count);
+
+        DataPin? pin = pins.Find(p => p.Name == "tot-count");
+        Assert.NotNull(pin);
+        TestHelper.AssertPinIds(part, pin!);
+        Assert.Equal("3", pin!.Value);
+
+        // TODO: assert counts and values e.g.:
+        // pin = pins.Find(p => p.Name == "pos-bottom-count");
+        // Assert.NotNull(pin);
+        // TestHelper.AssertPinIds(part, pin!);
+        // Assert.Equal("2", pin.Value);
+    }
+}
+```
+
 #### Part Test Helper
 
 ```cs
@@ -398,5 +503,83 @@ internal static class TestHelper
             Assert.True(IsDataPinNameValid(pin.Name!), pin.ToString());
         }
     }
+}
+```
+
+## Layer Parts
+
+For layer parts, the same guidelines already listed for the other parts are applicable, with the following additions:
+
+- create a `...LayerFragment` class representing the fragment for the layer part. This is the true data model for the metatextual data represented by the layer. The class must implement `ITextLayerFragment`. Do not add any other property to the class; _by design, the only property of a layer part is its collection of fragments_.
+
+- give the fragment a type ID (via the usual `TagAttribute`), which _must_ begin with the prefix `fr.` (=`PartBase.FR_PREFIX`; note the trailing dot).
+
+- if adding pins in the fragment, just provide the pin's name and value; the other properties will be supplied by the container part. By convention, you should prefix your pin name with the `fr.` prefix (defined in `PartBase.FR_PREFIX`).
+
+Anyway, adding a new layer part would be rarely required, as there is just a generic (parameterized) layer part provided for this: one part, many fragments. You rather have to provide fragments and their tests.
+
+### Layer Fragment Test Template
+
+**Fragment test template** sample:
+
+```cs
+public sealed class __NAME__LayerFragmentTest
+{
+    private static __NAME__LayerFragment GetFragment()
+    {
+        return new __NAME__LayerFragment
+        {
+            Location = "1.23",
+            // TODO: add properties here...
+        };
+    }
+
+    [Fact]
+    public void Fragment_Has_Tag()
+    {
+        TagAttribute attr = typeof(__NAME__LayerFragment).GetTypeInfo()
+            .GetCustomAttribute<TagAttribute>();
+        string typeId = attr != null ? attr.Tag : GetType().FullName;
+        Assert.NotNull(typeId);
+        Assert.StartsWith(PartBase.FR_PREFIX, typeId);
+    }
+
+    [Fact]
+    public void Fragment_Is_Serializable()
+    {
+        __NAME__LayerFragment fr = GetFragment();
+
+        string json = TestHelper.SerializeFragment(fr);
+        __NAME__LayerFragment fr2 =
+            TestHelper.DeserializeFragment<__NAME__LayerFragment>(json);
+
+        Assert.Equal(fr.Location, fr2.Location);
+        // TODO: check properties here...
+    }
+
+    // TODO: check pins here, e.g. for the CommentLayerFragment
+    // we get a single pin when the tag is set, with name=fr.tag
+    // and value=tag value:
+    // [Fact]
+    // public void GetDataPins_NoTag_0()
+    // {
+    //     CommentLayerFragment fr = GetFragment();
+    //     fr.Tag = null;
+
+    //     Assert.Empty(fr.GetDataPins(null));
+    // }
+
+    // [Fact]
+    // public void GetDataPins_Tag_1()
+    // {
+    //     CommentLayerFragment fr = GetFragment();
+
+    //     List<DataPin> pins = fr.GetDataPins(null).ToList();
+
+    //     Assert.Single(pins);
+    //     DataPin pin = pins[0];
+    //     Assert.Equal("fr.tag", pin.Name);
+    //     Assert.Equal("some-tag", pin.Value);
+    // }
 }
 ```
