@@ -10,6 +10,7 @@ subtitle: "Cadmus Development"
 - [Startup](#startup)
 - [Assets](#assets)
 - [Docker](#docker)
+- [Readme](#readme)
 
 ## Creating the API Project
 
@@ -758,7 +759,7 @@ services:
       - cadmus-network
 
   cadmus-api:
-    image: vedph2020/cadmus_PRJ_api:1.0.0
+    image: vedph2020/cadmus-__PRJ__-api:1.0.0
     ports:
       # https://stackoverflow.com/questions/48669548/why-does-aspnet-core-start-on-port-80-from-within-docker
       - 59590:80
@@ -766,7 +767,7 @@ services:
       - cadmus-mongo
       - cadmus-mysql
     # wait for mongo before starting: https://github.com/vishnubob/wait-for-it
-    command: ["./wait-for-it.sh", "cadmus-mongo:27017", "--", "dotnet", "Cadmus_PRJ_Api.dll"]
+    command: ["./wait-for-it.sh", "cadmus-mongo:27017", "--", "dotnet", "Cadmus__PRJ__Api.dll"]
     environment:
       # for Windows use : as separator, for non Windows use __
       # (see https://github.com/aspnet/Configuration/issues/469)
@@ -819,5 +820,21 @@ README.md
 To build a Docker image (replace `PRJ` with your project's name):
 
 ```ps1
-docker build . -t vedph2020/cadmus_PRJ_api:1.0.0 -t vedph2020/cadmus_PRJ_api:latest
+docker build . -t vedph2020/cadmus-__PRJ__-api:1.0.0 -t vedph2020/cadmus-__PRJ__-api:latest
+```
+
+## Readme
+
+Add a Readme like this:
+
+```txt
+# Cadmus PRJ API
+
+Quick Docker image build:
+
+    docker build . -t vedph2020/cadmus-__PRJ__-api:1.0.0 -t vedph2020/cadmus-__PRJ__-api:latest
+
+(replace with the current version).
+
+This is a Cadmus API layer customized for the PRJ project. Most of its code is derived from shared Cadmus libraries.
 ```
