@@ -11,9 +11,9 @@ subtitle: "Directory"
     - [Itinera](#itinera)
     - [MapAeg](#mapaeg)
     - [Musisque Deoque](#musisque-deoque)
-  - [PAGES](#pages)
-  - [PURA](#pura)
-  - [Re.Novella](#renovella)
+    - [PAGES](#pages)
+    - [PURA](#pura)
+    - [Re.Novella](#renovella)
     - [GISARC](#gisarc)
     - [Inquisitions Graffiti](#inquisitions-graffiti)
     - [Sidonius](#sidonius)
@@ -59,7 +59,7 @@ MapAeg: Buondelmonti's Liber Insularum (B. Bessi, Università di Venezia Ca' Fos
 - [Musisque Deoque app](https://github.com/vedph/cadmus_mqdq_app)
 - [conversion tool](https://github.com/vedph/mqdq_mqutil)
 
-### PAGES
+#### PAGES
 
 This is 4-projects solution:
 
@@ -74,7 +74,7 @@ This is 4-projects solution:
 - [app](https://github.com/vedph/cadmus_tgr_app
 - [documentation](https://github.com/vedph/cadmus_tgr_doc)
 
-### PURA
+#### PURA
 
 PURA: PURism in Antiquity (prof. O. Tribulato, Università di Venezia Ca' Foscari).
 
@@ -83,7 +83,7 @@ PURA: PURism in Antiquity (prof. O. Tribulato, Università di Venezia Ca' Foscar
 - [app](https://github.com/vedph/cadmus_pura_app)
 - [documentation](https://github.com/vedph/cadmus_pura_doc)
 
-### Re.Novella
+#### Re.Novella
 
 Re.Novella: Il genere novella nel Rinascimento italiano: repertorio, database e inquadramento storiografico (prof. M. Marchi, Università di Siena).
 
