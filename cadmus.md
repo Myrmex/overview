@@ -14,4 +14,5 @@ TODO
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/lYykjz26TCg" title="Daniele Fusi, Presenting Cadmus: a general-purpose and modular content editing alternative" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+- [projects](cadmus/projects.md)
 - [developer's guide](cadmus/dev/toc.md)
