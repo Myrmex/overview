@@ -5,13 +5,13 @@ subtitle: "Creating Backend Models"
 ---
 
 - [Requirements](#requirements)
-- [Creating Solution](#creating-solution)
-- [Adding Parts or Fragments](#adding-parts-or-fragments)
-- [Adding Part or Fragment Seeders](#adding-part-or-fragment-seeders)
-- [Adding Tests for Parts or Fragments](#adding-tests-for-parts-or-fragments)
-- [Adding Tests for Part or Fragment Seeders](#adding-tests-for-part-or-fragment-seeders)
-- [Adding Services](#adding-services)
-- [Publishing Packages](#publishing-packages)
+- [(A) Creating Solution](#a-creating-solution)
+- [(B) Adding Parts or Fragments](#b-adding-parts-or-fragments)
+- [(C) Adding Part or Fragment Seeders](#c-adding-part-or-fragment-seeders)
+- [(D) Adding Tests for Parts or Fragments](#d-adding-tests-for-parts-or-fragments)
+- [(E) Adding Tests for Part or Fragment Seeders](#e-adding-tests-for-part-or-fragment-seeders)
+- [(F) Adding Services](#f-adding-services)
+- [(G) Publishing Packages](#g-publishing-packages)
 
 The backend is a set of C# libraries, built with VS. This step is required only if you have new data models (parts or fragments) specific to your project.
 
@@ -27,7 +27,7 @@ In what follows, `<PRJ>` represents the short name you chose for your project.
 - Visual Studio Community Edition or higher.
 - basic knowledge of C# language.
 
-## Creating Solution
+## (A) Creating Solution
 
 1. launch VS and create a new _blank solution_ named `Cadmus<PRJ>`.
 
@@ -78,7 +78,7 @@ Alternatively, just edit the `csproj` XML file and add a line in an `ItemGroup` 
 </ItemGroup>
 ```
 
-## Adding Parts or Fragments
+## (B) Adding Parts or Fragments
 
 You can now add as many parts and fragments as required to the `Cadmus.<PRJ>.Parts` project.
 
@@ -94,10 +94,10 @@ Should you need existing components to build your own (e.g. to extend or integra
 
 2. add a plain C# class for each part or fragment, representing its data model. Please refer to these pages for details:
 
-- [adding parts](./adding-parts.md)
-- [adding fragments](./adding-fragments.md)
+- [adding parts](backend-part.md)
+- [adding fragments]
 
-## Adding Part or Fragment Seeders
+## (C) Adding Part or Fragment Seeders
 
 For each part or fragment you should provide a corresponding mock data seeder to the `Cadmus.Seed.<PRJ>.Parts` project. This is extremely useful to let developers and users play with the editor.
 
@@ -106,30 +106,30 @@ For each part or fragment you should provide a corresponding mock data seeder to
 ```xml
 <ItemGroup>
   <PackageReference Include="Bogus" Version="32.1.1" />
-  <PackageReference Include="Cadmus.Core" Version="2.3.5" />
-  <PackageReference Include="Cadmus.Seed" Version="1.1.7" />
+  <PackageReference Include="Cadmus.Core" Version="5.0.0" />
+  <PackageReference Include="Cadmus.Seed" Version="5.0.0" />
 </ItemGroup>
 ```
 
 2. add a plain C# class for each part or fragment seeder. Please refer to these pages for details:
 
-- [adding parts](../backend-part)
+- [adding parts](../backend-part.md)
 - [adding part seeders](../dev/backend-part-seeder.md)
 - [adding fragments]
 
-## Adding Tests for Parts or Fragments
+## (D) Adding Tests for Parts or Fragments
 
 For each part or fragment you should provide a corresponding set of unit tests.
 
 Please refer to this set of [templates](../adding-parts.md#test-templates) for the tests.
 
-## Adding Tests for Part or Fragment Seeders
+## (E) Adding Tests for Part or Fragment Seeders
 
 For each part or fragment seeder you should provide a corresponding set of unit tests.
 
 Please refer to this set of [templates](../adding-parts.md#adding-tests-for-part-or-fragment-seeders) for the seeder tests.
 
-## Adding Services
+## (F) Adding Services
 
 Every Cadmus backend project using its own data models requires a couple of services:
 
@@ -138,7 +138,7 @@ Every Cadmus backend project using its own data models requires a couple of serv
 
 Please refer to [this page](backend-core-svc.md) about adding those services.
 
-## Publishing Packages
+## (G) Publishing Packages
 
 Once your parts, seeders, and services are ready, typically you should package them and publish the package so that it is available to yourself and to the community. Alternatively, you will just add a reference to the compiled library in your consumer projects.
 

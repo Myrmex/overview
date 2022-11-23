@@ -10,6 +10,9 @@ subtitle: "Creating Parts"
   - [Part Templates](#part-templates)
     - [Part - Single Entity](#part---single-entity)
     - [Part - Multiple Entities](#part---multiple-entities)
+  - [Part Test Templates](#part-test-templates)
+    - [Part Test - Single Entity](#part-test---single-entity)
+    - [Part Test Helper](#part-test-helper)
 
 ## Parts
 
@@ -232,6 +235,168 @@ public sealed class __NAME__Part : PartBase
         }
 
         return sb.ToString();
+    }
+}
+```
+
+### Part Test Templates
+
+#### Part Test - Single Entity
+
+This requires a bit of [infrastructure](#part-test-helper).
+
+```cs
+using System;
+using Xunit;
+using Cadmus.Core;
+using System.Collections.Generic;
+using System.Linq;
+
+public sealed class __NAME__PartTest
+{
+    private static __NAME__Part GetPart()
+    {
+        __NAME__PartSeeder seeder = new();
+        IItem item = new Item
+        {
+            FacetId = "default",
+            CreatorId = "zeus",
+            UserId = "zeus",
+            Description = "Test item",
+            Title = "Test Item",
+            SortKey = ""
+        };
+        return (__NAME__Part)seeder.GetPart(item, null, null)!;
+    }
+
+    private static __NAME__Part GetEmptyPart()
+    {
+        return new __NAME__Part
+        {
+            ItemId = Guid.NewGuid().ToString(),
+            RoleId = "some-role",
+            CreatorId = "zeus",
+            UserId = "another",
+        };
+    }
+
+    [Fact]
+    public void Part_Is_Serializable()
+    {
+        __NAME__Part part = GetPart();
+
+        string json = TestHelper.SerializePart(part);
+        __NAME__Part part2 = TestHelper.DeserializePart<__NAME__Part>(json)!;
+
+        Assert.Equal(part.Id, part2.Id);
+        Assert.Equal(part.TypeId, part2.TypeId);
+        Assert.Equal(part.ItemId, part2.ItemId);
+        Assert.Equal(part.RoleId, part2.RoleId);
+        Assert.Equal(part.CreatorId, part2.CreatorId);
+        Assert.Equal(part.UserId, part2.UserId);
+        // TODO: check parts data here...
+    }
+
+    // TODO: check pins here, e.g. for the NotePart we get a single pin
+    // when the tag is set, with name=tag and value=tag value:
+    // [Fact]
+    // public void GetDataPins_NoTag_Empty()
+    // {
+    //     __NAME__Part part = GetEmptyPart();
+    //     part.Tag = null;
+
+    //     Assert.Empty(part.GetDataPins());
+    // }
+
+    // [Fact]
+    // public void GetDataPins_Tag_1()
+    // {
+    //     __NAME__Part part = GetEmptyPart();
+    //     // TODO: set only the properties required for pins
+    //     // in a predictable way so we can test them
+
+    //     List<DataPin> pins = part.GetDataPins(null).ToList();
+    //     Assert.Single(pins);
+
+    //     DataPin? pin = pins.Find(p => p.Name == "id" && p.Value == "steph");
+    //     Assert.NotNull(pin);
+    //     TestHelper.AssertPinIds(part, pin!);
+    // }
+}
+```
+
+#### Part Test Helper
+
+```cs
+using Cadmus.Core;
+using Cadmus.Core.Layers;
+using Fusi.Antiquity.Chronology;
+using System;
+using System.Collections.Generic;
+using System.Text.Json;
+using System.Text.RegularExpressions;
+using Xunit;
+
+// ...
+
+internal static class TestHelper
+{
+    private static readonly JsonSerializerOptions _options =
+        new()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
+    public static string SerializePart(IPart part)
+    {
+        if (part == null)
+            throw new ArgumentNullException(nameof(part));
+
+        return JsonSerializer.Serialize(part, part.GetType(), _options);
+    }
+
+    public static T? DeserializePart<T>(string json)
+        where T : class, IPart, new()
+    {
+        if (json == null)
+            throw new ArgumentNullException(nameof(json));
+
+        return JsonSerializer.Deserialize<T>(json, _options);
+    }
+
+    public static string SerializeFragment(ITextLayerFragment fr)
+    {
+        if (fr == null)
+            throw new ArgumentNullException(nameof(fr));
+
+        return JsonSerializer.Serialize(fr, fr.GetType(), _options);
+    }
+
+    public static T? DeserializeFragment<T>(string json)
+        where T : class, ITextLayerFragment, new()
+    {
+        if (json == null)
+            throw new ArgumentNullException(nameof(json));
+
+        return JsonSerializer.Deserialize<T>(json, _options);
+    }
+
+    public static void AssertPinIds(IPart part, DataPin pin)
+    {
+        Assert.Equal(part.ItemId, pin.ItemId);
+        Assert.Equal(part.Id, pin.PartId);
+        Assert.Equal(part.RoleId, pin.RoleId);
+    }
+
+    static public bool IsDataPinNameValid(string name) =>
+        Regex.IsMatch(name, @"^[a-zA-Z0-9\-_\.]+$");
+
+    static public void AssertValidDataPinNames(IList<DataPin> pins)
+    {
+        foreach (DataPin pin in pins)
+        {
+            Assert.True(IsDataPinNameValid(pin.Name!), pin.ToString());
+        }
     }
 }
 ```

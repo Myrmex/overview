@@ -8,14 +8,14 @@ subtitle: "Creating Backend Services"
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Cadmus.Core" Version="2.3.5" />
-  <PackageReference Include="Cadmus.Index.Sql" Version="1.1.8" />
-  <PackageReference Include="Cadmus.Mongo" Version="2.3.8" />
-  <PackageReference Include="Cadmus.Parts" Version="2.3.8" />
-  <PackageReference Include="Cadmus.Philology.Parts" Version="2.3.6" />
-  <PackageReference Include="Cadmus.Seed.Parts" Version="1.1.10" />
-  <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="1.1.8" />
-  <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="1.0.3" />
+  <PackageReference Include="Cadmus.Core" Version="5.0.0" />
+  <PackageReference Include="Cadmus.General.Parts" Version="3.0.0" />
+  <PackageReference Include="Cadmus.Index.Sql" Version="5.0.0" />
+  <PackageReference Include="Cadmus.Mongo" Version="5.0.0" />
+  <PackageReference Include="Cadmus.Philology.Parts" Version="5.0.0" />
+  <PackageReference Include="Cadmus.Seed.General.Parts" Version="3.0.0" />
+  <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="5.0.0" />
+  <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="2.0.0" />
 </ItemGroup>
 ```
 
@@ -28,11 +28,9 @@ using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using Cadmus.Mongo;
-using Cadmus.Parts.General;
-using Cadmus.Philology.Parts.Layers;
-using Cadmus.__PRJ__.Parts;
-using Microsoft.Extensions.Configuration;
-using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
+using Cadmus.Gisarc.Parts;
+using Cadmus.General.Parts;
+using Cadmus.Philology.Parts;
 
 namespace Cadmus.__PRJ__.Services
 {
@@ -42,36 +40,34 @@ namespace Cadmus.__PRJ__.Services
     /// <seealso cref="IRepositoryProvider" />
     public sealed class __PRJ__RepositoryProvider : IRepositoryProvider
     {
-        private readonly IConfiguration _configuration;
-        private readonly TagAttributeToTypeMap _map;
         private readonly IPartTypeProvider _partTypeProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="StandardRepositoryProvider"/>
+        /// The connection string.
+        /// </summary>
+        public string ConnectionString { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="__PRJ__RepositoryProvider"/>
         /// class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         /// <exception cref="ArgumentNullException">configuration</exception>
-        public __PRJ__RepositoryProvider(IConfiguration configuration)
+        public __PRJ__RepositoryProvider()
         {
-            _configuration = configuration ??
-                throw new ArgumentNullException(nameof(configuration));
-
-            _map = new TagAttributeToTypeMap();
-            _map.Add(new[]
+            ConnectionString = "";
+            TagAttributeToTypeMap map = new();
+            map.Add(new[]
             {
-                // TODO: include here all the assemblies required by your prj
-                // Cadmus.Parts
+                // Cadmus.General.Parts
                 typeof(NotePart).GetTypeInfo().Assembly,
                 // Cadmus.Philology.Parts
                 typeof(ApparatusLayerFragment).GetTypeInfo().Assembly,
-                // Cadmus.Tgr.Parts
-                typeof(MsUnit).GetTypeInfo().Assembly,
                 // Cadmus.__PRJ__.Parts
-                typeof(WordFormsPart).GetTypeInfo().Assembly,
+                // typeof(MYPART).GetTypeInfo().Assembly,
             });
 
-            _partTypeProvider = new StandardPartTypeProvider(_map);
+            _partTypeProvider = new StandardPartTypeProvider(map);
         }
 
         /// <summary>
@@ -86,24 +82,18 @@ namespace Cadmus.__PRJ__.Services
         /// <summary>
         /// Creates a Cadmus repository.
         /// </summary>
-        /// <param name="database">The database name.</param>
         /// <returns>repository</returns>
-        /// <exception cref="ArgumentNullException">null database</exception>
-        public ICadmusRepository CreateRepository(string database)
+        public ICadmusRepository CreateRepository()
         {
-            if (database == null)
-                throw new ArgumentNullException(nameof(database));
-
             // create the repository (no need to use container here)
-            MongoCadmusRepository repository =
-                new MongoCadmusRepository(
-                    _partTypeProvider,
+            MongoCadmusRepository repository = new(_partTypeProvider,
                     new StandardItemSortKeyBuilder());
 
             repository.Configure(new MongoCadmusRepositoryOptions
             {
-                ConnectionString = string.Format(
-                    _configuration.GetConnectionString("Default"), database)
+                ConnectionString = ConnectionString ??
+                throw new InvalidOperationException(
+                    "No connection string set for IRepositoryProvider implementation")
             });
 
             return repository;
@@ -117,10 +107,9 @@ namespace Cadmus.__PRJ__.Services
 ```cs
 using Cadmus.Core.Config;
 using Cadmus.Seed;
-using Cadmus.Seed.Parts.General;
-using Cadmus.Seed.Philology.Parts.Layers;
+using Cadmus.Seed.General.Parts;
 using Cadmus.Seed.__PRJ__.Parts;
-using Cadmus.Seed.Tgr.Parts.Grammar;
+using Cadmus.Seed.Philology.Parts;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
 using Microsoft.Extensions.Configuration;
 using SimpleInjector;
@@ -144,27 +133,24 @@ namespace Cadmus.__PRJ__.Services
         /// <exception cref="ArgumentNullException">profile</exception>
         public PartSeederFactory GetFactory(string profile)
         {
-            if (profile == null)
-                throw new ArgumentNullException(nameof(profile));
+            if (profile == null) throw new ArgumentNullException(nameof(profile));
 
             // build the tags to types map for parts/fragments
             Assembly[] seedAssemblies = new[]
             {
                 // TODO: include here all the assemblies required by your prj
-                // Cadmus.Seed.Parts
+                // Cadmus.Seed.General.Parts
                 typeof(NotePartSeeder).Assembly,
                 // Cadmus.Seed.Philology.Parts
                 typeof(ApparatusLayerFragmentSeeder).Assembly,
-                // Cadmus.Seed.Tgr.Parts
-                typeof(LingTagsLayerFragmentSeeder).GetTypeInfo().Assembly,
                 // Cadmus.Seed.__PRJ__.Parts
-                typeof(WordFormsPartSeeder).GetTypeInfo().Assembly,
+                // typeof(MYSEEDER).GetTypeInfo().Assembly,
             };
-            TagAttributeToTypeMap map = new TagAttributeToTypeMap();
+            TagAttributeToTypeMap map = new();
             map.Add(seedAssemblies);
 
             // build the container for seeders
-            Container container = new Container();
+            Container container = new();
             PartSeederFactory.ConfigureServices(
                 container,
                 new StandardPartTypeProvider(map),
