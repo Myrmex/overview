@@ -114,6 +114,7 @@ For each part or fragment you should provide a corresponding mock data seeder to
 2. add a plain C# class for each part or fragment seeder. Please refer to these pages for details:
 
 - [adding parts](../backend-part)
+- [adding part seeders](../dev/backend-part-seeder.md)
 - [adding fragments]
 
 ## Adding Tests for Parts or Fragments
