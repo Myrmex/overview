@@ -711,3 +711,113 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Cadmus__PRJ__Api.dll"]
 ```
+
+(2) add a `docker-compose.yml` file to allow you using the API in a composer stack (replace `PRJ` with your project name; of course, you can change your image name as required to fit your organization).
+
+**ATTENTION**: under cadmus-api ports replace `59590` with the port value used by your API project (you can find it under the project's properties, Debug).
+
+```yml
+version: '3.7'
+
+services:
+  # MongoDB
+  cadmus-mongo:
+    image: mongo
+    container_name: cadmus-mongo
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    command: mongod --logpath=/dev/null # --quiet
+    ports:
+      - 27017:27017
+    networks:
+      - cadmus-network
+
+  # MySql
+  # https://github.com/docker-library/docs/tree/master/mysql#mysql_database
+  # https://docs.docker.com/samples/library/mysql/#environment-variables
+  # https://github.com/docker-library/mysql/issues/275 (troubleshooting connection)
+  cadmus-mysql:
+    image: mysql
+    container_name: cadmus-mysql
+    # https://github.com/docker-library/mysql/issues/454
+    command: --default-authentication-plugin=mysql_native_password
+    # https://stackoverflow.com/questions/55559386/how-to-fix-mbind-operation-not-permitted-in-mysql-error-log
+    cap_add:
+      - SYS_NICE  # CAP_SYS_NICE
+    environment:
+      # the password that will be set for the MySQL root superuser account
+      # Note: use dictionary like here rather than array (- name = value)
+      # or you might get MySql connection errors!
+      # https://stackoverflow.com/questions/37459031/connecting-to-a-docker-compose-mysql-container-denies-access-but-docker-running/37460872#37460872
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 3306:3306
+    networks:
+      - cadmus-network
+
+  cadmus-api:
+    image: vedph2020/cadmus_PRJ_api:1.0.0
+    ports:
+      # https://stackoverflow.com/questions/48669548/why-does-aspnet-core-start-on-port-80-from-within-docker
+      - 59590:80
+    depends_on:
+      - cadmus-mongo
+      - cadmus-mysql
+    # wait for mongo before starting: https://github.com/vishnubob/wait-for-it
+    command: ["./wait-for-it.sh", "cadmus-mongo:27017", "--", "dotnet", "Cadmus_PRJ_Api.dll"]
+    environment:
+      # for Windows use : as separator, for non Windows use __
+      # (see https://github.com/aspnet/Configuration/issues/469)
+      - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-mongo:27017/{0}
+      - CONNECTIONSTRINGS__INDEX=Server=cadmus-mysql;port=3306;Database={0};Uid=root;Pwd=mysql
+      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-mongo:27017/{0}-log
+      - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
+      - SEED__INDEXDELAY=25
+      - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
+      - MESSAGING__APPROOTURL=http://cadmusapi.com/
+      - MESSAGING__SUPPORTEMAIL=support@cadmus.com
+    networks:
+      - cadmus-network
+
+networks:
+  cadmus-network:
+    driver: bridge
+```
+
+(3) add a `.dockerignore` file with this content:
+
+```txt
+**/.classpath
+**/.dockerignore
+**/.env
+**/.git
+**/.gitignore
+**/.project
+**/.settings
+**/.toolstarget
+**/.vs
+**/.vscode
+**/*.*proj.user
+**/*.dbmdl
+**/*.jfm
+**/azds.yaml
+**/bin
+**/charts
+**/docker-compose*
+**/Dockerfile*
+**/node_modules
+**/npm-debug.log
+**/obj
+**/secrets.dev.yaml
+**/values.dev.yaml
+LICENSE
+README.md
+```
+
+To build a Docker image (replace `PRJ` with your project's name):
+
+```ps1
+docker build . -t vedph2020/cadmus_PRJ_api:1.0.0 -t vedph2020/cadmus_PRJ_api:latest
+```
