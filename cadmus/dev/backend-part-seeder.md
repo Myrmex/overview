@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Cadmus Development
-subtitle: "Creating Part Seeders"
+title: Part Seeders
+subtitle: "Cadmus Development"
 ---
 
 - [Packages](#packages)

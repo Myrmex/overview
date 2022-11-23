@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Cadmus Development
-subtitle: "Creating Backend"
+title: Backend
+subtitle: "Cadmus Development"
 ---
 
 The typical steps for developing a Cadmus backend are:

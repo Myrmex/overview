@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Cadmus Development
-subtitle: "Creating Backend Models"
+title: Backend Core
+subtitle: "Cadmus Development"
 ---
 
 - [Requirements](#requirements)

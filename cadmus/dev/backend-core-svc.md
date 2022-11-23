@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Cadmus Development
-subtitle: "Creating Backend Services"
+title: Backend Services
+subtitle: "Cadmus Development"
 ---
 
 1. add these packages to the services project (updating version numbers as required):
