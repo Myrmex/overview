@@ -9,6 +9,7 @@ subtitle: "Cadmus Development"
 - [Program](#program)
 - [Startup](#startup)
 - [Assets](#assets)
+- [Docker](#docker)
 
 ## Creating the API Project
 
@@ -676,3 +677,37 @@ Inside that folder, edit:
 This is the core customization for the whole project. Usually, the profile file is created after the documentation is completed, and before creating the code.
 
 Inside the `messages` folder you can customize the message templates as you prefer, but usually this is not required.
+
+## Docker
+
+(1) In the project's root (where the `.sln` file is located), add a `Dockerfile` to build the Docker image (replace `__PRJ__` with your project's name):
+
+```yml
+# Stage 1: base
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+WORKDIR /app
+EXPOSE 80
+EXPOSE 443
+
+# Stage 2: build
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["Cadmus__PRJ__Api/Cadmus__PRJ__Api.csproj", "Cadmus__PRJ__Api/"]
+# copy local packages to avoid using a NuGet custom feed, then restore
+# COPY ./local-packages /src/local-packages
+RUN dotnet restore "Cadmus__PRJ__Api/Cadmus__PRJ__Api.csproj" -s https://api.nuget.org/v3/index.json --verbosity n
+# copy the content of the API project
+COPY . .
+# build it
+RUN dotnet build "Cadmus__PRJ__Api/Cadmus__PRJ__Api.csproj" -c Release -o /app/build
+
+# Stage 3: publish
+FROM build AS publish
+RUN dotnet publish "Cadmus__PRJ__Api/Cadmus__PRJ__Api.csproj" -c Release -o /app/publish
+
+# Stage 4: final
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "Cadmus__PRJ__Api.dll"]
+```
