@@ -57,6 +57,7 @@ MapAeg: Buondelmonti's Liber Insularum (B. Bessi, Università di Venezia Ca' Fos
 
 - [Musisque Deoque API](https://github.com/vedph/cadmus_mqdq_api)
 - [Musisque Deoque app](https://github.com/vedph/cadmus_mqdq_app)
+- [conversion tool](https://github.com/vedph/mqdq_mqutil)
 
 ### PAGES
 
@@ -70,7 +71,7 @@ This is 4-projects solution:
 - [presentation](https://web.uniroma1.it/pages)
 - [models](https://github.com/vedph/cadmus_tgr)
 - [API](https://github.com/vedph/cadmus_tgr_api)
-- [app]https://github.com/vedph/cadmus_tgr_app
+- [app](https://github.com/vedph/cadmus_tgr_app
 - [documentation](https://github.com/vedph/cadmus_tgr_doc)
 
 ### PURA
