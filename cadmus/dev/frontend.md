@@ -32,11 +32,11 @@ The typical steps for developing a Cadmus frontend (as based on the [reference s
 
 ## Create Angular App
 
-(1) create a new Angular app: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use CSS (you may use SCSS if you prefer, or if you want to customize your theme).
+(1) create a **new Angular app**: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use CSS (you may use SCSS if you prefer, or if you want to customize your theme).
 
-(2) enter the newly created directory and add Angular Material via `ng add @angular/material` (choose the Indigo/Pink theme - or whatever you prefer -, setup typography styles=yes, include and enable animations=yes).
+(2) enter the newly created directory and **add Angular Material** via `ng add @angular/material` (choose the Indigo/Pink theme - or whatever you prefer -, setup typography styles=yes, include and enable animations=yes).
 
-(3) (optional) if adding new parts/fragments, you will need to add libraries for them. Each library is added like `ng generate library @myrmidon/cadmus-<PRJ>-<NAME> --prefix <PRJ>`. The typical structure usually includes these libraries (`@myrmidon` here is my NPM name, used as a namespace for all my Cadmus libraries):
+(3) (optional) if adding new parts/fragments, you will need to **add libraries** for them. Each library is added like `ng generate library @myrmidon/cadmus-<PRJ>-<NAME> --prefix <PRJ>`. The typical structure usually includes these libraries (`@myrmidon` here is my NPM name, used as a namespace for all my Cadmus libraries):
 
 - `@myrmidon/cadmus-<PRJ>-part-ui`: parts and fragments editors.
 - `@myrmidon/cadmus-<PRJ>-part-pg`: parts and fragments editors wrappers with routing.
@@ -48,7 +48,38 @@ Eventually, for more complex projects you can add other libraries like:
 
 Alternatively, a more granular architecture can be used if you plan to create part/fragment editors to be reused in other projects. In this case, you can create a library for each single editor. If you later realize that some of the editors you created can be promoted to a higher level of abstraction for sharing them across projects, you can create new libraries in a distinct shell, and then replace the original ones in your app project by importing these new libraries.
 
-(4) to speed up builds, for each added library you can add the corresponding commands to `package.json` scripts (to be run like `npm run <SCRIPTNAME>`), e.g.:
+Once you create a library, remove the stub code files added by Angular CLI: the sample component and its service. Also, take the time for adding more metadata to its `package.json` file, e.g. (replace `__PRJ__` with your project's ID):
+
+```json
+{
+  "name": "@myrmidon/cadmus-itinera-part-lt-ui",
+  "version": "0.0.1",
+  "description": "Cadmus - general parts UI components.",
+  "keywords": [
+    "Cadmus",
+    "__PRJ__"
+  ],
+  "homepage": "https://github.com/vedph/cadmus_shell",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vedph/cadmus_shell"
+  },
+  "author": {
+    "name": "Daniele Fusi"
+  },
+  "peerDependencies": {
+    "@angular/common": "^15.0.0",
+    "@angular/core": "^15.0.0",
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}
+```
+
+>For more on libraries see the section about [frontend parts](frontend-part.md).
+
+(4) to speed up builds, for each added library you can add the corresponding **build commands** to `package.json` scripts (to be run like `npm run <SCRIPTNAME>`), e.g.:
 
 ```json
 {
