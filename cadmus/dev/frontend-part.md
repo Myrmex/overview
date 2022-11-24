@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Cadmus Development
-subtitle: "Creating Parts"
+title: Creating Parts
+subtitle: "Cadmus Frontend Development"
 ---
 
 When creating libraries parts and fragments, you can use different approaches according to the desired level of granularity. When you plan for reuse, creating a single library for each part/fragment editor is the best choice, unless your parts/fragments can be considered so related among themselves that they can be implemented in the same library. If instead you are implementing project-specific editors that will probably never be reused outside of your project, you can go with a multiple-editors approach and implement all of them in a single library.

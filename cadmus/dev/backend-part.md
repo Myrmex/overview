@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Cadmus Development
-subtitle: "Creating Parts"
+title: Creating Parts
+subtitle: Cadmus Backend Development
 ---
 
 - [Parts](#parts)

@@ -1,17 +1,17 @@
 ---
 layout: page
-title: Backend Core
-subtitle: "Cadmus Development"
+title: Creating Core Backend
+subtitle: "Cadmus Backend Development"
 ---
 
 - [Requirements](#requirements)
-- [(A) Creating Solution](#a-creating-solution)
-- [(B) Adding Parts or Fragments](#b-adding-parts-or-fragments)
-- [(C) Adding Part or Fragment Seeders](#c-adding-part-or-fragment-seeders)
-- [(D) Adding Tests for Parts or Fragments](#d-adding-tests-for-parts-or-fragments)
-- [(E) Adding Tests for Part or Fragment Seeders](#e-adding-tests-for-part-or-fragment-seeders)
-- [(F) Adding Services](#f-adding-services)
-- [(G) Publishing Packages](#g-publishing-packages)
+- [Creating Solution](#creating-solution)
+- [Adding Parts or Fragments](#adding-parts-or-fragments)
+- [Adding Part or Fragment Seeders](#adding-part-or-fragment-seeders)
+- [Adding Tests for Parts or Fragments](#adding-tests-for-parts-or-fragments)
+- [Adding Tests for Part or Fragment Seeders](#adding-tests-for-part-or-fragment-seeders)
+- [Adding Services](#adding-services)
+- [Publishing Packages](#publishing-packages)
 
 The backend is a set of C# libraries, built with VS. This step is required only if you have new data models (parts or fragments) specific to your project.
 
@@ -25,9 +25,9 @@ In what follows, `<PRJ>` represents the short name you chose for your project.
 ## Requirements
 
 - Visual Studio Community Edition or higher.
-- basic knowledge of C# language.
+- basic knowledge of the C# language.
 
-## (A) Creating Solution
+## Creating Solution
 
 1. launch VS and create a new _blank solution_ named `Cadmus<PRJ>`.
 
@@ -78,7 +78,7 @@ Alternatively, just edit the `csproj` XML file and add a line in an `ItemGroup` 
 </ItemGroup>
 ```
 
-## (B) Adding Parts or Fragments
+## Adding Parts or Fragments
 
 You can now add as many parts and fragments as required to the `Cadmus.<PRJ>.Parts` project.
 
@@ -97,7 +97,7 @@ Should you need existing components to build your own (e.g. to extend or integra
 - [adding parts](backend-part.md)
 - [adding fragments](backend-fragment.md)
 
-## (C) Adding Part or Fragment Seeders
+## Adding Part or Fragment Seeders
 
 For each part or fragment you should provide a corresponding mock data seeder to the `Cadmus.Seed.<PRJ>.Parts` project. This is extremely useful to let developers and users play with the editor.
 
@@ -117,19 +117,19 @@ For each part or fragment you should provide a corresponding mock data seeder to
 - [adding part seeders](../dev/backend-part-seeder.md)
 - [adding fragments]
 
-## (D) Adding Tests for Parts or Fragments
+## Adding Tests for Parts or Fragments
 
 For each part or fragment you should provide a corresponding set of unit tests.
 
 Please refer to this set of [templates](../adding-parts.md#test-templates) for the tests.
 
-## (E) Adding Tests for Part or Fragment Seeders
+## Adding Tests for Part or Fragment Seeders
 
 For each part or fragment seeder you should provide a corresponding set of unit tests.
 
 Please refer to this set of [templates](../adding-parts.md#adding-tests-for-part-or-fragment-seeders) for the seeder tests.
 
-## (F) Adding Services
+## Adding Services
 
 Every Cadmus backend project using its own data models requires a couple of services:
 
@@ -138,7 +138,7 @@ Every Cadmus backend project using its own data models requires a couple of serv
 
 Please refer to [this page](backend-core-svc.md) about adding those services.
 
-## (G) Publishing Packages
+## Publishing Packages
 
 Once your parts, seeders, and services are ready, typically you should package them and publish the package so that it is available to yourself and to the community. Alternatively, you will just add a reference to the compiled library in your consumer projects.
 
