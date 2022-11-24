@@ -22,6 +22,7 @@ The typical steps for developing a Cadmus frontend (as based on the [reference s
 1. create an Angular app.
 2. install NPM packages.
 3. adding and customizing template code.
+4. optionally (if you are using your own models) [add parts](frontend-part.md) and/or fragments.
 
 ## Requirements
 

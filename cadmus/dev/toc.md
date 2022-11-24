@@ -87,4 +87,14 @@ Some database clients:
 To create a Cadmus editor for your project, you need a backend and a frontend.
 
 1. [backend](backend.md)
+   1. [create the backend core data models](backend-core.md) (optional)
+      1. [parts](backend-part.md)
+      2. [part seeders](backend-part-seeder.md)
+      3. [fragments](backend-fragment.md)
+      4. [fragment seeders](backend-fragment-seeder.md)
+      5. [services](backend-core-svc.md)
+   2. [create the backend services](backend-core-svc.md)
+   3. [create the backend API](backend-api.md).
 2. [frontend](frontend.md)
+   1. [adding parts](frontend-part.md) (optional)
+   2. adding fragments (optional)
