@@ -87,4 +87,4 @@ Some database clients:
 To create a Cadmus editor for your project, you need a backend and a frontend.
 
 1. [backend](backend.md)
-2. frontend
+2. [frontend](frontend.md)
