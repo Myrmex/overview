@@ -16,7 +16,9 @@ subtitle: "Cadmus Development"
 
 The [reference API backend project](https://github.com/vedph/cadmus_api) is the model for this section.
 
-1. create a new ASP.NET Core 7.0 web API project (no authentication) named `Cadmus<PRJ>Api`: select `None` for `Authentication type`, ensure that `Enable Docker` is disabled (we'll provide our own Docker files), ensure that `Use controllers`, `Enable OpenAPI support`, and `Do not use top-level statements` are checked.
+1. create a new ASP.NET Core 7.0 web API project (no authentication) named `Cadmus<PRJ>Api`: select `None` for `Authentication type`, ensure that `Enable Docker` and `Use HTTPS` is disabled (we'll provide our own Docker files), ensure that `Use controllers`, `Enable OpenAPI support`, and `Do not use top-level statements` are checked.
+
+>Remember to disable HTTPS. In most API configurations HTTPS is managed by a reverse proxy, and this option is not required here in development.
 
 2. remove the mock `WeatherForecast.cs` class and its corresponding `WeatherForecastController.cs` class from the `Controllers` folder.
 
