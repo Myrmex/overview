@@ -70,6 +70,8 @@ Thesauri can be edited directly in the JSON document containing the Cadmus syste
 }
 ```
 
+>By convention, you should write your thesauri sorting them by their ID. This is not a technical requirement, but it's handy for human operators who need to browse through the list of thesauri while editing.
+
 Each thesaurus object has these properties:
 
 - `id`: the thesaurus unique ID, suffixed with `@` followed by its ISO639-2 language code; e.g. `languages@en`. Currently, the language suffix is not used in the frontend implementation, so just leave it to english (`en`), whatever the language you use in your entry's value.
