@@ -96,8 +96,8 @@ Re.Novella: Il genere novella nel Rinascimento italiano: repertorio, database e 
 Marie Curie GISARC (L. Tagliapietra, Università di Venezia Ca' Foscari).
 
 - [models](https://github.com/vedph/cadmus-gisarc)
-- API
-- app
+- [API](https://github.com/vedph/cadmus-gisarc-api)
+- [app](https://github.com/vedph/cadmus-gisarc-app)
 
 #### Inquisitions Graffiti
 

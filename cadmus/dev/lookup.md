@@ -11,6 +11,7 @@ subtitle: "Cadmus Development"
   - [Data Pins at Rescue](#data-pins-at-rescue)
 - [Implementation Details](#implementation-details)
   - [Developer's Hints](#developers-hints)
+  - [PinLinksPart](#pinlinkspart)
 
 Dynamic lookup refers to a feature of the system providing lookup data sets dynamically built from searching the underlying index. This feature stands side to side to the static lookup data sets provided by thesauri.
 
@@ -144,3 +145,35 @@ This lookup component emits an `entryChange` event whenever a lookup entry is pi
 - `value`: the data pin value.
 
 As the backend just leverages the existing search infrastructure, and data pins get updated whenever a part is saved, there is no action to be taken in the backend for this to work.
+
+### PinLinksPart
+
+A special part, the `PinLinksPart`, is provided among the general Cadmus parts for leveraging this linking mechanism. Essentially, the pin links part concept is simple: it is just a container of links connecting the container item to 1 or more items via a pin-based link.
+
+The part allows you to pick any of the lookup types, as defined by `indexLookupDefinitions`, and then use the lookup pin component to find and link any item via a specific pin in a specific part type.
+
+For instance, say you have a set of inscription items on one side, and a set of sites on the other side. Each inscription can be located in a site. To avoid creating a specialized part for the only purpose of linking an inscription to a site, we can:
+
+(1) ad an index lookup definition for the site like this (in `index-lookup-definitions.ts`):
+
+```ts
+import { IndexLookupDefinitions } from '@myrmidon/cadmus-core';
+import { METADATA_PART_TYPEID } from '@myrmidon/cadmus-part-general-ui';
+
+export const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
+  // human-friendly ID for sites
+  site: {
+    typeId: METADATA_PART_TYPEID,
+    name: 'hid',
+  },
+};
+```
+
+This definition says that there is a lookup type named `site` which draws its pins named `hid` (=human friendly ID) from parts of type metadata. So, any item having a metadata part with a `hid` name/value pair will be eligible as a link target.
+
+(2) ensure that the site item facet has a `MetadataPart`, and that the inscription facet has a `PinLinksPart`.
+
+(3) whenever you need to link an inscription to a site:
+
+- ensure that the site item has a metadata part, with its human friendly ID in a pair with name=`hid`, and value equal to the desired ID (e.g. `epidauros`).
+- add a pin links part to the inscription item, and pick as link type the one named `site`. Note that this `site` type is automatically inferred from the index lookup definitions defined in your project. Once you have picked this type, just type some letters to fetch a list of matching site human-friendly IDs; so, you can type `ep` and immediately find `epidauros`. If you pick this from the lookup list, a link will be added from the inscription to the site which contains a metadata part with a `hid` metadatum equal to `epidauros`.

@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Cadmus
-subtitle: "Structured Content Creation System"
+subtitle: Structured Content Creation System
 ---
 
 👉 [Cadmus Presentation](https://cadmus.fusi-soft.com): refer to this site for a general introduction to Cadmus. The site is still under development, especially for its interactive resources, but it still represents the most complete introduction to the system philosophy.
@@ -10,9 +10,9 @@ subtitle: "Structured Content Creation System"
 
 ## Cadmus
 
+- [developer's guide](cadmus/dev/toc.md)
+- [projects using Cadmus](cadmus/projects.md)
+
 TODO
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/lYykjz26TCg" title="Daniele Fusi, Presenting Cadmus: a general-purpose and modular content editing alternative" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-- [projects](cadmus/projects.md)
-- [developer's guide](cadmus/dev/toc.md)
