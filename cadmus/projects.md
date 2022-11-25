@@ -20,6 +20,8 @@ subtitle: "Directory"
 
 ## Links
 
+Here you can find a list of real-world projects using Cadmus. Most of them are founded by university research programs, either European (ERC) or Italian (PRIN), but Cadmus is also used to back the research of Marie Curie scholars and PhD students.
+
 ### Production Sites
 
 - [presentation](https://cadmus.fusi-soft.com/)
@@ -44,7 +46,7 @@ subtitle: "Directory"
 
 - [models](https://github.com/vedph/cadmus_itinera)
 - [API](https://github.com/vedph/cadmus_itinera_api)
-- app
+- [app](https://github.com/vedph/cadmus_itinera_app)
 
 #### MapAeg
 
@@ -68,10 +70,12 @@ This is 4-projects solution:
 - Thesaurus dubii sermonis: Digital Critical Collection of Ancient Latin Linguistics (1st century BC – 8th century CE) (dr. E. Spangenberg Yanes, A. von Humboldt Stiftung – Bayerische Akademie der Wissenschaften)
 - Thesaurus dubii sermonis: repertorio critico digitale della riflessione linguistica antica (I sec. a. C. – VIII sec. d. C.) (prof. M. Rosellini, Sapienza Università degli studi di Roma)
 
+Repositories:
+
 - [presentation](https://web.uniroma1.it/pages)
 - [models](https://github.com/vedph/cadmus_tgr)
 - [API](https://github.com/vedph/cadmus_tgr_api)
-- [app](https://github.com/vedph/cadmus_tgr_app
+- [app](https://github.com/vedph/cadmus_tgr_app)
 - [documentation](https://github.com/vedph/cadmus_tgr_doc)
 
 #### PURA
