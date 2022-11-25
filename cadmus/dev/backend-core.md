@@ -4,7 +4,6 @@ title: Creating Core Backend
 subtitle: "Cadmus Backend Development"
 ---
 
-- [Requirements](#requirements)
 - [Creating Solution](#creating-solution)
 - [Adding Parts or Fragments](#adding-parts-or-fragments)
 - [Adding Part or Fragment Seeders](#adding-part-or-fragment-seeders)
@@ -21,11 +20,6 @@ The following procedure will:
 - add to it a library for parts/fragments (if required), another library for their mock data seeders, and a third library for API services. Also, each model-related library will have its unit tests library.
 
 In what follows, `<PRJ>` represents the short name you chose for your project.
-
-## Requirements
-
-- Visual Studio Community Edition or higher.
-- basic knowledge of the C# language.
 
 ## Creating Solution
 

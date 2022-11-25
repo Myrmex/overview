@@ -4,11 +4,17 @@ title: Creating Part Seeders
 subtitle: "Cadmus Backend Development"
 ---
 
+- [Requirements](#requirements)
 - [Packages](#packages)
 - [Part Seeder Templates](#part-seeder-templates)
   - [Part Seeder](#part-seeder)
   - [Part Seeder Test](#part-seeder-test)
     - [Test Helper](#test-helper)
+
+## Requirements
+
+- Visual Studio Community Edition or higher.
+- basic knowledge of the C# language.
 
 ## Packages
 

@@ -4,6 +4,10 @@ title: Creating Services
 subtitle: "Cadmus Backend Development"
 ---
 
+## Creating Services
+
+Your backend requires a couple of services to collect all the backend pieces together, making them available to the [API layer](backend-api.md).
+
 1. add these packages to the services project (updating version numbers as required):
 
 ```xml

@@ -16,3 +16,8 @@ The typical steps for developing a Cadmus backend are:
 3. [create the backend API](backend-api.md).
 
 Step 1 is required only if you are going to add new models (parts/fragments). If you are just reusing existing models, you can proceed directly to step 3.
+
+## Requirements
+
+- [Visual Studio Community Edition](https://visualstudio.microsoft.com/vs/community/) or higher.
+- basic knowledge of the C# language.

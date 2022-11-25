@@ -4,11 +4,20 @@ title: Creating Parts
 subtitle: "Cadmus Frontend Development"
 ---
 
+- [Adding Libraries](#adding-libraries)
+  - [UI Library](#ui-library)
+  - [PG Library](#pg-library)
+- [Adding Part](#adding-part)
+- [Adding UI Editor](#adding-ui-editor)
+  - [Generic Part Editor Template](#generic-part-editor-template)
+  - [List Part Editor Template](#list-part-editor-template)
+- [Adding PG Editor Wrapper](#adding-pg-editor-wrapper)
+
+## Adding Libraries
+
 When creating libraries parts and fragments, you can use different approaches according to the desired level of granularity. When you plan for reuse, creating a single library for each part/fragment editor is the best choice, unless your parts/fragments can be considered so related among themselves that they can be implemented in the same library. If instead you are implementing project-specific editors that will probably never be reused outside of your project, you can go with a multiple-editors approach and implement all of them in a single library.
 
 Of course, you can also adopt a mixed strategy, reserving single-editor libraries for single reusable editors, and multiple-editors libraries for project-specific editors.
-
-## Adding Libraries
 
 In both cases, the procedure for adding a new library to the app's workspace is detailed in the [frontend section](frontend.md#create-angular-app). Here I assume that the library where you will store your editor(s) have already been created.
 
