@@ -134,6 +134,13 @@ For an implementation of this lookup mechanism in the frontend you can see the `
 - `label`: a label to display in the lookup component.
 - `limit`: the maximum number of data pins to retrieve for a lookup.
 
-This lookup component emits an `entryChange` event whenever a lookup entry is picked, whose argument is a `DataPinInfo` object.
+This lookup component emits an `entryChange` event whenever a lookup entry is picked, whose argument is a `DataPinInfo` object, having these properties (all strings, `roleId` being nullable):
+
+- `itemId`: the item's ID.
+- `partId`: the part's ID.
+- `roleId`: the part's optional role ID.
+- `partTypeId`: the part's type ID.
+- `name`: the data pin name.
+- `value`: the data pin value.
 
 As the backend just leverages the existing search infrastructure, and data pins get updated whenever a part is saved, there is no action to be taken in the backend for this to work.
