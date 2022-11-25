@@ -70,7 +70,7 @@ Thesauri can be edited directly in the JSON document containing the Cadmus syste
 }
 ```
 
->By convention, you should write your thesauri sorting them by their ID. This is not a technical requirement, but it's handy for human operators who need to browse through the list of thesauri while editing.
+>By convention, you should write your thesauri sorting them by their ID. This is not a technical requirement, but it's handy for human operators who need to browse through the list of thesauri while editing. As for the order of _entries_ inside each thesaurus, this is usually reflected in the UI, so that you can be granted that the entries will be presented in the same order you entered them in the source JSON document. Thus, be sure to place the entries in the order you want to be used when displaying them, except for those thesauri having no intrinsic order as they are used only as lookup lists, like for the reserved `model-types` (see [below](#models-thesaurus)).
 
 Each thesaurus object has these properties:
 
@@ -139,8 +139,104 @@ It is up to the part editors to decide which thesauri they require, and whether 
 
 Also, a thesaurus can be just an **alias** targeting another, existing thesaurus. In this case it has no entries, but only a single `targetId` property, with the ID of the thesaurus it refers to. This can be useful when you have several part editors which happen to expect different thesauri IDs for the same taxonomy.
 
+Example:
+
+```json
+[
+    {
+      "id": "languages@en",
+      "entries": [
+        {
+          "id": "lat",
+          "value": "Latin"
+        },
+        {
+          "id": "grc",
+          "value": "Greek"
+        }
+      ]
+    },
+    {
+      "id": "name-languages@en",
+      "targetId": "languages"
+    }
+]
+```
+
+Here we have a `languages` thesaurus with some languages, used by a keywords part, and a `name-languages` thesaurus, used by a proper names part. In this case, we want the same list of languages for both the keywords and the proper names, so instead of duplicating the entries we just create an alias thesaurus `name-languages` targeting `languages`. If instead we want two different list of languages, we just replace the alias with a full thesaurus having its own entries.
+
 ### Models Thesaurus
 
 The ID `model-types@en` is conventionally **reserved** to provide a mapping between machine-targeted type IDs (like `it.vedph.categories`) and their human-friendly names (like `categories`).
 
 This is systematically used in the editor UI to show human friendly names instead of full IDs when referring to data parts. You should thus always provide this thesaurus in your project, unless you want to deal with ugly, longer part IDs.
+
+>By convention, entries in this thesaurus are sorted by their ID, but all the fragment-related entries come after the others, like in the sample below.
+
+Example:
+
+```json
+"id": "model-types@en",
+"entries": [
+    {
+        "id": "it.vedph.bibliography",
+        "value": "bibliography"
+    },
+    {
+        "id": "it.vedph.categories",
+        "value": "categories"
+    },
+    {
+        "id": "it.vedph.comment",
+        "value": "comment"
+    },
+    {
+        "id": "it.vedph.doc-references",
+        "value": "references"
+    },
+    {
+        "id": "it.vedph.external-ids",
+        "value": "external IDs"
+    },
+    {
+        "id": "it.vedph.historical-date",
+        "value": "date"
+    },
+    {
+        "id": "it.vedph.index-keywords",
+        "value": "index keywords"
+    },
+    {
+        "id": "it.vedph.metadata",
+        "value": "metadata"
+    },
+    {
+        "id": "it.vedph.names",
+        "value": "names"
+    },
+    {
+        "id": "it.vedph.note",
+        "value": "note"
+    },
+    {
+        "id": "it.vedph.token-text",
+        "value": "text"
+    },
+    {
+        "id": "it.vedph.token-text-layer",
+        "value": "text layer"
+    },
+    {
+        "id": "fr.it.vedph.apparatus",
+        "value": "apparatus fr."
+    },
+    {
+        "id": "fr.it.vedph.comment",
+        "value": "comment fr."
+    },
+    {
+        "id": "fr.it.vedph.orthography",
+        "value": "orthography fr."
+    }
+]
+```
