@@ -34,7 +34,14 @@ The UI library is just a standard Angular library with a bunch of components in 
 The PG library is a standard Angular library with some added routes, one for each part included in the library. In its module add code like this:
 
 ```ts
-// ...
+// ... TODO: other imports ...
+
+// cadmus
+import { CadmusCoreModule, PendingChangesGuard } from '@myrmidon/cadmus-core';
+import { CadmusMatPhysicalSizeModule } from '@myrmidon/cadmus-mat-physical-size';
+import { CadmusRefsDecoratedCountsModule } from '@myrmidon/cadmus-refs-decorated-counts';
+import { CadmusStateModule } from '@myrmidon/cadmus-state';
+import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 
 export const RouterModuleForChild = RouterModule.forChild([
   {
@@ -55,6 +62,14 @@ export const RouterModuleForChild = RouterModule.forChild([
     FormsModule,
     ReactiveFormsModule,
     RouterModuleForChild,
+    // material
+    // ...
+    // cadmus
+    CadmusCoreModule,
+    CadmusStateModule,
+    CadmusUiModule,
+    CadmusUiPgModule,
+    CadmusUiPgModule,
     // ...
   ],
   exports: [],

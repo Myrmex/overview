@@ -86,9 +86,11 @@ Once you create a library, remove the stub code files added by Angular CLI: the 
 {
   "build-ui": "ng build @myrmidon/cadmus-__PRJ__-part-ui",
   "build-pg": "ng build @myrmidon/cadmus-__PRJ__-part-pg",
-  "build-all": "npm run-script build-ui && npm run-script build-pg"
+  "build-lib": "npm run-script build-ui && npm run-script build-pg"
 }
 ```
+
+The `build-lib` command is used to build all the libraries in the workspace. Be sure to enumerate them in their order of dependencies when writing the command.
 
 ## Install Packages
 
