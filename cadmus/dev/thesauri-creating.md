@@ -129,6 +129,8 @@ Should you want to have a selectable entry also for the parent language node, yo
 
 There is no limit to the level of nesting in such thesauri.
 
+>By convention, you should have your labels contain the full path to the entry, i.e. all the ancestor labels, separated by a colon. So for instance here `lang.pho` corresponds to `language: phonology`. Many editors rely on this convention to shorten the label when this is useful, while still preserving the full information about their placement in the hierarchy.
+
 It is up to the part editors to decide which thesauri they require, and whether these are to be flat or hierarchical. So, while adding thesauri to your configuration be sure to use the thesauri IDs expected by the parts you have selected, and to comply with its type. Most of the part editors are built in such a way that they tolerate the absence of any of the thesauri they request: in this case, they provide a different UI according to whether the requested thesaurus is found or not. For instance, an editor expecting a list of from a thesaurus with ID `languages@en` will provide a dropdown list used to select any of the thesaurus entries; or, if this thesaurus is not found, it will just provide a text box where users will be free to type whatever they want.
 
 ### Aliases
