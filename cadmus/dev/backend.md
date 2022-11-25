@@ -21,3 +21,8 @@ Step 1 is required only if you are going to add new models (parts/fragments). If
 
 - [Visual Studio Community Edition](https://visualstudio.microsoft.com/vs/community/) or higher.
 - basic knowledge of the C# language.
+
+## More
+
+- [creating thesauri](thesauri-creating.md)
+- [implementing dynamic lookup](lookup.md)
