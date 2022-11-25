@@ -1,14 +1,35 @@
 ---
 layout: page
 title: Cadmus Development
-subtitle: "Creating a Cadmus editor"
+subtitle: Summary
 ---
 
-- [Development Environment](#development-environment)
-- [Angular CLI](#angular-cli)
-- [MongoDB](#mongodb)
-- [MySql](#mysql)
 - [Guide](#guide)
+- [Development Environment](#development-environment)
+  - [Angular CLI](#angular-cli)
+  - [MongoDB](#mongodb)
+  - [MySql](#mysql)
+
+## Guide
+
+To create a Cadmus editor for your project, you need a backend and a frontend. For the most part, you will end up just customizing the provided code templates, so you do not need advanced programming skills to setup an editor. Of course, a minimal familiarity with the languages and technologies involved is required.
+
+You start with creating backend core libraries, eventually adding your own parts and fragments, with their seeders and tests. Then, you add a couple of services which put all the pieces together, and are consumed by the API layer. Once done, you create the backend API by just assembling the pieces you created with those coming from Cadmus infrastructure.
+
+Then, you create an Angular workspace for your frontend app, eventually adding the editors corresponding to your own parts and fragments. Apart from this, the app is built by just assembling pieces from the Cadmus infrastructure.
+
+1. [backend](backend.md)
+   1. [core data models](backend-core.md) (optional)
+      1. [parts](backend-part.md)
+      2. [part seeders](backend-part-seeder.md)
+      3. [fragments](backend-fragment.md)
+      4. [fragment seeders](backend-fragment-seeder.md)
+      5. [services](backend-core-svc.md)
+   2. [backend services](backend-core-svc.md)
+   3. [backend API](backend-api.md)
+2. [frontend](frontend.md)
+   1. [parts](frontend-part.md) (optional)
+   2. fragments (optional)
 
 ## Development Environment
 
@@ -26,7 +47,7 @@ Note that you can either install MySql and MongoDB the usual way, or use a Docke
 
 >If you are installing your databases rather than using Docker containers for them, just accept all the defaults during setup. For MySql you also need to setup a root user; I usually add an internal root user named `root` with password=`mysql`; these are the defaults in Cadmus. Of course you can change them (in the connection strings); but it's easier if you stick to this convention. This won't hurt anyway, because you will use MySql only in your local machine for development.
 
-## Angular CLI
+### Angular CLI
 
 To install Angular CLI globally:
 
@@ -50,7 +71,7 @@ To update Angular when required, you can use this command:
 npm update -g @angular/cli
 ```
 
-## MongoDB
+### MongoDB
 
 **Windows**: to run a mongo container persisting data in the host via a volume in `c:\users\<USERNAME>\data\mongo`:
 
@@ -65,7 +86,7 @@ Some database clients:
 - [Studio3T](https://studio3t.com/)
 - [MongoDB Compass](https://www.mongodb.com/products/compass)
 
-## MySql
+### MySql
 
 **Windows**: to run a mysql container storing data in host through a volume in `c:\data\mysql`:
 
@@ -81,20 +102,3 @@ Some database clients:
 
 - [DBeaver](https://dbeaver.io/download/)
 - [MySql Workbench](https://dev.mysql.com/downloads/workbench/)
-
-## Guide
-
-To create a Cadmus editor for your project, you need a backend and a frontend. For the most part, you will end up just customizing the provided code templates, so you do not need advanced programming skills to setup an editor. Of course, a minimal familiarity with the languages and technologies involved is required.
-
-1. [backend](backend.md)
-   1. [create the backend core data models](backend-core.md) (optional)
-      1. [parts](backend-part.md)
-      2. [part seeders](backend-part-seeder.md)
-      3. [fragments](backend-fragment.md)
-      4. [fragment seeders](backend-fragment-seeder.md)
-      5. [services](backend-core-svc.md)
-   2. [create the backend services](backend-core-svc.md)
-   3. [create the backend API](backend-api.md).
-2. [frontend](frontend.md)
-   1. [adding parts](frontend-part.md) (optional)
-   2. adding fragments (optional)
