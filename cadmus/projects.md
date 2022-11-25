@@ -4,25 +4,28 @@ title: Cadmus Projects
 subtitle: "Directory"
 ---
 
-- [Links](#links)
-  - [Production Sites](#production-sites)
-  - [Demos](#demos)
-  - [Repositories](#repositories)
-    - [Itinera](#itinera)
-    - [MapAeg](#mapaeg)
-    - [Musisque Deoque](#musisque-deoque)
-    - [PAGES](#pages)
-    - [PURA](#pura)
-    - [Re.Novella](#renovella)
-    - [GISARC](#gisarc)
-    - [Inquisitions Graffiti](#inquisitions-graffiti)
-    - [Sidonius](#sidonius)
-
-## Links
+- [Production Sites](#production-sites)
+- [Demos](#demos)
+- [Repositories](#repositories)
+  - [Itinera](#itinera)
+  - [MapAeg](#mapaeg)
+  - [Musisque Deoque](#musisque-deoque)
+  - [PAGES](#pages)
+  - [PURA](#pura)
+  - [Re.Novella](#renovella)
+  - [GISARC](#gisarc)
+  - [Inquisitions Graffiti](#inquisitions-graffiti)
+  - [Sidonius](#sidonius)
 
 Here you can find a list of real-world projects using Cadmus. Most of them are founded by university research programs, either European (ERC) or Italian (PRIN), but Cadmus is also used to back the research of Marie Curie scholars and PhD students.
 
-### Production Sites
+The picture below summarizes the usage of parts among different projects.
+
+![projects and parts](../img/cadmus/project-parts.png)
+
+The top row lists the projects, while the columns list the parts and fragments. Whenever a part is reused in a project, it appears listed under its column. The background color of each part represents the project where it has been defined. As you can see, most shared parts come from Cadmus infrastructure (cyan background).
+
+## Production Sites
 
 - [presentation](https://cadmus.fusi-soft.com/)
 - [Itinera](http://itinera.unisi.it/)
@@ -36,32 +39,32 @@ Here you can find a list of real-world projects using Cadmus. Most of them are f
 - [Inquisition Graffiti API](https://cadmus-ingra-api.fusi-soft.com/)
 - [Inquisition Graffiti bibliographic API](https://cadmus-ingra-biblioapi.fusi-soft.com/)
 
-### Demos
+## Demos
 
 - [graph mapper](https://cadmus-graph-demo.fusi-soft.com/)
 
-### Repositories
+## Repositories
 
-#### Itinera
+### Itinera
 
 - [models](https://github.com/vedph/cadmus_itinera)
 - [API](https://github.com/vedph/cadmus_itinera_api)
 - [app](https://github.com/vedph/cadmus_itinera_app)
 
-#### MapAeg
+### MapAeg
 
 MapAeg: Buondelmonti's Liber Insularum (B. Bessi, Università di Venezia Ca' Foscari).
 
 - [API](https://github.com/vedph/cadmus_bdm_api)
 - [app](https://github.com/vedph/cadmus-bdm-app)
 
-#### Musisque Deoque
+### Musisque Deoque
 
 - [Musisque Deoque API](https://github.com/vedph/cadmus_mqdq_api)
 - [Musisque Deoque app](https://github.com/vedph/cadmus_mqdq_app)
 - [conversion tool](https://github.com/vedph/mqdq_mqutil)
 
-#### PAGES
+### PAGES
 
 This is 4-projects solution:
 
@@ -78,7 +81,7 @@ Repositories:
 - [app](https://github.com/vedph/cadmus_tgr_app)
 - [documentation](https://github.com/vedph/cadmus_tgr_doc)
 
-#### PURA
+### PURA
 
 PURA: PURism in Antiquity (prof. O. Tribulato, Università di Venezia Ca' Foscari).
 
@@ -87,7 +90,7 @@ PURA: PURism in Antiquity (prof. O. Tribulato, Università di Venezia Ca' Foscar
 - [app](https://github.com/vedph/cadmus_pura_app)
 - [documentation](https://github.com/vedph/cadmus_pura_doc)
 
-#### Re.Novella
+### Re.Novella
 
 Re.Novella: Il genere novella nel Rinascimento italiano: repertorio, database e inquadramento storiografico (prof. M. Marchi, Università di Siena).
 
@@ -95,7 +98,7 @@ Re.Novella: Il genere novella nel Rinascimento italiano: repertorio, database e 
 - [API](https://github.com/vedph/cadmus-renovella-api)
 - [app](https://github.com/vedph/cadmus-renovella-app)
 
-#### GISARC
+### GISARC
 
 Marie Curie GISARC (L. Tagliapietra, Università di Venezia Ca' Foscari).
 
@@ -103,7 +106,7 @@ Marie Curie GISARC (L. Tagliapietra, Università di Venezia Ca' Foscari).
 - [API](https://github.com/vedph/cadmus-gisarc-api)
 - [app](https://github.com/vedph/cadmus-gisarc-app)
 
-#### Inquisitions Graffiti
+### Inquisitions Graffiti
 
 PhD Inquisitions Graffiti (A.C. Basilicò, Università di Venezia Ca' Foscari).
 
@@ -111,7 +114,7 @@ PhD Inquisitions Graffiti (A.C. Basilicò, Università di Venezia Ca' Foscari).
 - [API](https://github.com/vedph/cadmus_ingra_api)
 - [app](https://github.com/vedph/cadmus_ingra_app)
 
-#### Sidonius
+### Sidonius
 
 PhD Sidonius Apollinaris critical edition (E. Recupero Porcino, Università di Venezia Ca' Foscari).
 
