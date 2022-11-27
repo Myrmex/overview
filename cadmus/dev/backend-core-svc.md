@@ -8,7 +8,7 @@ subtitle: "Cadmus Backend Development"
 
 Your backend requires a couple of services to collect all the backend pieces together, making them available to the [API layer](backend-api.md).
 
-1. add these packages to the services project (updating version numbers as required):
+(1) add these packages to the services project (updating version numbers as required):
 
 ```xml
 <ItemGroup>
@@ -23,7 +23,7 @@ Your backend requires a couple of services to collect all the backend pieces tog
 </ItemGroup>
 ```
 
-2. add a `<PRJ>RepositoryProvider` class, using this template (the only part which requires customization is the constructor):
+(2) add a `<PRJ>RepositoryProvider` class, using this template (the only part which requires customization is the constructor):
 
 ```cs
 using System;
@@ -106,7 +106,7 @@ namespace Cadmus.__PRJ__.Services
 }
 ```
 
-3. add a `<PRJ>PartSeederFactoryProvider` class, following this template:
+(3) add a `<PRJ>PartSeederFactoryProvider` class, following this template:
 
 ```cs
 using Cadmus.Core.Config;
@@ -172,3 +172,5 @@ namespace Cadmus.__PRJ__.Services
     }
 }
 ```
+
+> ▶️ next: [creating API](backend-api.md)

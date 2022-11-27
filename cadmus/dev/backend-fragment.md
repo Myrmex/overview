@@ -256,3 +256,5 @@ namespace Cadmus.__PRJ__.Parts.Test
     }
 }
 ```
+
+> ▶️ next: [creating fragment seeders](backend-fragment-seeder.md)

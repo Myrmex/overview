@@ -35,4 +35,4 @@ Then, you create an Angular workspace for your frontend app, eventually adding t
    3. [backend API](backend-api.md)
 2. [frontend](frontend.md)
    1. [parts](frontend-part.md) (optional)
-   2. fragments (optional)
+   2. [fragments](frontend-fragment.md) (optional)

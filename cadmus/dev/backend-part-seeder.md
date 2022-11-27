@@ -277,3 +277,5 @@ static internal class TestHelper
     }
 }
 ```
+
+> ▶️ next: [creating fragments](backend-fragment.md)

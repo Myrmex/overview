@@ -804,3 +804,5 @@ The HTML template just wraps the UI editor preceded by a current-item bar:
 ```
 
 Here, the type ID of the part (from its model in the "ui" library) is mapped to the route prefix constant `ITINERA_LT` = `itinera-lt`, which is the root route to the "pg" library module for the app.
+
+> ▶️ next: [creating fragments](frontend-fragment.md)
