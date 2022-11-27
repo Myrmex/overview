@@ -11,6 +11,8 @@ subtitle: Structured Content Creation System
 ## Cadmus
 
 - [developer's guide](cadmus/dev/toc.md)
+- [hosting Cadmus](cadmus/hosting.md)
+  - [configuring HTTPS](cadmus/https.md)
 - [projects using Cadmus](cadmus/projects.md)
 
 TODO
