@@ -129,7 +129,7 @@ export class __NAME__FragmentComponent
     // }
   }
 
-  private updateForm(fr?: __NAME__Fragment): void {
+  private updateForm(fr?: __NAME__Fragment | null): void {
     if (!fr) {
       this.form.reset();  
       return;

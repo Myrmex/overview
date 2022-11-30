@@ -177,16 +177,7 @@ If you want to infer a schema in the [JSON schema tool](https://jsonschema.net/)
 
 This is the part editor UI, a dumb component which essentially uses a form to represent the data of a part's model. These data are adapted to the form when loading them, and converted back to the part's model when saving.
 
-(1) in `src/lib`, add a **part editor dumb component** named after the part (e.g. `ng g component note-part` for `NotePartComponent` after `NotePart`), and extending `ModelEditorComponentBase<T>` where `T` is the part's type:
-
-1. in the _constructor_, instantiate its "root" form group (named `form`), filling it with the required controls.
-2. eventually add _thesaurus_ entries properties for binding, populating them by overriding `onThesauriSet` (`protected onThesauriSet() {}`).
-3. implement `OnInit` calling `this.initEditor();` in it.
-4. (from _model to form_): implement `onModelSet` (`protected onModelSet(model: YourModel)`) by calling an `updateForm(model: YourModel)` which either resets the form if the model is falsy, or sets the various form's controls values according to the received model, finally marking the form as pristine.
-5. (from _form to model_): override `getModelFromForm(): YourModel` to get the model from form controls.
-6. build your component's _template_.
-
-Here we usually have two cases: a generic part, or a part consisting only of a list of entities. Two different templates are provided here.
+(1) in `src/lib`, add a **part editor dumb component** named after the part (e.g. `ng g component note-part` for `NotePartComponent` after `NotePart`), and extending `ModelEditorComponentBase<T>` where `T` is the part's type. Here we usually have two cases: a generic part, or a part consisting only of a list of entities. Two different templates are provided here.
 
 ### Generic Part Editor Template
 
@@ -258,7 +249,7 @@ export class __NAME__PartComponent
     // }
   }
 
-  private updateForm(part?: __NAME__Part): void {
+  private updateForm(part?: __NAME__Part | null): void {
     if (!part) {
       this.form.reset();
       return;
