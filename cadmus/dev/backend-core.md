@@ -7,8 +7,6 @@ subtitle: "Cadmus Backend Development"
 - [Creating Solution](#creating-solution)
 - [Adding Parts or Fragments](#adding-parts-or-fragments)
 - [Adding Part or Fragment Seeders](#adding-part-or-fragment-seeders)
-- [Adding Tests for Parts or Fragments](#adding-tests-for-parts-or-fragments)
-- [Adding Tests for Part or Fragment Seeders](#adding-tests-for-part-or-fragment-seeders)
 - [Adding Services](#adding-services)
 - [Publishing Packages](#publishing-packages)
 
@@ -107,21 +105,9 @@ For each part or fragment you should provide a corresponding mock data seeder to
 
 2. add a plain C# class for each part or fragment seeder. Please refer to these pages for details:
 
-- [adding parts](../backend-part.md)
-- [adding part seeders](../dev/backend-part-seeder.md)
-- [adding fragments]
-
-## Adding Tests for Parts or Fragments
-
-For each part or fragment you should provide a corresponding set of unit tests.
-
-Please refer to this set of [templates](../adding-parts.md#test-templates) for the tests.
-
-## Adding Tests for Part or Fragment Seeders
-
-For each part or fragment seeder you should provide a corresponding set of unit tests.
-
-Please refer to this set of [templates](../adding-parts.md#adding-tests-for-part-or-fragment-seeders) for the seeder tests.
+- [adding parts](backend-part)
+- [adding part seeders](backend-part-seeder)
+- [adding fragments](backend-fragment)
 
 ## Adding Services
 
@@ -130,7 +116,7 @@ Every Cadmus backend project using its own data models requires a couple of serv
 - **repository provider**: this provides a Cadmus repository, used to edit the database, including all the models required for your project.
 - **part seeder factory provider**: this provides a parts seeder factory, which provides the factory for generating part seeders. A part seeder is used to generate mock data to play with when developing the UI.
 
-Please refer to [this page](backend-core-svc.md) about adding those services.
+Please refer to [this page](backend-core-svc) about adding those services.
 
 ## Publishing Packages
 
@@ -173,4 +159,4 @@ pause
 
 (in this sample I'm publishing the Debug versions for diagnostic purposes, but you should pick the Release version once you are comfortable with it).
 
-▶️ next: [creating parts](backend-part.md)
+▶️ next: [creating parts](backend-part)
