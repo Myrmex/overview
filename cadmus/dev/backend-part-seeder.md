@@ -70,7 +70,7 @@ public sealed class __NAME__PartSeeder : PartSeederBase,
     public override IPart? GetPart(IItem item, string? roleId,
         PartSeederFactory? factory)
     {
-        if (item == null)  new ArgumentNullException(nameof(item));
+        if (item == null) throw new ArgumentNullException(nameof(item));
         // for layer parts only:
         // if (factory == null)
         //    throw new ArgumentNullException(nameof(factory));
@@ -220,25 +220,22 @@ static internal class TestHelper
         if (name == null) throw new ArgumentNullException(nameof(name));
 
         return Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                $"Cadmus.Seed.Pura.Parts.Test.Assets.{name}");
+                $"Cadmus.Seed.Pura.Parts.Test.Assets.{name}")!;
     }
 
     static public string LoadResourceText(string name)
     {
         if (name == null) throw new ArgumentNullException(nameof(name));
 
-        using (StreamReader reader = new StreamReader(
-            GetResourceStream(name),
-            Encoding.UTF8))
-        {
-            return reader.ReadToEnd();
-        }
+        using StreamReader reader = new(GetResourceStream(name),
+            Encoding.UTF8);
+        return reader.ReadToEnd();
     }
 
     static public PartSeederFactory GetFactory()
     {
         // map
-        TagAttributeToTypeMap map = new TagAttributeToTypeMap();
+        TagAttributeToTypeMap map = new();
         map.Add(new[]
         {
             // Cadmus.Core
@@ -248,7 +245,7 @@ static internal class TestHelper
         });
 
         // container
-        Container container = new Container();
+        Container container = new();
         PartSeederFactory.ConfigureServices(
             container,
             new StandardPartTypeProvider(map),
