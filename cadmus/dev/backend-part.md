@@ -50,6 +50,25 @@ Here I provide a number of templates, according to whether your part represents 
 
 ### Part Templates
 
+If you need a generic filter for your pins, you can use a filter with the `DataPinBuilder` utility class. If using this filter many times, you may want to make it a singleton, e.g. like this:
+
+```cs
+internal static class DataPinHelper
+{
+    private static StandardDataPinTextFilter? _filter;
+
+    /// <summary>
+    /// Gets the default filter used for pins.
+    /// This improves performance, as we can share this filter
+    /// among several parts.
+    /// </summary>
+    static public IDataPinTextFilter DefaultFilter
+    {
+        get { return _filter ??= new StandardDataPinTextFilter(); }
+    }
+}
+```
+
 #### Part - Single Entity
 
 In the following template replace `__NAME__` with your part's name, minus the `Part` suffix:
@@ -177,6 +196,8 @@ public sealed class __NAME__Part : PartBase
     /// these keys: ....</returns>
     public override IEnumerable<DataPin> GetDataPins(IItem? item = null)
     {
+        // TODO: remove the filter if not using it, or make it a singleton
+        // if using it in several components in the same library
         DataPinBuilder builder = new(new StandardDataPinTextFilter());
 
         builder.Set("tot", Entries?.Count ?? 0, false);
