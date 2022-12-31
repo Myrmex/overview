@@ -86,8 +86,8 @@ Should you need existing components to build your own (e.g. to extend or integra
 
 2. add a plain C# class for each part or fragment, representing its data model. Please refer to these pages for details:
 
-- [adding parts](backend-part.md)
-- [adding fragments](backend-fragment.md)
+- [adding parts](./backend-part.md)
+- [adding fragments](./backend-fragment.md)
 
 ## Adding Part or Fragment Seeders
 
@@ -105,9 +105,9 @@ For each part or fragment you should provide a corresponding mock data seeder to
 
 2. add a plain C# class for each part or fragment seeder. Please refer to these pages for details:
 
-- [adding parts](backend-part)
-- [adding part seeders](backend-part-seeder)
-- [adding fragments](backend-fragment)
+- [adding parts](./backend-part.md)
+- [adding part seeders](./backend-part-seeder.md)
+- [adding fragments](./backend-fragment.md)
 
 ## Adding Services
 
@@ -116,7 +116,7 @@ Every Cadmus backend project using its own data models requires a couple of serv
 - **repository provider**: this provides a Cadmus repository, used to edit the database, including all the models required for your project.
 - **part seeder factory provider**: this provides a parts seeder factory, which provides the factory for generating part seeders. A part seeder is used to generate mock data to play with when developing the UI.
 
-Please refer to [this page](backend-core-svc) about adding those services.
+Please refer to [this page](./backend-core-svc.md) about adding those services.
 
 ## Publishing Packages
 
@@ -159,4 +159,4 @@ pause
 
 (in this sample I'm publishing the Debug versions for diagnostic purposes, but you should pick the Release version once you are comfortable with it).
 
-▶️ next: [creating parts](backend-part)
+▶️ next: [creating parts](./backend-part.md)
