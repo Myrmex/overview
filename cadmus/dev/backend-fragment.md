@@ -150,9 +150,9 @@ public sealed class __NAME__LayerFragmentTest
     [Fact]
     public void Fragment_Has_Tag()
     {
-        TagAttribute attr = typeof(__NAME__LayerFragment).GetTypeInfo()
+        TagAttribute? attr = typeof(__NAME__LayerFragment).GetTypeInfo()
             .GetCustomAttribute<TagAttribute>();
-        string typeId = attr != null ? attr.Tag : GetType().FullName;
+        string? typeId = attr != null ? attr.Tag : GetType().FullName;
         Assert.NotNull(typeId);
         Assert.StartsWith(PartBase.FR_PREFIX, typeId);
     }
@@ -163,9 +163,10 @@ public sealed class __NAME__LayerFragmentTest
         __NAME__LayerFragment fragment = GetFragment();
 
         string json = TestHelper.SerializeFragment(fragment);
-        __NAME__LayerFragment fragment2 =
+        __NAME__LayerFragment? fragment2 =
             TestHelper.DeserializeFragment<__NAME__LayerFragment>(json);
 
+        Assert.NotNull(fragment2);
         Assert.Equal(fragment.Location, fragment2.Location);
         // TODO: check fragments data here...
     }

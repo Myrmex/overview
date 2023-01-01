@@ -96,22 +96,18 @@ using Xunit;
 
 public sealed class __NAME__LayerFragmentSeederTest
 {
-    private static readonly PartSeederFactory _factory;
-    private static readonly SeedOptions _seedOptions;
-    private static readonly IItem _item;
-
-    static __NAME__LayerFragmentSeederTest()
-    {
-        _factory = TestHelper.GetFactory();
-        _seedOptions = _factory.GetSeedOptions();
-        _item = _factory.GetItemSeeder().GetItem(1, "facet");
-    }
+    private static readonly PartSeederFactory _factory
+         = TestHelper.GetFactory();
+    private static readonly SeedOptions _seedOptions
+         = _factory.GetSeedOptions();
+    private static readonly IItem _item =
+        _factory.GetItemSeeder().GetItem(1, "facet");
 
     [Fact]
     public void TypeHasTagAttribute()
     {
         Type t = typeof(__NAME__LayerFragmentSeeder);
-        TagAttribute attr = t.GetTypeInfo().GetCustomAttribute<TagAttribute>();
+        TagAttribute? attr = t.GetTypeInfo().GetCustomAttribute<TagAttribute>();
         Assert.NotNull(attr);
         Assert.Equal("seed.fr.it.vedph.__PRJ__.__NAME__", attr.Tag);
     }
@@ -119,14 +115,14 @@ public sealed class __NAME__LayerFragmentSeederTest
     [Fact]
     public void GetFragmentType_Ok()
     {
-        __NAME__LayerFragmentSeeder seeder = new __NAME__LayerFragmentSeeder();
+        __NAME__LayerFragmentSeeder seeder = new();
         Assert.Equal(typeof(__NAME__LayerFragment), seeder.GetFragmentType());
     }
 
     [Fact]
     public void Seed_WithOptions_Ok()
     {
-        __NAME__LayerFragmentSeeder seeder = new __NAME__LayerFragmentSeeder();
+        __NAME__LayerFragmentSeeder seeder = new();
         seeder.SetSeedOptions(_seedOptions);
         seeder.Configure(new __NAME__LayerFragmentSeederOptions
         {
@@ -140,7 +136,7 @@ public sealed class __NAME__LayerFragmentSeederTest
             // }
         });
 
-        ITextLayerFragment fragment = seeder.GetFragment(_item, "1.1", "alpha");
+        ITextLayerFragment fragment? = seeder.GetFragment(_item, "1.1", "alpha");
 
         Assert.NotNull(fragment);
 
