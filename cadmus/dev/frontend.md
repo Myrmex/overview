@@ -37,7 +37,71 @@ The typical steps for developing a Cadmus frontend (as based on the [reference s
 
 (2) enter the newly created directory and **add Angular Material** via `ng add @angular/material` (choose the Indigo/Pink theme - or whatever you prefer -, setup typography styles=yes, include and enable animations=yes).
 
-(3) (optional) if adding new parts/fragments, you will need to **add libraries** for them. Each library is added like `ng generate library @myrmidon/cadmus-<PRJ>-<NAME> --prefix <PRJ>`. The typical structure usually includes these libraries (`@myrmidon` here is my NPM name, used as a namespace for all my Cadmus libraries):
+(3) (optional) if adding new parts/fragments, you will need to **add libraries** for them. Libraries can be organized in two ways: one library per component, or one library per components group.
+
+>The choice is yours, and depends on the library's target and components nature. Typically, if your components will potentially be used by several different projects, you will create a library per component. If instead your components constitute a coherent group, where none of them is probably going to be used in isolation without the others, you have better create a single library with all the components belonging to that group.
+
+(3a) If you are going to create one library per component:
+
+- the library is added like `ng generate library @myrmidon/cadmus-part-<PRJ>-<NAME> --prefix <PRJ>`, e.g. `cadmus-part-itinera-cod-loci` (use `fr` instead of `part` for fragments).
+- in each library you will have:
+  - the part/fragment model (e.g. a file `cod-loci-part`).
+  - the part/fragment editor UI (e.g. a folder with the `cod-loci-part` editor component).
+  - the part/fragment editor wrapper (e.g. a folder with the `cod-loci-part-feature` editor wrapper).
+- also, a library for all of your components in the project will provide routes to the editor wrappers (e.g. `cadmus-part-itinera-pg`). This will include only the library module, which imports all the single component libraries, and exports routes like e.g.:
+
+```ts
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { CadmusStateModule } from '@myrmidon/cadmus-state';
+import { CadmusUiModule } from '@myrmidon/cadmus-ui';
+import { CadmusUiPgModule } from '@myrmidon/cadmus-ui-pg';
+
+// cadmus
+import { CadmusCoreModule, PendingChangesGuard } from '@myrmidon/cadmus-core';
+import {
+  COD_LOCI_PART_TYPEID,
+  CodLociPartFeatureComponent,
+  CadmusPartItineraCodLociModule,
+} from '@myrmidon/cadmus-part-itinera-cod-loci';
+// ... etc.
+
+export const RouterModuleForChild = RouterModule.forChild([
+  {
+    path: `${COD_LOCI_PART_TYPEID}/:pid`,
+    pathMatch: 'full',
+    component: CodLociPartFeatureComponent,
+    canDeactivate: [PendingChangesGuard],
+  },
+  // ... etc.
+});
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // Cadmus
+    RouterModuleForChild,
+    CadmusCoreModule,
+    CadmusStateModule,
+    CadmusUiModule,
+    CadmusUiPgModule,
+    // Itinera
+    CadmusPartItineraCodLociModule,
+    // ... etc.
+  ],
+  exports: [],
+})
+export class CadmusPartItineraPgModule {}
+```
+
+(3b) if instead you are grouping several components in a single library:
+
+- the library is added like `ng generate library @myrmidon/cadmus-<PRJ>-ui --prefix <PRJ>`. The typical structure usually includes these libraries (`@myrmidon` here is my NPM name, used as a namespace for all my Cadmus libraries):
 
 - `@myrmidon/cadmus-<PRJ>-part-ui`: parts and fragments editors.
 - `@myrmidon/cadmus-<PRJ>-part-pg`: parts and fragments editors wrappers with routing.
@@ -47,9 +111,7 @@ Eventually, for more complex projects you can add other libraries like:
 - `@myrmidon/cadmus-<PRJ>-core` (optional): core models and eventually services, shared by several parts of the same project.
 - `@myrmidon/cadmus-<PRJ>-ui` (optional): UI components shared by several parts of the same project.
 
-Alternatively, a more granular architecture can be used if you plan to create part/fragment editors to be reused in other projects. In this case, you can create a library for each single editor. If you later realize that some of the editors you created can be promoted to a higher level of abstraction for sharing them across projects, you can create new libraries in a distinct shell, and then replace the original ones in your app project by importing these new libraries.
-
-Once you create a library, remove the stub code files added by Angular CLI: the sample component and its service. Also, take the time for adding more metadata to its `package.json` file, e.g. (replace `__PRJ__` with your project's ID):
+Whatever architecture you pick, once you create a library, remove the stub code files added by Angular CLI: the sample component and its service. Also, take the time for adding more metadata to its `package.json` file, e.g. (replace `__PRJ__` with your project's ID):
 
 ```json
 {
