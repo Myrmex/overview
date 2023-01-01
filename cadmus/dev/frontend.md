@@ -326,12 +326,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+// ELF
+import { devTools } from '@ngneat/elf-devtools';
+import { Actions } from '@ngneat/effects-ng';
+
 // ngx-monaco
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 // ngx-markdown
 import { MarkdownModule } from 'ngx-markdown';
 
 // myrmidon
+import { NgxDirtyCheckModule } from '@myrmidon/ngx-dirty-check';
 import { EnvServiceProvider, NgToolsModule } from '@myrmidon/ng-tools';
 import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
 import {
@@ -424,6 +429,7 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
     // myrmidon
     NgToolsModule,
     NgMatToolsModule,
+    NgxDirtyCheckModule,
     AuthJwtLoginModule,
     AuthJwtAdminModule,
     // cadmus bricks
@@ -454,6 +460,16 @@ export class AppModule {}
 (3) add the providers in the `providers` array, including `EnvServiceProvider`, DI tokens for extension points, and HTTP interceptor for adding the JWT token to each request made to the backend server.
 
 ```ts
+// https://ngneat.github.io/elf/docs/dev-tools/
+export function initElfDevTools(actions: Actions) {
+  return () => {
+    devTools({
+      name: 'Cadmus __PRJ__',
+      actionsDispatcher: actions,
+    });
+  };
+}
+
 @NgModule({
     // ...
   providers: [
@@ -484,6 +500,13 @@ export class AppModule {}
       useClass: AuthJwtInterceptor,
       multi: true,
     },
+    // ELF dev tools
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      useFactory: initElfDevTools,
+      deps: [Actions],
+    },    
   ]
 })
 export class AppModule {}
