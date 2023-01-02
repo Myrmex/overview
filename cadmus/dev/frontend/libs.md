@@ -21,7 +21,7 @@ When creating libraries parts and fragments, you can use different approaches ac
 
 Of course, you can also adopt a mixed strategy, reserving single-editor libraries for single reusable editors, and multiple-editors libraries for project-specific editors.
 
-In both cases, the procedure for adding a new library to the app's workspace is detailed in the [frontend section](frontend.md#create-angular-app). Here I assume that the library where you will store your editor(s) have already been created.
+In both cases, the procedure for adding a new library to the app's workspace is detailed in the [app section](app.md). Here I assume that the library where you will store your editor(s) have already been created.
 
 In a multiple-editors approach, you create two libraries: one with the editors UI, and another for their page wrappers. Conventionally, these libraries are suffixed with `-ui` and `-pg` respectively. In the single editor approach instead you create a single library for each editor, containing both the editor UI and its page wrapper.
 
