@@ -12,10 +12,10 @@ subtitle: "Cadmus Frontend Development"
 
 📌 Add to a frontend library a custom Cadmus model (part) with its editor.
 
-1. [app](frontend/app.md)
-2. [libraries](frontend/libs.md)
+1. [app](app.md)
+2. [libraries](libs.md)
 3. **parts**
-4. [fragments](frontend/fragments.md) (optional)
+4. [fragments](fragments.md) (optional)
 
 ## Adding Part
 

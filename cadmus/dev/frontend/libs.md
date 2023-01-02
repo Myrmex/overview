@@ -10,10 +10,10 @@ subtitle: "Cadmus Frontend Development"
 
 📌 Create frontend libraries for custom Cadmus models (parts/fragments).
 
-1. [app](frontend/app.md)
+1. [app](app.md)
 2. **libraries**
-3. [parts](frontend/parts.md) (optional)
-4. [fragments](frontend/fragments.md) (optional)
+3. [parts](parts.md) (optional)
+4. [fragments](fragments.md) (optional)
 
 ## Adding Libraries
 

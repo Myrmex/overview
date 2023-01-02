@@ -6,13 +6,13 @@ subtitle: "Cadmus Backend Development"
 
 📌 Create a repository provider service to provide models, and a part seeder factory provider to provide part or fragment seeders when using mock data.
 
-1. [core](backend/core.md)
-2. [parts](backend/parts.md)
-3. [part seeders](backend/part-seeders.md)
-4. [fragments](backend/fragments.md)
-5. [fragment seeders](backend/fragment-seeders.md)
+1. [core](core.md)
+2. [parts](parts.md)
+3. [part seeders](part-seeders.md)
+4. [fragments](fragments.md)
+5. [fragment seeders](fragment-seeders.md)
 6. **services**
-7. [API](backend/api.md)
+7. [API](api.md)
 
 ## Creating Services
 

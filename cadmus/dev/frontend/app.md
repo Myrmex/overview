@@ -20,9 +20,9 @@ subtitle: "Cadmus Frontend Development"
 📌 Task: create a Cadmus frontend web app in a new Angular workspace.
 
 1. **app**
-2. [libraries](frontend/libs.md)
-3. [parts](frontend/parts.md) (optional)
-4. [fragments](frontend/fragments.md) (optional)
+2. [libraries](libs.md)
+3. [parts](parts.md) (optional)
+4. [fragments](fragments.md) (optional)
 
 The typical steps for developing a Cadmus frontend (as based on the [reference shell](https://github.com/vedph/cadmus-shell-2)) are:
 

@@ -14,12 +14,12 @@ subtitle: "Cadmus Backend Development"
 
 📌 Create the backend API surface layer used by frontend editors.
 
-1. [core](backend/core.md)
-2. [parts](backend/parts.md)
-3. [part seeders](backend/part-seeders.md)
-4. [fragments](backend/fragments.md)
-5. [fragment seeders](backend/fragment-seeders.md)
-6. [services](backend/services.md)
+1. [core](core.md)
+2. [parts](parts.md)
+3. [part seeders](part-seeders.md)
+4. [fragments](fragments.md)
+5. [fragment seeders](fragment-seeders.md)
+6. [services](services.md)
 7. **API**
 
 ## Creating the API Project

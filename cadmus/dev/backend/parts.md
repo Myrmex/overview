@@ -19,13 +19,13 @@ subtitle: Cadmus Backend Development
 
 📌 Add to a backend library a custom Cadmus model (part).
 
-1. [core](backend/core.md)
+1. [core](core.md)
 2. **parts**
-3. [part seeders](backend/part-seeders.md)
-4. [fragments](backend/fragments.md)
-5. [fragment seeders](backend/fragment-seeders.md)
-6. [services](backend/services.md)
-7. [API](backend/api.md)
+3. [part seeders](part-seeders.md)
+4. [fragments](fragments.md)
+5. [fragment seeders](fragment-seeders.md)
+6. [services](services.md)
+7. [API](api.md)
 
 ## Parts
 

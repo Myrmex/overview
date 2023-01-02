@@ -13,12 +13,12 @@ subtitle: "Cadmus Backend Development"
 📌 Create a set of backend custom Cadmus models (parts/fragments) with their unit tests and mock data seeders.
 
 1. **core**
-2. [parts](backend/parts.md)
-3. [part seeders](backend/part-seeders.md)
-4. [fragments](backend/fragments.md)
-5. [fragment seeders](backend/fragment-seeders.md)
-6. [services](backend/services.md)
-7. [API](backend/api.md)
+2. [parts](parts.md)
+3. [part seeders](part-seeders.md)
+4. [fragments](fragments.md)
+5. [fragment seeders](fragment-seeders.md)
+6. [services](services.md)
+7. [API](api.md)
 
 The backend is a set of C# libraries, built with VS. This step is required only if you have new data models (parts or fragments) specific to your project.
 

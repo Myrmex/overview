@@ -12,13 +12,13 @@ subtitle: "Cadmus Backend Development"
 
 📌 Add to a backend library a mock data seeder for a custom Cadmus model (part seeder).
 
-1. [core](backend/core.md)
-2. [parts](backend/parts.md)
+1. [core](core.md)
+2. [parts](parts.md)
 3. **part seeders**
-4. [fragments](backend/fragments.md)
-5. [fragment seeders](backend/fragment-seeders.md)
-6. [services](backend/services.md)
-7. [API](backend/api.md)
+4. [fragments](fragments.md)
+5. [fragment seeders](fragment-seeders.md)
+6. [services](services.md)
+7. [API](api.md)
 
 ## Packages
 
