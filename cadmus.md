@@ -12,6 +12,7 @@ subtitle: Structured Content Creation System
 
 - [developer's guide](cadmus/dev/toc.md)
 - [hosting Cadmus](cadmus/hosting.md)
+  - [installing Docker](cadmus/docker-setup.md)
   - [configuring HTTPS](cadmus/https.md)
 - [projects using Cadmus](cadmus/projects.md)
 

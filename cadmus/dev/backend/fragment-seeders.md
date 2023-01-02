@@ -4,6 +4,19 @@ title: Creating Fragment Seeders
 subtitle: "Cadmus Backend Development"
 ---
 
+- [Fragment Seeder Template](#fragment-seeder-template)
+- [Fragment Seeder Test Template](#fragment-seeder-test-template)
+
+📌 Add to a backend library a mock data seeder for a custom Cadmus model in a text layer (fragment seeder).
+
+1. [core](backend/core.md)
+2. [parts](backend/parts.md)
+3. [part seeders](backend/part-seeders.md)
+4. [fragments](backend/fragments.md)
+5. **fragment seeders**
+6. [services](backend/services.md)
+7. [API](backend/api.md)
+
 ## Fragment Seeder Template
 
 Add a `<NAME>LayerFragmentSeeder.cs` for the seeder, using this template (replace `__NAME__` with the fragment name, using the proper case, and adjust the namespace):
@@ -149,6 +162,6 @@ public sealed class __NAME__LayerFragmentSeederTest
 }
 ```
 
-For test helper and its infrastructure see about [adding parts](adding-parts.md#test-helper).
+For test helper and its infrastructure see about [adding parts](parts.md#test-helper).
 
-▶️ next: [creating services](backend-core-svc.md)
+▶️ next: [services](services.md)

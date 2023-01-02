@@ -17,6 +17,16 @@ subtitle: Cadmus Backend Development
 - [Layer Parts](#layer-parts)
   - [Layer Fragment Test Template](#layer-fragment-test-template)
 
+📌 Add to a backend library a custom Cadmus model (part).
+
+1. [core](backend/core.md)
+2. **parts**
+3. [part seeders](backend/part-seeders.md)
+4. [fragments](backend/fragments.md)
+5. [fragment seeders](backend/fragment-seeders.md)
+6. [services](backend/services.md)
+7. [API](backend/api.md)
+
 ## Parts
 
 Guidelines for **implementing a part**:
@@ -607,4 +617,4 @@ public sealed class __NAME__LayerFragmentTest
 }
 ```
 
-▶️ next: [creating part seeders](backend-part-seeder.md)
+▶️ next: [part seeders](part-seeders.md)

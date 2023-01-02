@@ -13,7 +13,7 @@ subtitle: "Cadmus Development"
   - [Developer's Hints](#developers-hints)
   - [PinLinksPart](#pinlinkspart)
 
-Dynamic lookup refers to a feature of the system providing lookup data sets dynamically built from searching the underlying index. This feature stands side to side to the static lookup data sets provided by thesauri.
+_Dynamic lookup_ refers to a feature of the system providing lookup data sets dynamically built from searching the underlying index. This feature stands side to side to the _static lookup_ data sets provided by [thesauri](thesauri.md).
 
 ### Concept and Issues
 

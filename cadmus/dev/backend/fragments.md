@@ -4,16 +4,23 @@ title: Creating Fragments
 subtitle: "Cadmus Backend Development"
 ---
 
-- [Creating Fragment](#creating-fragment)
 - [Fragment Template](#fragment-template)
 - [Fragment Test Template](#fragment-test-template)
 
-## Creating Fragment
+📌 Add to a backend library a custom Cadmus model for a text layer (fragment).
+
+1. [core](backend/core.md)
+2. [parts](backend/parts.md)
+3. [part seeders](backend/part-seeders.md)
+4. **fragments**
+5. [fragment seeders](backend/fragment-seeders.md)
+6. [services](backend/services.md)
+7. [API](backend/api.md)
 
 The typical procedure is:
 
 1. add fragment.
-2. add [seeder](backend-fragment-seeder.md) and its tests.
+2. add [seeder](fragment-seeders.md) and its tests.
 3. add fragment test.
 
 ## Fragment Template
@@ -258,4 +265,4 @@ namespace Cadmus.__PRJ__.Parts.Test
 }
 ```
 
-▶️ next: [creating fragment seeders](backend-fragment-seeder.md)
+▶️ next: [fragment seeders](fragment-seeders.md)

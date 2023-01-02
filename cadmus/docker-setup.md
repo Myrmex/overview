@@ -66,26 +66,26 @@ Check for installation: `docker --version`.
 
 Docker compose (V2) now comes as a plugin, which is automatically installed by the desktop versions of Docker for Windows/MacOS. As for Linux, you install it with the commands shown here (from <https://www.rockyourcode.com/how-to-install-docker-compose-v2-on-linux-2021/>):
 
-1. find the latest release with the v2 tag at <https://github.com/docker/compose/tree/v2> (e.g. 2.12.2).
+(1) find the latest release with the v2 tag at <https://github.com/docker/compose/tree/v2> (e.g. 2.12.2).
 
-2. ensure that the Docker CLI plugins directory exists:
+(2) ensure that the Docker CLI plugins directory exists:
 
 ```bash
 mkdir -p ~/.docker/cli-plugins
 ```
 
-3. download the compose CLI plugin (here replace version `2.12.2` with the latest one):
+(3) download the compose CLI plugin (here replace version `2.12.2` with the latest one):
 
 ```bash
 curl -sSL https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-linux-x86_64 -o ~/.docker/cli-plugins/docker-compose
 ```
 
-4. make it executable:
+(4) make it executable:
 
 ```bash
 chmod +x ~/.docker/cli-plugins/docker-compose
 ```
 
-5. check with: `docker compose version`.
+(5) check with: `docker compose version`.
 
 >Remember that docker V2 being a plugin no more uses dashes (like `docker-compose`) but rather spaces (like `docker compose`).

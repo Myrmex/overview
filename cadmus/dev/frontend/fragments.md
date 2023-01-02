@@ -8,6 +8,13 @@ subtitle: "Cadmus Frontend Development"
 - [Adding UI Editor](#adding-ui-editor)
 - [Adding PG Editor Wrapper](#adding-pg-editor-wrapper)
 
+📌 Add to a frontend library a custom Cadmus model for text layers (fragment) with its editor.
+
+1. [app](frontend/app.md)
+2. [libraries](frontend/libs.md)
+3. [parts](frontend/parts.md) (optional)
+4. **fragments**
+
 Adding a fragment is very similar to [adding a part](frontend-part.md). Libraries may include both parts and fragments, and are created in the same way (see [adding libraries](frontend-part.md#adding-libraries) in the parts section).
 
 ## Adding Fragment

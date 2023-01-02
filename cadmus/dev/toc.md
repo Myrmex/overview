@@ -4,35 +4,36 @@ title: Cadmus Development
 subtitle: Summary
 ---
 
+- [Backend](#backend)
+- [Frontend](#frontend)
+- [Concepts](#concepts)
+
 To create a Cadmus editor for your project, you need a backend and a frontend. For the most part, you will end up just customizing the provided code templates, so you do not need advanced programming skills to setup an editor. Of course, a minimal familiarity with the languages and technologies involved is required.
-
-## Environment
-
-Cadmus has a layered architecture, essentially relying on .NET (C#) for the backend core and API, and on Angular 15+ (Typescript) for the frontend. This implies setting up a full-stack [development environment](devenv.md), including:
-
-- MongoDB
-- MySql
-- [NodeJS](https://nodejs.org/en/download/)
-- [Angular CLI](https://github.com/angular/angular-cli)
-- [Visual Studio Community Edition](https://visualstudio.microsoft.com/vs/community/) or higher.
-- a code editor like [VSCode](https://code.visualstudio.com/)
-- [Docker](../docker-setup.md)
-
-## Summary
 
 You start with creating backend core libraries, eventually adding your own parts and fragments, with their seeders and tests. Then, you add a couple of services which put all the pieces together, and are consumed by the API layer. Once done, you create the backend API by just assembling the pieces you created with those coming from Cadmus infrastructure.
 
 Then, you create an Angular workspace for your frontend app, eventually adding the editors corresponding to your own parts and fragments. Apart from this, the app is built by just assembling pieces from the Cadmus infrastructure.
 
-1. [backend](backend.md)
-   1. [core data models](backend-core.md) (optional)
-      1. [parts](backend-part.md)
-      2. [part seeders](backend-part-seeder.md)
-      3. [fragments](backend-fragment.md)
-      4. [fragment seeders](backend-fragment-seeder.md)
-      5. [services](backend-core-svc.md)
-   2. [backend services](backend-core-svc.md)
-   3. [backend API](backend-api.md)
-2. [frontend](frontend.md)
-   1. [parts](frontend-part.md) (optional)
-   2. [fragments](frontend-fragment.md) (optional)
+👉 Setup a Cadmus [development environment](devenv.md) and [Docker](../docker-setup.md).
+
+## Backend
+
+1. [core](backend/core.md)
+2. [parts](backend/parts.md)
+3. [part seeders](backend/part-seeders.md)
+4. [fragments](backend/fragments.md)
+5. [fragment seeders](backend/fragment-seeders.md)
+6. [services](backend/services.md)
+7. [API](backend/api.md)
+
+## Frontend
+
+1. [app](frontend/app.md)
+2. [libraries](frontend/libs.md)
+3. [parts](frontend/parts.md) (optional)
+4. [fragments](frontend/fragments.md) (optional)
+
+## Concepts
+
+- [static data lookup: thesauri](concepts/thesauri.md)
+- [dynamic data lookup strategies](concepts/lookup.md)

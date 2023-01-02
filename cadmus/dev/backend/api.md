@@ -12,6 +12,16 @@ subtitle: "Cadmus Backend Development"
 - [Docker](#docker)
 - [Readme](#readme)
 
+📌 Create the backend API surface layer used by frontend editors.
+
+1. [core](backend/core.md)
+2. [parts](backend/parts.md)
+3. [part seeders](backend/part-seeders.md)
+4. [fragments](backend/fragments.md)
+5. [fragment seeders](backend/fragment-seeders.md)
+6. [services](backend/services.md)
+7. **API**
+
 ## Creating the API Project
 
 The [reference API backend project](https://github.com/vedph/cadmus_api) is the model for this section.

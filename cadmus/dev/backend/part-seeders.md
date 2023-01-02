@@ -4,17 +4,21 @@ title: Creating Part Seeders
 subtitle: "Cadmus Backend Development"
 ---
 
-- [Requirements](#requirements)
 - [Packages](#packages)
 - [Part Seeder Templates](#part-seeder-templates)
   - [Part Seeder](#part-seeder)
   - [Part Seeder Test](#part-seeder-test)
     - [Test Helper](#test-helper)
 
-## Requirements
+📌 Add to a backend library a mock data seeder for a custom Cadmus model (part seeder).
 
-- Visual Studio Community Edition or higher.
-- basic knowledge of the C# language.
+1. [core](backend/core.md)
+2. [parts](backend/parts.md)
+3. **part seeders**
+4. [fragments](backend/fragments.md)
+5. [fragment seeders](backend/fragment-seeders.md)
+6. [services](backend/services.md)
+7. [API](backend/api.md)
 
 ## Packages
 
@@ -275,4 +279,4 @@ static internal class TestHelper
 }
 ```
 
-▶️ next: [creating fragments](backend-fragment.md)
+▶️ next: [fragments](fragments.md)

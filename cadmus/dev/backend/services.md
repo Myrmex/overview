@@ -4,11 +4,23 @@ title: Creating Services
 subtitle: "Cadmus Backend Development"
 ---
 
+📌 Create a repository provider service to provide models, and a part seeder factory provider to provide part or fragment seeders when using mock data.
+
+1. [core](backend/core.md)
+2. [parts](backend/parts.md)
+3. [part seeders](backend/part-seeders.md)
+4. [fragments](backend/fragments.md)
+5. [fragment seeders](backend/fragment-seeders.md)
+6. **services**
+7. [API](backend/api.md)
+
 ## Creating Services
 
-Your backend requires a couple of services to collect all the backend pieces together, making them available to the [API layer](backend-api.md).
+If the models you created are part of a specific project, you will typically require to collect all the required models together using a couple of services. These services will then be consumed by the [API layer](api.md).
 
-(1) add these packages to the services project (updating version numbers as required):
+>If instead you are just creating models to be consumed by several different projects, you will not need such services, as every project will have its own services collecting the parts/fragments it requires.
+
+Add these packages to the services project (updating version numbers as required):
 
 ```xml
 <ItemGroup>
@@ -23,7 +35,9 @@ Your backend requires a couple of services to collect all the backend pieces tog
 </ItemGroup>
 ```
 
-(2) add a `<PRJ>RepositoryProvider` class, using this template (the only part which requires customization is the constructor):
+## Repository Provider
+
+Add a `<PRJ>RepositoryProvider` class, using this template (the only part which requires customization is the constructor):
 
 ```cs
 using System;
@@ -106,7 +120,9 @@ namespace Cadmus.__PRJ__.Services
 }
 ```
 
-(3) add a `<PRJ>PartSeederFactoryProvider` class, following this template:
+## Part Seeder Factory Provider
+
+Add a `<PRJ>PartSeederFactoryProvider` class, following this template:
 
 ```cs
 using Cadmus.Core.Config;
@@ -173,4 +189,4 @@ namespace Cadmus.__PRJ__.Services
 }
 ```
 
-▶️ next: [creating API](backend-api.md)
+▶️ next: [API](api.md)
