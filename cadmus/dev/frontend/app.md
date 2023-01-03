@@ -96,7 +96,7 @@ This is essential to let the frontend find the server, while allowing us to manu
 
   // environment-dependent settings
   window.__env.apiUrl = "http://localhost:60849/api/";
-  window.__env.version = "1.0.0";
+  window.__env.version = "0.0.1";
 })(this);
 ```
 
@@ -228,7 +228,7 @@ Edit the `app.module.ts` file of your app as follows:
   ],
 ```
 
-(2) add all the required modules in the `imports` array, which depend on the packages you installed. Here a typical example follows, adjust it as required:
+(2) add all the required modules in the `imports` array, which depend on the packages you installed; and add in the `providers` array Cadmus and ELF development tools providers. Here a typical example follows, adjust it as required:
 
 ```ts
 import { NgModule } from '@angular/core';
@@ -272,12 +272,17 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 
+// ELF
+import { devTools } from '@ngneat/elf-devtools';
+import { Actions } from '@ngneat/effects-ng';
+
 // ngx-monaco
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 // ngx-markdown
 import { MarkdownModule } from 'ngx-markdown';
 
 // myrmidon
+import { NgxDirtyCheckModule } from '@myrmidon/ngx-dirty-check';
 import { EnvServiceProvider, NgToolsModule } from '@myrmidon/ng-tools';
 import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
 import {
@@ -318,6 +323,16 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { PART_EDITOR_KEYS } from './part-editor-keys';
 import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
 import { ITEM_BROWSER_KEYS } from './item-browser-keys';
+
+// https://ngneat.github.io/elf/docs/dev-tools/
+export function initElfDevTools(actions: Actions) {
+  return () => {
+    devTools({
+      name: 'Cadmus __PRJ__',
+      actionsDispatcher: actions,
+    });
+  };
+}
 
 @NgModule({
   // ...
@@ -369,6 +384,7 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
     // myrmidon
     NgToolsModule,
     NgMatToolsModule,
+    NgxDirtyCheckModule,
     AuthJwtLoginModule,
     AuthJwtAdminModule,
     // cadmus bricks
@@ -391,16 +407,6 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
     CadmusThesaurusListModule,
     CadmusThesaurusUiModule,
   ],
-  // ...
-})
-export class AppModule {}
-```
-
-(3) add the providers in the `providers` array, including `EnvServiceProvider`, DI tokens for extension points, and HTTP interceptor for adding the JWT token to each request made to the backend server.
-
-```ts
-@NgModule({
-    // ...
   providers: [
     // environment service
     EnvServiceProvider,
@@ -429,7 +435,15 @@ export class AppModule {}
       useClass: AuthJwtInterceptor,
       multi: true,
     },
-  ]
+    // ELF dev tools
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      useFactory: initElfDevTools,
+      deps: [Actions],
+    },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
 ```
