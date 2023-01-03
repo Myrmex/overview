@@ -617,4 +617,6 @@ public sealed class __NAME__LayerFragmentTest
 }
 ```
 
+🏠 [developer's home](../toc.md)
+
 ▶️ next: [part seeders](part-seeders.md)

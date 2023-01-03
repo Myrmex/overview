@@ -169,4 +169,6 @@ pause
 
 (in this sample I'm publishing the Debug versions for diagnostic purposes, but you should pick the Release version once you are comfortable with it).
 
+🏠 [developer's home](../toc.md)
+
 ▶️ next: [parts](parts.md)

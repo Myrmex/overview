@@ -164,4 +164,6 @@ public sealed class __NAME__LayerFragmentSeederTest
 
 For test helper and its infrastructure see about [adding parts](parts.md#test-helper).
 
+🏠 [developer's home](../toc.md)
+
 ▶️ next: [services](services.md)

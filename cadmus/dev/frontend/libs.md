@@ -185,4 +185,6 @@ Once you create a library, whatever its type:
 
 The `build-lib` command is used to build all the libraries in the workspace. Be sure to enumerate them in their order of dependencies when writing the command.
 
+🏠 [developer's home](../toc.md)
+
 ▶️ next: [parts](parts.md)

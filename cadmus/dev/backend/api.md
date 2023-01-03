@@ -26,13 +26,13 @@ subtitle: "Cadmus Backend Development"
 
 The [reference API backend project](https://github.com/vedph/cadmus_api) is the model for this section.
 
-1. create a new ASP.NET Core 7.0 web API project (no authentication) named `Cadmus<PRJ>Api`: select `None` for `Authentication type`, ensure that `Enable Docker` and `Use HTTPS` is disabled (we'll provide our own Docker files), ensure that `Use controllers`, `Enable OpenAPI support`, and `Do not use top-level statements` are checked.
+(1) create a new ASP.NET Core 7.0 web API project (no authentication) named `Cadmus<PRJ>Api`: select `None` for `Authentication type`, ensure that `Enable Docker` and `Use HTTPS` is disabled (we'll provide our own Docker files), ensure that `Use controllers`, `Enable OpenAPI support`, and `Do not use top-level statements` are checked.
 
 >Remember to disable HTTPS. In most API configurations HTTPS is managed by a reverse proxy, and this option is not required here in development.
 
-2. remove the mock `WeatherForecast.cs` class and its corresponding `WeatherForecastController.cs` class from the `Controllers` folder.
+(2) remove the mock `WeatherForecast.cs` class and its corresponding `WeatherForecastController.cs` class from the `Controllers` folder.
 
-3. add these NuGet packages:
+(3) add these NuGet packages:
 
 - `AspNetCore.Identity.Mongo`
 - `Cadmus.Api.Controllers`
@@ -850,3 +850,5 @@ Quick Docker image build:
 
 This is a Cadmus API layer customized for the PRJ project. Most of its code is derived from shared Cadmus libraries.
 ```
+
+🏠 [developer's home](../toc.md)

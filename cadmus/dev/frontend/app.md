@@ -854,4 +854,6 @@ Quick Docker image build:
 3. `docker build . -t vedph2020/cadmus-__PRJ__-app:0.0.1 -t vedph2020/cadmus-__PRJ__-app:latest` (replace with the current version).
 ```
 
+🏠 [developer's home](../toc.md)
+
 ▶️ next: [libraries](libs.md)

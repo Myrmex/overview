@@ -265,4 +265,6 @@ namespace Cadmus.__PRJ__.Parts.Test
 }
 ```
 
+🏠 [developer's home](../toc.md)
+
 ▶️ next: [fragment seeders](fragment-seeders.md)

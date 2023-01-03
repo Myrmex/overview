@@ -279,4 +279,6 @@ static internal class TestHelper
 }
 ```
 
+🏠 [developer's home](../toc.md)
+
 ▶️ next: [fragments](fragments.md)

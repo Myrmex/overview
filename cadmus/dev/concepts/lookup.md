@@ -177,3 +177,5 @@ This definition says that there is a lookup type named `site` which draws its pi
 
 - ensure that the site item has a metadata part, with its human friendly ID in a pair with name=`hid`, and value equal to the desired ID (e.g. `epidauros`).
 - add a pin links part to the inscription item, and pick as link type the one named `site`. Note that this `site` type is automatically inferred from the index lookup definitions defined in your project. Once you have picked this type, just type some letters to fetch a list of matching site human-friendly IDs; so, you can type `ep` and immediately find `epidauros`. If you pick this from the lookup list, a link will be added from the inscription to the site which contains a metadata part with a `hid` metadatum equal to `epidauros`.
+
+🏠 [developer's home](../toc.md)

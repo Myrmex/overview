@@ -282,3 +282,5 @@ The HTML template just wraps the UI editor preceded by a current-item bar:
 ```
 
 Here, the type ID of the fragment (from its model in the "ui" library) is mapped to the route prefix constant TGR_GR = `tgr-gr`, which is the root route to the "pg" library module for the app.
+
+🏠 [developer's home](../toc.md)

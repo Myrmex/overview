@@ -189,4 +189,6 @@ namespace Cadmus.__PRJ__.Services
 }
 ```
 
+🏠 [developer's home](../toc.md)
+
 ▶️ next: [API](api.md)
