@@ -41,6 +41,8 @@ The typical steps for developing a Cadmus frontend (as based on the [reference s
 
 (1) create a **new Angular app**: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use CSS (you may use SCSS if you prefer, or if you want to customize your theme).
 
+>If you are creating an app for the only purpose of developing component libraries in it, the convention is naming it as `-shell` rather than `-app`.
+
 (2) enter the newly created directory and **add Angular Material** via `ng add @angular/material` (choose the Indigo/Pink theme - or whatever you prefer -, setup typography styles=yes, include and enable animations=yes).
 
 (3) install ELF with command `npx @ngneat/elf-cli install`. When prompted, install:
@@ -454,11 +456,9 @@ In `app-routing.module.ts`:
 
 (1) add routes as sampled in the [reference project](https://github.com/vedph/cadmus-shell-2). You should have routes for:
 
-- static pages, like home;
-- user authentication and accounts wrappers pages: login, reset password, register user, manage users;
-- Cadmus-specific pages like items list and editor, thesauri list and editor, the parts you want, and eventually the graph and preview pages.
-
-Also ensure that you specify options in the root router module like in the reference app.
+- _static pages_, like home;
+- user authentication and _account_ management pages: login, reset password, register user, manage users;
+- _Cadmus-specific pages_ like items list and editor, thesauri list and editor, the parts you want, and eventually the graph and preview pages.
 
 The following is a generic sample:
 
@@ -833,8 +833,8 @@ Finally, you can add Docker support to create an image of your frontend app. Use
 
 - `Dockerfile`
 - `nginx.conf`: the NGINX configuration for serving the web app from the Docker container.
-- `docker-compose.yml`: customize this for the image names and versions.
-- `docker-compose_linux-vol.yml`: a variation of the preceding, using Linux-hosted volumes for persistent data storage.
+- `docker-compose.yml`: _customize this_ for the image names and versions.
+- `docker-compose_linux-vol.yml`: a variation of the preceding, using Linux-hosted volumes for persistent data storage. _Customize this_ in the same way as the preceding one.
 - `dockerignore`
 
 ## Readme Template
@@ -851,7 +851,7 @@ Quick Docker image build:
 
 1. `npm run build-lib`
 2. update version in `env.js` and `ng build`
-3. `docker build . -t vedph2020/cadmus-__PRJ__-app:1.0.0 -t vedph2020/cadmus-__PRJ__-app:latest` (replace with the current version).
+3. `docker build . -t vedph2020/cadmus-__PRJ__-app:0.0.1 -t vedph2020/cadmus-__PRJ__-app:latest` (replace with the current version).
 ```
 
 ▶️ next: [libraries](libs.md)
