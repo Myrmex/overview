@@ -454,11 +454,11 @@ HTML:
           <div>
             <button
               type="button"
-              mat-icon-button
+              mat-flat-button
               color="primary"
               (click)="add__NAME__()"
             >
-              <mat-icon>add_circle</mat-icon>
+              <mat-icon>add_circle</mat-icon> __NAME__
             </button>
           </div>
           <table *ngIf="entries.value?.length">
@@ -565,8 +565,10 @@ export class __NAME__Component implements OnInit {
     return this._model;
   }
   public set model(value: __TYPE__ | undefined | null) {
-    this._model = value;
-    this.updateForm(value);
+    if (this._model !== value) {
+      this._model = value;
+      this.updateForm(value);
+    }
   }
 
   @Output()
