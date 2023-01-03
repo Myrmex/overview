@@ -330,12 +330,12 @@ export class __NAME__sPartComponent
     // }
   }
 
-  private updateForm(part?: __NAME__sPart): void {
+  private updateForm(part?: __NAME__sPart | null): void {
     if (!part) {
       this.form.reset();
       return;
     }
-    this.entries.setValue(part.bindings || []);
+    this.entries.setValue(part.__NAME__s || []);
     this.form.markAsPristine();
   }
 
@@ -359,35 +359,36 @@ export class __NAME__sPartComponent
     const entry: __NAME__ = {
       // TODO: set your entry default properties...
     };
-    this.entries.setValue([...this.entries.value, entry]);
-    this.edit__NAME__(this.entries.value.length - 1);
+    this.edit__NAME__(entry, -1);
   }
 
-  public edit__NAME__(index: number): void {
-    if (index < 0) {
-      this._editedIndex = -1;
+  public edit__NAME__(entry: __NAME__, index: number): void {
+    this._editedIndex = index;
+    this.edited = entry;
+    setTimeout(() => {
+      this.tabIndex = 1;
+    });
+  }
+
+  public close__NAME__(): void {
+    this._editedIndex = -1;
+    this.edited = undefined;
+    setTimeout(() => {
       this.tabIndex = 0;
-      this.edited = undefined;
+    });
+  }
+
+  public save__NAME__(entry: __NAME__): void {
+    const entries = [...this.entries.value];
+    if (this._editedIndex === -1) {
+      entries.push(entry);
     } else {
-      this._editedIndex = index;
-      this.edited = this.entries.value[index];
-      setTimeout(() => {
-        this.tabIndex = 1;
-      }, 300);
+      entries.splice(this._editedIndex, 1, entry);
     }
-  }
-
-  public on__NAME__Save(entry: __NAME__): void {
-    this.entries.setValue(
-      this.entries.value.map((e: __NAME__, i: number) =>
-        i === this._editedIndex ? entry : e
-      )
-    );
-    this.edit__NAME__(-1);
-  }
-
-  public on__NAME__Close(): void {
-    this.edit__NAME__(-1);
+    this.entries.setValue(entries);
+    this.entries.markAsDirty();
+    this.entries.updateValueAndValidity();
+    this.close__NAME__();
   }
 
   public delete__NAME__(index: number): void {
@@ -396,9 +397,14 @@ export class __NAME__sPartComponent
       .pipe(take(1))
       .subscribe((yes) => {
         if (yes) {
+          if (this._editedIndex === index) {
+            this.close__NAME__();
+          }
           const entries = [...this.entries.value];
           entries.splice(index, 1);
           this.entries.setValue(entries);
+          this.entries.markAsDirty();
+          this.entries.updateValueAndValidity();
         }
       });
   }
@@ -412,6 +418,8 @@ export class __NAME__sPartComponent
     entries.splice(index, 1);
     entries.splice(index - 1, 0, entry);
     this.entries.setValue(entries);
+    this.entries.markAsDirty();
+    this.entries.updateValueAndValidity();
   }
 
   public move__NAME__Down(index: number): void {
@@ -423,6 +431,8 @@ export class __NAME__sPartComponent
     entries.splice(index, 1);
     entries.splice(index + 1, 0, entry);
     this.entries.setValue(entries);
+    this.entries.markAsDirty();
+    this.entries.updateValueAndValidity();
   }
 }
 ```
