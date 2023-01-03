@@ -6,7 +6,6 @@ subtitle: "Cadmus Frontend Development"
 
 - [Requirements](#requirements)
 - [Create Angular App](#create-angular-app)
-- [Install Packages](#install-packages)
 - [Setting Environment Variables](#setting-environment-variables)
 - [Tuning Angular Settings](#tuning-angular-settings)
 - [Assets](#assets)
@@ -44,66 +43,7 @@ The typical steps for developing a Cadmus frontend (as based on the [reference s
 
 (2) enter the newly created directory and **add Angular Material** via `ng add @angular/material` (choose the Indigo/Pink theme - or whatever you prefer -, setup typography styles=yes, include and enable animations=yes).
 
-(3) (optional) if adding new parts/fragments, you will need to **add libraries** for them. Each library is added like `ng generate library @myrmidon/cadmus-<PRJ>-<NAME> --prefix <PRJ>`. The typical structure usually includes these libraries (`@myrmidon` here is my NPM name, used as a namespace for all my Cadmus libraries):
-
-- `@myrmidon/cadmus-<PRJ>-part-ui`: parts and fragments editors.
-- `@myrmidon/cadmus-<PRJ>-part-pg`: parts and fragments editors wrappers with routing.
-
-Eventually, for more complex projects you can add other libraries like:
-
-- `@myrmidon/cadmus-<PRJ>-core` (optional): core models and eventually services, shared by several parts of the same project.
-- `@myrmidon/cadmus-<PRJ>-ui` (optional): UI components shared by several parts of the same project.
-
-Alternatively, a more granular architecture can be used if you plan to create part/fragment editors to be reused in other projects. In this case, you can create a library for each single editor. If you later realize that some of the editors you created can be promoted to a higher level of abstraction for sharing them across projects, you can create new libraries in a distinct shell, and then replace the original ones in your app project by importing these new libraries.
-
-Once you create a library, remove the stub code files added by Angular CLI: the sample component and its service. Also, take the time for adding more metadata to its `package.json` file, e.g. (replace `__PRJ__` with your project's ID):
-
-```json
-{
-  "name": "@myrmidon/cadmus-itinera-part-lt-ui",
-  "version": "0.0.1",
-  "description": "Cadmus - general parts UI components.",
-  "keywords": [
-    "Cadmus",
-    "__PRJ__"
-  ],
-  "homepage": "https://github.com/vedph/cadmus_shell",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/vedph/cadmus_shell"
-  },
-  "author": {
-    "name": "Daniele Fusi"
-  },
-  "peerDependencies": {
-    "@angular/common": "^15.0.0",
-    "@angular/core": "^15.0.0",
-  },
-  "dependencies": {
-    "tslib": "^2.0.0"
-  }
-}
-```
-
->For more on libraries see the section about [frontend parts](frontend-part.md).
-
-(4) to speed up builds, for each added library you can add the corresponding **build commands** to `package.json` scripts (to be run like `npm run <SCRIPTNAME>`), e.g.:
-
-```json
-{
-  "build-ui": "ng build @myrmidon/cadmus-__PRJ__-part-ui",
-  "build-pg": "ng build @myrmidon/cadmus-__PRJ__-part-pg",
-  "build-lib": "npm run-script build-ui && npm run-script build-pg"
-}
-```
-
-The `build-lib` command is used to build all the libraries in the workspace. Be sure to enumerate them in their order of dependencies when writing the command.
-
-## Install Packages
-
-Open a terminal in the app's folder and issue the following commands.
-
-(1) install ELF with command `npx @ngneat/elf-cli install`. When prompted, install:
+(3) install ELF with command `npx @ngneat/elf-cli install`. When prompted, install:
 
 - @ngneat/elf
 - @ngneat/elf-entities
@@ -118,7 +58,7 @@ No external package is needed. Should you prefer, you can just use NPM to instal
 npm i @ngneat/elf @ngneat/elf-entities @ngneat/elf-devtools @ngneat/elf-requests @ngneat/elf-pagination @ngneat/elf-cli-ng --force
 ```
 
-(2) install the typical Cadmus packages via NPM:
+(4) install the typical Cadmus packages via NPM:
 
 ```bash
 npm i @auth0/angular-jwt @myrmidon/auth-jwt-admin @myrmidon/auth-jwt-login @myrmidon/cadmus-api @myrmidon/cadmus-core @myrmidon/cadmus-graph-ui @myrmidon/cadmus-graph-pg @myrmidon/cadmus-item-editor @myrmidon/cadmus-item-list @myrmidon/cadmus-item-search @myrmidon/cadmus-login @myrmidon/cadmus-part-general-pg @myrmidon/cadmus-part-general-ui @myrmidon/cadmus-part-philology-pg @myrmidon/cadmus-part-philology-ui @myrmidon/cadmus-preview-pg @myrmidon/cadmus-preview-ui @myrmidon/cadmus-profile-core @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-flags-picker @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/ngx-dirty-check @types/diff-match-patch diff-match-patch gravatar ngx-markdown ngx-monaco-editor rangy --force
