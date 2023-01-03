@@ -539,7 +539,7 @@ HTML:
 </form>
 ```
 
-Typically you should edit each single entry in a component (generated with `ng g component <NAME>-editor` where NAME is the model's name, e.g. `cod-binding-editor` for the `cod-bindings-part` component - remember to export it both from the library's module and from its barrel `public-api.ts` file), similar to the following template:
+Typically you should edit each **single entry** in a component (generated with `ng g component <NAME>-editor` where NAME is the model's name, e.g. `cod-binding-editor` for the `cod-bindings-part` component - remember to export it both from the library's module and from its barrel `public-api.ts` file), similar to the following template (rename `model` as you prefer):
 
 ```ts
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
@@ -558,13 +558,13 @@ import { ThesaurusEntry } from '@myrmidon/cadmus-core';
   styleUrls: ['./...component.css'],
 })
 export class __NAME__Component implements OnInit {
-  private _model: __TYPE__ | undefined;
+  private _model: __TYPE__ | undefined | null;
 
   @Input()
-  public get model(): __TYPE__ | undefined {
+  public get model(): __TYPE__ | undefined | null {
     return this._model;
   }
-  public set model(value: __TYPE__ | undefined) {
+  public set model(value: __TYPE__ | undefined | null) {
     this._model = value;
     this.updateForm(value);
   }
@@ -587,13 +587,7 @@ export class __NAME__Component implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    if (this._model) {
-      this.updateForm(this._model);
-    }
-  }
-
-  private updateForm(model: __TYPE__ | undefined): void {
+  private updateForm(model: __TYPE__ | undefined | null): void {
     if (!model) {
       this.form.reset();
       return;
@@ -604,7 +598,7 @@ export class __NAME__Component implements OnInit {
     this.form.markAsPristine();
   }
 
-  private getModel(): __TYPE__ | null {
+  private getModel(): __TYPE__ {
     return {
       // TODO get values from controls
     };
@@ -618,11 +612,7 @@ export class __NAME__Component implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    const model = this.getModel();
-    if (!model) {
-      return;
-    }
-    this.modelChange.emit(model);
+    this.modelChange.emit(this.getModel());
   }
 }
 ```
