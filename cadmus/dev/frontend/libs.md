@@ -30,7 +30,7 @@ Of course, you can also adopt a mixed strategy, reserving single-editor librarie
 
 In the single-component approach you create a single library for each editor, containing both the editor UI and its page wrapper. Also, a `-pg` library will be created for all the single-components libraries which go together in a project.
 
-- the library is added like `ng generate library @myrmidon/cadmus-part-<PRJ>-<NAME> --prefix <PRJ>`, e.g. `cadmus-part-itinera-cod-loci` (use `-fr-` instead of `-part-` for fragments).
+- the library is added like `ng generate library @myrmidon/cadmus-part-<PRJ>-<NAME> --prefix cadmus`, e.g. `cadmus-part-itinera-cod-loci` (use `-fr-` instead of `-part-` for fragments).
 - in each library you will have:
   - the part/fragment model (e.g. a file `cod-loci-part`).
   - the part/fragment editor UI (e.g. a folder with the `cod-loci-part` editor component).
