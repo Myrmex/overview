@@ -383,7 +383,7 @@ namespace Cadmus__PRJ__Api
         private void ConfigureAuthServices(IServiceCollection services)
         {
             // identity
-            string connStringTemplate = Configuration.GetConnectionString("Default");
+            string connStringTemplate = Configuration.GetConnectionString("Default")!;
 
             services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(
                 options => { },
@@ -407,7 +407,7 @@ namespace Cadmus__PRJ__Api
                 // NOTE: remember to set the values in configuration:
                 // Jwt:SecureKey, Jwt:Audience, Jwt:Issuer
                 IConfigurationSection jwtSection = Configuration.GetSection("Jwt");
-                    string key = jwtSection["SecureKey"];
+                    string key = jwtSection["SecureKey"]!;
                     if (string.IsNullOrEmpty(key))
                         throw new InvalidOperationException("Required JWT SecureKey not found");
 
@@ -602,13 +602,13 @@ namespace Cadmus__PRJ__Api
             // serilog
             // Install-Package Serilog.Exceptions Serilog.Sinks.MongoDB
             // https://github.com/RehanSaeed/Serilog.Exceptions
-            string maxSize = Configuration["Serilog:MaxMbSize"];
+            string? maxSize = Configuration["Serilog:MaxMbSize"];
             services.AddSingleton<Serilog.ILogger>(_ => new LoggerConfiguration()
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .Enrich.WithExceptionDetails()
                 .WriteTo.Console()
-                .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"],
+                .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"]!,
                     cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) &&
                         int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
                     .CreateLogger());
@@ -667,7 +667,7 @@ namespace Cadmus__PRJ__Api
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
-                string url = Configuration.GetValue<string>("Swagger:Endpoint");
+                string? url = Configuration.GetValue<string>("Swagger:Endpoint");
                 if (string.IsNullOrEmpty(url)) url = "v1/swagger.json";
                 options.SwaggerEndpoint(url, "V1 Docs");
             });

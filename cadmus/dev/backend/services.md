@@ -40,7 +40,6 @@ Add these packages to the services project (updating version numbers as required
 Add a `<PRJ>RepositoryProvider` class, using this template (the only part which requires customization is the constructor):
 
 ```cs
-using System;
 using System.Reflection;
 using Cadmus.Core;
 using Cadmus.Core.Config;
@@ -69,8 +68,6 @@ namespace Cadmus.__PRJ__.Services
         /// Initializes a new instance of the <see cref="__PRJ__RepositoryProvider"/>
         /// class.
         /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        /// <exception cref="ArgumentNullException">configuration</exception>
         public __PRJ__RepositoryProvider()
         {
             ConnectionString = "";
@@ -131,7 +128,6 @@ using Cadmus.Seed.General.Parts;
 using Cadmus.Seed.__PRJ__.Parts;
 using Cadmus.Seed.Philology.Parts;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
-using Microsoft.Extensions.Configuration;
 using SimpleInjector;
 using System;
 using System.Reflection;
