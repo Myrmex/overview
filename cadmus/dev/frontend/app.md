@@ -271,7 +271,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 // ngx-monaco
 import { MonacoEditorModule } from 'ngx-monaco-editor';
@@ -364,7 +363,6 @@ import { ITEM_BROWSER_KEYS } from './item-browser-keys';
     MatTooltipModule,
     MatToolbarModule,
     MatTreeModule,
-    FlexLayoutModule,
     // vendors
     MonacoEditorModule.forRoot(),
     MarkdownModule.forRoot(),
