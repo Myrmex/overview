@@ -483,7 +483,7 @@ HTML:
                     mat-icon-button
                     color="primary"
                     matTooltip="Edit this __NAME__"
-                    (click)="edit__NAME__(i)"
+                    (click)="edit__NAME__(entry, i)"
                   >
                     <mat-icon>edit</mat-icon>
                   </button>
@@ -521,10 +521,10 @@ HTML:
           </table>
         </mat-tab>
 
-        <mat-tab label="unit" *ngIf="edited__NAME__">
-          TODO: editor control with: [model]="edited__NAME__"
-          (modelChange)="on__NAME__Save($event)"
-          (editorClose)="on__NAME__Close()"
+        <mat-tab label="__NAME__" *ngIf="edited">
+          TODO: editor control with: [model]="edited"
+          (modelChange)="save__NAME__($event)"
+          (editorClose)="close__NAME__()"
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>
