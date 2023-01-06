@@ -13,15 +13,17 @@ description: Fragments from a Digital Philologist
 
 # List of links in the navigation bar
 navbar-links:
-  About Me: "aboutme"
-  Toys: "toys"
-  Proteus: "proteus"
   Cadmus: "cadmus"
   Chiron: "chiron"
+  Proteus: "proteus"
+  Toys:
+    - Toys: "toys"
+    - Downloads: "downloads"
   # Resources:
   #   - COSR: "https://research.hsr.it/en/centers/omics-sciences.html"
   #   - ORCID Profile: "http://orcid.org/0000-0003-0384-3700"
   #   - Scholar Profile: "https://scholar.google.com/citations?user=F9THN9UAAAAJ"
+  About Me: "aboutme"
   Publications: "publications"
   
 # Image to show in the navigation bar - image must be a square (width = height)
