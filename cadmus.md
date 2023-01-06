@@ -4,7 +4,7 @@ title: Cadmus
 subtitle: Structured Content Creation System
 ---
 
-👉 [Cadmus Presentation](https://cadmus.fusi-soft.com): refer to this site for a general introduction to Cadmus. The site is still under development, especially for its interactive resources, but it still represents the most complete introduction to the system philosophy.
+👉 [Cadmus Presentation Site](https://cadmus.fusi-soft.com): refer to this site for a general introduction to Cadmus. The site is still under development, especially for its interactive resources, but it still represents the most complete introduction to the system philosophy.
 
 ⚙️ [Cadmus Source Code](https://github.com/vedph/): the full source code of Cadmus is found in several VeDPH GitHub repositories. Some of the repositories implement the general infrastructure, while others are versions specialized for each real-world project using Cadmus.
 
@@ -12,11 +12,13 @@ subtitle: Structured Content Creation System
 
 Cadmus is an open-ended, modular, and full-stack creation system for highly structured content, including text with any number of specialized annotation layers, and capable of multiple types of data export (including TEI) and import (mostly via the [Proteus](proteus.md) system).
 
-- [developer's guide](cadmus/dev/toc.md)
-- [hosting Cadmus](cadmus/hosting.md)
+- 🛠️ [developer's guide](cadmus/dev/toc.md)
+- 🌐 [hosting Cadmus](cadmus/hosting.md)
   - [installing Docker](cadmus/docker-setup.md)
   - [configuring HTTPS](cadmus/https.md)
-- [projects using Cadmus](cadmus/projects.md)
+- 🧑‍🤝‍🧑 [projects using Cadmus](cadmus/projects.md)
+- 🕸️ [Cadmus graph demo](https://cadmus-graph-demo.fusi-soft.com)
+- 🧱 [Cadmus bricks demo](https://cadmus-bricks.fusi-soft.com)
 
 Cadmus presentation speech at [VeDPH](https://www.unive.it/pag/39287) seminars:
 
