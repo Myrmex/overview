@@ -33,9 +33,9 @@ navbar-links:
 # Change all these values or delete the ones you don't want.
 # Important: you must keep the "name" parameter, everything else you can remove
 author:
-  name: Sample
-  # email: "cittaro.davide@gmail.com"
-  # github: myrmex
+  name: Daniele Fusi
+  email: "daniele.fusi@unive.it"
+  github: myrmex
   #twitter: daweonline   # eg. daattali
   #google-plus: +yourname   # eg. +DeanAttali or 109424658772469020925
   #linkedin: yourname  # eg. daattali
