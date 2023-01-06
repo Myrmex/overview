@@ -4,6 +4,8 @@ title: Chiron
 subtitle: "Metrical Analysis Tool"
 ---
 
+![Chiron](img/chiron/vase300.png)
+
 Chiron is a framework for the analysis of metrics and observation of linguistic and metrical phenomena, with an extensive linguistics basis. You can read more about it in these papers:
 
 - 2021 D. Fusi, _Introducing Chiron, a Full-Stack Framework for Metrical Analysis: Part 1 - Data Collection_, «RCCM» 63, 1 (2021) 53-85.
