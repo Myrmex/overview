@@ -4,7 +4,9 @@ title: Cadmus
 subtitle: Structured Content Creation System
 ---
 
-![Cadmus](img/cadmus/vase400.png)
+<div>
+<img style="text-align: center" src="./img/cadmus/vase400.png" alt="Cadmus">
+</div>
 
 👉 [Cadmus Presentation Site](https://cadmus.fusi-soft.com): refer to this site for a general introduction to Cadmus. The site is still under development, especially for its interactive resources, but it still represents the most complete introduction to the system philosophy.
 
