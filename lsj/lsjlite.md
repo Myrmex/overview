@@ -1,7 +1,7 @@
 ---
 layout: page
 title: LSJ Lite
-subtitle: Offline LSJ/LS Dictionary Reader
+subtitle: Downloads
 ---
 
 🔗 [direct download](http://www.fusisoft.it/downloads/lsj-lite.zip)
