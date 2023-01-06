@@ -23,9 +23,10 @@ navbar-links:
   #   - COSR: "https://research.hsr.it/en/centers/omics-sciences.html"
   #   - ORCID Profile: "http://orcid.org/0000-0003-0384-3700"
   #   - Scholar Profile: "https://scholar.google.com/citations?user=F9THN9UAAAAJ"
-  About Me: "aboutme"
-  Publications: "publications"
-  
+  About Me:
+    - About Me: "aboutme"
+    - Publications: "publications"
+
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
 # avatar: "/img/pmwlb.png"
