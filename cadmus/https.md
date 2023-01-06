@@ -209,8 +209,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - acme:/etc/acme.sh
     environment:
-      # TODO: setup your email here!
-      - DEFAULT_EMAIL=myemail@mydomain.org
+      - DEFAULT_EMAIL=daniele.fusi@unive.it
 
 volumes:
   conf:
