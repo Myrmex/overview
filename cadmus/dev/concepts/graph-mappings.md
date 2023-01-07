@@ -306,7 +306,9 @@ So, here:
 
 We can arrange some basic mappings to project each event from this part into a node, with linked nodes for classification, attributes, and relations.
 
-These mappings are encoded in a simple JSON document, which can be imported into the index database. In Cadmus, mappings are found in the index database; but it's easier to design them in a simple JSON document, to be later imported into it.
+These mappings are encoded in a simple JSON document, which can be imported into the index database.
+
+>In Cadmus, mappings are found in the index database (in table `node_mapping`); but it's easier to design them in a simple JSON document, to be later imported in it.
 
 The JSON document is an array of mapping objects. Each mapping object has some properties, and optionally any number of children mappings, nested under their `children` property.
 
