@@ -150,11 +150,11 @@ For instance, say you are mapping an event object having an `eid` property equal
 
 - syntax: `{?...}`
 
-During the mapping process, nodes emitted in the context of each mapping (including all its descendant mappings) are stored in a dictionary with the keys specified in the mapping itself for each node.
+During the mapping process, nodes emitted in the context of each mapping (including all its descendant mappings) are stored in a dictionary, each with the key specified in the mapping itself.
 
-For instance, say your event object emits a node corresponding to each of its events. The mapping output for each node specifies an arbitrary key used to refer to this node from other templates in the root mapping's context.
+For instance, say your events part data model should emit a node for each of its events. The mapping output for each node can specify an arbitrary key, used to refer to this node from other templates in the root mapping's context.
 
-As a sample, consider this mapping fragment:
+As a sample, consider this mapping's fragment, where from an events part (as defined by `sourceType` amd `partTypeFilter`) we map events of type `person.birth` (as specified by `source`):
 
 ```json
 {
@@ -175,11 +175,11 @@ As a sample, consider this mapping fragment:
 }
 ```
 
-Here we map each birth event (`source`). For each of them, a child mapping matches the event's `eid` property, and outputs a node under the key "event", whose template is `x:events/{$.}`.
+For each birth event, a child mapping (under `children`) matches the event's `eid` property, and outputs a node (under `nodes`) with the key "event", whose template is `x:events/{$.}` (where `{$.}` is a [macro](#macros) representing the value of the current leaf node in the source tree). So, in this case the generated node will have an UID equal to `x:events/` plus the node's URI.
 
-As a node is a complex object, in a template placeholder you can pick different properties from it. These are specified by adding a **suffix** preceded by `:` to the node's key. Available suffixes are:
+As a node is a complex object, in a template placeholder you can pick different _properties_ from it. These are specified by adding a **suffix** preceded by `:` to the node's key. Available suffixes are:
 
-- `:uri` = the node's generated URI. This is the default property; so when there is no suffix specified, the URI is picked.
+- `:uri` = the node's generated URI. This is the _default property_; so when there is no suffix specified, the URI is picked.
 - `:label` = the node's label.
 - `:sid` = the node's SID.
 - `:src_type` = the node's source type.
@@ -190,9 +190,9 @@ As a node is a complex object, in a template placeholder you can pick different 
 
 The mapping process can set some metadata, which get stored under arbitrary keys, and are available to any template in the context of its root mapping.
 
-Metadata can be emitted by the mapping process itself, or be defined in a mapping's output under the `metadata` property. This is an object where each property is a metadatum with its string value.
+Metadata can be emitted by the mapping process itself, or be defined in a mapping's `output` under the `metadata` property. This is an object where each property is a metadatum with its string value.
 
-Currently the mapping process emits these metadata:
+Currently, the mapping process automatically emits these metadata:
 
 - `item-id`: the item ID (GUID).
 - `part-id`: the part ID (GUID).
@@ -217,30 +217,33 @@ The macro syntax in the placeholder is very simple: it consists of the macro ID,
 !{some_macro(arg1 & arg2)}
 ```
 
-Some macros are built-in, and conventionally their ID start with an underscore. Currently there is one:
+Some macros are **built-in**, and conventionally their ID start with an underscore (`_`). Currently there is only one:
 
-- `_hdate(separator)` (tag `node-mapping-macro.historical-date`): this macro gets the JSON code representing a Cadmus historical date, and returns either its sort value or its human-friendly, machine parsable text value. The return type is defined by the second argument, which can be either `value` (the default) or `text`.
+- `_hdate(separator)`: this macro gets the JSON code representing a Cadmus historical date, and returns either its sort value, or its human-friendly, machine-parsable text value. The return type is defined by the second argument, which can be either `value` (the default) or `text`.
 
 ### Filters
 
-Whenever a template represents a URI, i.e. in all the cases except for triple's object literals, once the template has been filled the result gets filtered as follows:
+To ensure the usage of "normalized" and easily readable URIs, URIs generated from templates get some filters applied by default. This happens for templates representing URIs, i.e. in all cases except for triple's object literals. In this case, once the template has been filled, the resulting text gets filtered as follows:
 
 - whitespaces are replaced with underscores;
 - only letters, digits 0-9, and characters `:-_#/&%=.?` are preserved;
 - letters are all lowercased;
 - diacritics are removed.
 
-Should you want to disable this filtering, start the template with `!`, which being a preprocessing directive will be discarded from the template itself.
+Should you want to _disable_ this filtering, start the template with `!`, which being a preprocessing directive will be discarded from the template itself.
 
 ## Sample
 
 As a sample, consider this historical events part. This contains any number of events, eventually with their place and/or time and directly related entities.
 
-In this sample, we have two events representing the birth of Petrarch in 1304 at Arezzo from ser Petracco and Eletta Cangiani, and his death at Arquà in 1374.
+In this sample we have two events:
+
+- the birth of Petrarch in 1304 at Arezzo from ser Petracco and Eletta Cangiani;
+- the death of Petrarch at Arquà in 1374.
 
 ### Sample Data
 
-Our data here come from a Cadmus part. Its serialized form (stripping out some unnecessary clutter) essentially is an array of two event objects, with their properties:
+Our data here come from a Cadmus part. Its serialized form (stripping out some unnecessary clutter) essentially is an _array_ of two _event objects_, with their properties. The first event has type `person.birth`, the second has type `person.death` (these types come from a [thesaurus](thesauri.md)).
 
 ```json
 {
@@ -289,13 +292,15 @@ Our data here come from a Cadmus part. Its serialized form (stripping out some u
 }
 ```
 
-As you can see, each event in the `events` array is identified by an arbitrarily assigned [EID](#entry-id-eid), unique only in the context of this part's scope. Event types are drawn from a thesaurus.
+As you can see, each event in the `events` array is identified by an arbitrarily assigned [EID](#entry-id-eid), unique only in the context of this part's scope.
 
-Each event usually is connected to a place (`Arezzo`) and a date (`1304`). Also, it has a human-friendly description, and a list of related entities, each having a relation type (from another thesaurus), and the ID of the related entity.
+Each event usually is connected to a `place` (`Arezzo`) and a `date` (`1304`). Also, it has a human-friendly `description`, and a list of related entities (`relatedEntities`), each specifying the type of the `relation` (as defined in another thesaurus), and the ID (`id`) of the related entity.
 
-So the first event represents an event of type birth, which took place at Arezzo in 1304, with a couple of related entities for the parents (mother and father). The person who was born (Petrarca) is implicit, as this events part is inside a person item, which represents that person.
+So, here:
 
-The second event represents an event of type death, which took place at Arquà in 1374. Again, the person took out of existence by this event is implicit.
+- the _first event_ represents an event of type birth, which took place at Arezzo in 1304, with a couple of related entities for the parents (mother and father). The person who was born (Petrarca) is implicit, as this events part is inside a person item, which represents that person.
+
+- the _second event_ represents an event of type death, which took place at Arquà in 1374. Again, the person took out of existence by this event is implicit.
 
 ### Sample Mappings
 
