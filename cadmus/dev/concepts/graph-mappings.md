@@ -11,10 +11,10 @@ subtitle: "Cadmus Development"
   - [Entity ID (UID)](#entity-id-uid)
 - [Mapping Rule](#mapping-rule)
 - [Templates](#templates)
-  - [Expressions (@)](#expressions-)
-  - [Node Keys (?)](#node-keys-)
-  - [Metadata ($)](#metadata-)
-  - [Macros (!)](#macros-)
+  - [Expressions](#expressions)
+  - [Node Keys](#node-keys)
+  - [Metadata](#metadata)
+  - [Macros](#macros)
   - [Filters](#filters)
 - [Sample](#sample)
   - [Sample Data](#sample-data)
@@ -127,28 +127,28 @@ The mapping model contains these properties:
 
 ## Templates
 
-Templates are extensively used in mappings to build node identifiers and triple values.
+Templates are extensively used in mappings to build _node identifiers_ and _triples_.
 
-A template has any number of placeholders conventionally delimited by `{}`, where the opening brace is followed by a single character representing the placeholder type:
+A template is just a text with any number of _placeholders_, conventionally delimited by braces `{}`, where the opening brace is followed by a single character, representing the placeholder type, as follows:
 
-1. `{@...}` = expression: this represents the expression used to select some source data for the mapping.
-2. `{?...}` = node key: the key for a previously emitted node, eventually suffixed.
-3. `{$...}` = metadata: any metadata set during the mapping process.
-4. `{!...}` = macro: the output of a custom function, receiving the current data context from the source, and returning a string or null.
+1. `{@...}` = **[expression](#expressions)**: this represents the expression used to select some source data for the mapping.
+2. `{?...}` = **[node key](#node-keys) the key for a previously emitted node, eventually suffixed.
+3. `{$...}` = **[metadata](#metadata)** any metadata set during the mapping process.
+4. `{!...}` = **[macro](#macros)**: the output of a custom function, receiving the current data context from the source, and returning a string or null.
 
-These placeholders can be freely nested. The mapping rules will take care of resolving them starting from the deepest ones.
+These placeholders can be freely _nested_. The mapping rules will take care of resolving them starting from the deepest ones.
 
->The placeholder resolution is driven by a simple tree shaped representation of the template (`TemplateTree`).
+### Expressions
 
-### Expressions (@)
+- syntax: `{@...}`
 
-Expressions select data from the source. The syntax of an expression depends on the mapper's implementation.
+Expressions _select data from the source_. While their syntax depends on the mapper's implementation, currently the only implementation is JSON-based, so expressions are just [JMES paths](https://jmespath.org/). This is a very powerful selection and transformation language, which should cover most of the mapping requirements.
 
-Currently the only implementation is JSON-based, so expressions are [JMES paths](https://jmespath.org/). This is a very powerful selection and transformation language, which should cover most of the mapping requirements.
+For instance, say you are mapping an event object having an `eid` property equal to some string: you can select the value of this string with the placeholder `{@eid}`.
 
-For instance, say you are mapping an event object having an `eid` property equal to some string: you can select the value of this string with the placeholder `@{eid}`.
+### Node Keys
 
-### Node Keys (?)
+- syntax: `{?...}`
 
 During the mapping process, nodes emitted in the context of each mapping (including all its descendant mappings) are stored in a dictionary with the keys specified in the mapping itself for each node.
 
@@ -184,7 +184,9 @@ As a node is a complex object, in a template placeholder you can pick different 
 - `:sid` = the node's SID.
 - `:src_type` = the node's source type.
 
-### Metadata ($)
+### Metadata
+
+- syntax: `{$...}`
 
 The mapping process can set some metadata, which get stored under arbitrary keys, and are available to any template in the context of its root mapping.
 
@@ -200,7 +202,9 @@ Currently the mapping process emits these metadata:
 - `.`: the value of the current leaf node in the source JSON data. For instance, if the mapping is selecting a string property from `events/event[0].eid`, this is the value of `eid`.
 - `index`: the index of the element being processed from a source array. When the source expression used by the mapping points to an array, every item of the array gets processed separately from that mapping onwards. At each iteration, the `index` metadatum is set to the current index.
 
-### Macros (!)
+### Macros
+
+- syntax: `{!...}`
 
 Macros are a modular way for customizing the mapping process when more complex logic is required. A macro is just an object implementing an interface (`INodeMappingMacro`), requiring:
 
