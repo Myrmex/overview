@@ -110,7 +110,7 @@ In turn, each mapping rule can include any number of _children rules_.
 
 The mapping model contains these properties:
 
-- `sourceType`\*: the type of the source object. This is meaningful for _root_ mappings only. The source type is a number: `0`=user, `1`=item, `2`=part, `3`=thesaurus, 4=implicit (assigned to nodes automatically added because used in a triple without yet being present in the graph). Thus, mappings defined in a mappings document effectively use only `1` and `2`.
+- `sourceType`\*: the type of the source object. This is meaningful for _root_ mappings only. The source type is a number: `0`=user, `1`=item, `2`=part, `3`=thesaurus, `4`=implicit (assigned to nodes automatically added because used in a triple without yet being present in the graph). Thus, mappings defined in a mappings document effectively use only `1` and `2`.
 - `sid`\*: the source ID (SID) of this mapping. This is meaningful for _root_ mappings only.
 - `facetFilter`: an optional item's facet filter. When specified, the mapping will target only those items whose facet ID is _equal_ to this value.
 - `groupFilter`: an optional item's group filter. This is a regular expression; when specified, the mapping will target only those items whose group ID _matches_ this expression.
@@ -132,7 +132,7 @@ Templates are extensively used in mappings to build _node identifiers_ and _trip
 A template is just a text with any number of _placeholders_, conventionally delimited by braces `{}`, where the opening brace is followed by a single character, representing the placeholder type, as follows:
 
 1. `{@...}` = **[expression](#expressions)**: this represents the expression used to select some source data for the mapping.
-2. `{?...}` = **[node key](#node-keys) the key for a previously emitted node, eventually suffixed.
+2. `{?...}` = **[node key](#node-keys)** the key for a previously emitted node, eventually suffixed.
 3. `{$...}` = **[metadata](#metadata)** any metadata set during the mapping process.
 4. `{!...}` = **[macro](#macros)**: the output of a custom function, receiving the current data context from the source, and returning a string or null.
 
@@ -685,3 +685,5 @@ x:timespans/ts#1 | crm:p82_at_some_time_within   | "1374"^^xs:float          | b
 x:timespans/ts#1 | crm:p87_is_identified_by      | "1374 AD"@en              | bdd152f1-2ae2-4189-8a4a-e3d68c6a9d7e/death/chronotope
 
 So, these are the outcome of the mapping process. The user is not aware of all this: his only task is filling a form in a UI. This form lists events. Then, whenever he saves his work, the mapping process for the edited part steps in, and generates this graph of nodes. The graph will then be merged to the graph stored in the database.
+
+- 🕸️ [Cadmus graph demo](https://cadmus-graph-demo.fusi-soft.com)
