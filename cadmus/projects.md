@@ -13,6 +13,7 @@ subtitle: "Directory"
   - [PAGES](#pages)
   - [PURA](#pura)
   - [Re.Novella](#renovella)
+  - [Vela](#vela)
   - [GISARC](#gisarc)
   - [Inquisitions Graffiti](#inquisitions-graffiti)
   - [Sidonius](#sidonius)
@@ -97,6 +98,11 @@ Re.Novella: Il genere novella nel Rinascimento italiano: repertorio, database e 
 - [models](https://github.com/vedph/cadmus-renovella)
 - [API](https://github.com/vedph/cadmus-renovella-api)
 - [app](https://github.com/vedph/cadmus-renovella-app)
+
+### Vela
+
+- [API](https://github.com/vedph/cadmus-vela-api)
+- [app](https://github.com/vedph/cadmus-vela-app)
 
 ### GISARC
 
