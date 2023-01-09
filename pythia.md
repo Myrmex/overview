@@ -6,9 +6,9 @@ subtitle: "Text Search Engine"
 
 📖 [source and documentation](https://github.com/vedph/pythia)
 
-Pythia is a simple and modular concordance search engine, first designed in the context of [Chiron](chiron.md), to provide a concordance-based search engine capable of handling an overwhelming metadata set, even coming from different sources, and deal with text structures longer than just tokens, even when overlapping. It was designed to be easy to integrate in other systems and fully customizable, with a new approach to text, "dematerialized" into a set of objects. It is currently adopted by another research project, [Atti Chiari](https://attichiari.unige.it/), in the context of a wider flow including also a couple of other software tools I created for a new type of pseudonymization tool for documents with sensitive data, and a very simple [BLOB remote archiving system](https://github.com/vedph/simple-blob) to collect them.
+Pythia is a simple and modular concordance search engine, first designed in the context of [Chiron](chiron.md), to provide a concordance-based search engine capable of handling an overwhelming metadata set, even coming from different sources, and deal with text structures longer than just tokens, even when overlapping. It was designed to be easy to integrate in other systems and fully customizable, with a new approach to text, "dematerialized" into a set of objects. It is currently adopted by another research project, [Atti Chiari](https://attichiari.unige.it/), in the context of a wider flow including also a couple of other software tools I created for a new type of pseudonymization for documents with sensitive data, and a very simple [BLOB remote archiving system](https://github.com/vedph/simple-blob) to collect them.
 
-For a general introduction see D. Fusi, _Text Searching Beyond the Text: a Case Study_, «Rationes Rerum» 15 (2020) 199-230, and the more detailed and up to date [documentation](https://github.com/vedph/pythia). With relation to the cited paper, the implementation of the system here is more advanced, and query syntax was changed; but the approach is the same.
+For a general introduction see D. Fusi, _Text Searching Beyond the Text: a Case Study_, «Rationes Rerum» 15 (2020) 199-230, and the more detailed and up to date [documentation](https://github.com/vedph/pythia). With relation to the cited paper, the current implementation of the system is more advanced, the query syntax was changed, and some new features were added; but the approach is the same.
 
 Main features:
 
@@ -20,4 +20,4 @@ Main features:
 
 - _flexible, modular and open_: designed to be totally configurable via external parameters: you decide every relevant aspect of the indexing pipeline (filtering, tokenization, etc.), and can use any kind of input format (e.g. plain text, TEI, etc.) and source (e.g. file system, BLOB storage, web resources etc.).
 
-- UDPipe plugins to incorporate any subset of POS tagging data into the index.
+- [UDPipe](https://ufal.mff.cuni.cz/udpipe) plugins to incorporate any subset of POS tagging data into the index.
