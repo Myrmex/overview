@@ -24,7 +24,7 @@ The picture below summarizes the usage of parts among different projects.
 
 ![projects and parts](../img/cadmus/project-parts.png)
 
-The top row lists the projects, while the columns list the parts and fragments. Whenever a part is reused in a project, it appears listed under its column. The background color of each part represents the project where it has been defined. As you can see, most shared parts come from Cadmus infrastructure (cyan background).
+The top row lists the projects, while the columns list the parts and fragments. Whenever a part is reused in a project, it appears listed under its column. The background color of each part represents the project where it has been defined. As you can see, most shared parts come from Cadmus infrastructure (cyan background). You can look at a more dynamic visualization in the [Cadmus presentation page about models](https://cadmus.fusi-soft.com/#/models/graph).
 
 ## Production Sites
 
