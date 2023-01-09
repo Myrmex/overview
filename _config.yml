@@ -16,6 +16,7 @@ navbar-links:
   Cadmus: "cadmus"
   Chiron: "chiron"
   Proteus: "proteus"
+  Pythia: "pythia"
   Toys:
     - Toys: "toys"
     - Downloads: "downloads"
