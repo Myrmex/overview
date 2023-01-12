@@ -13,7 +13,9 @@ description: Fragments from a Digital Philologist
 
 # List of links in the navigation bar
 navbar-links:
-  Cadmus: "cadmus"
+  Cadmus:
+    - Cadmus: "cadmus"
+    - Pleiades: "pleiades"
   Chiron: "chiron"
   Proteus: "proteus"
   Pythia: "pythia"
