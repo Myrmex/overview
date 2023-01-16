@@ -16,7 +16,9 @@ navbar-links:
   Cadmus:
     - Cadmus: "cadmus"
     - Pleiades: "pleiades"
-  Chiron: "chiron"
+  Chiron:
+    - Chiron: "chiron"
+    - Macronizer: "macronizer"
   Proteus: "proteus"
   Pythia: "pythia"
   Toys:
