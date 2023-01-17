@@ -6,7 +6,7 @@ subtitle: "Alatius Latin Macronizer Wrapper"
 
 >This software is part of a project that has received funding from the European Research Council (ERC) under the European Union's Horizon 2020 research and innovation program under grant agreement No. 101001991.
 
-- 👀 [API demo](https://macronizer-api.fusi-soft.com/swagger/index.html)
+- 👀 [API demo](https://macronizer-api.fusi-soft.com/swagger/index.html): please notice that this service is for demonstrative purposes only, and is not production-oriented, as it relies on a low-end VM on shared hardware resources.
 - [higher layer source code](https://github.com/Myrmex/macronizer-api)
 - [lower layer source code](https://github.com/Myrmex/alatius-macronizer-api)
 
