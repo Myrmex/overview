@@ -248,6 +248,21 @@ export class __NAME__PartFeatureComponent
 }
 ```
 
+💡 If you need to display or use the portion of text selected for the fragment being edited:
+
+- inject `TextLayerService` in the editor class constructor (e.g. `private _layerService: TextLayerService`);
+- in `onDataSet`, get the text like in this example, where we are updating a `public frText?: string` property with it:
+
+```ts
+// get fragment's text into frText
+if (data?.baseText && data.value) {
+  this.frText = this._layerService.getTextFragment(
+    data.baseText,
+    TokenLocation.parse(data.value.location)!
+  );
+}
+```
+
 The HTML template just wraps the UI editor preceded by a current-item bar:
 
 ```html
