@@ -19,7 +19,7 @@ To this end, I added a couple of layers on top of this tool:
 1. a very thin [Flask API layer](https://github.com/Myrmex/alatius-macronizer-api) on top of the Python-based engine, based on Python too (via [Flask](https://flask.palletsprojects.com/) and [waitress](https://docs.pylonsproject.org/projects/waitress/en/latest/)): this already provides a ready-to-run service, which just passes data down to the engine by running its Python script.
 2. a more robust [ASP.NET API layer](https://github.com/Myrmex/macronizer-api) on top of the preceding layer, adding rate limiting, service auditing and monitoring, plus some essential preprocessing and postprocessing functions.
 
-Both these layers are distributed in Docker images. Once you have a Docker image wrapping the macronizer, all its software dependencies, and its PostgreSQL database, it becomes much easier to consume its functionality: you just have to add a layer to your Docker stack, and consume the API endpoint for macronization. Currently, both Chiron and its prosodical rhythm extensions with 3 client UIs (CLI, native desktop, and web-based) are using the service wrapped in these layers.
+Both these layers are distributed in Docker images. Once you have a Docker image wrapping the macronizer, all its software dependencies, and its PostgreSQL database, it becomes much easier to consume its functionality: you just have to add a layer to your Docker stack, and consume the API endpoint for macronization. Currently, both Chiron and its prose rhythm extensions with 3 client UIs (CLI, native desktop, and web-based) are using the service wrapped in these layers.
 
 ## Usage
 
