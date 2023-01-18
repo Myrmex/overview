@@ -32,7 +32,7 @@ Eventually, you also have a set of _stickers_ you can attach to any of these obj
 
 Every object has its own data model, designed to be independent and reusable. So, the model of each box is _dynamic_, as it depends on the objects we put in it. This allows for a _modular_ and _open_ architecture, where models are built by progressive composition, and are _shared_ across several projects, thus fostering collaboration and reuse.
 
->👉 The [graph here](https://cadmus.fusi-soft.com/#/models/graph) is a clear example of real-world reuse.
+>👉 The [graph under menu Models/Graph](https://cadmus.fusi-soft.com/#/models/graph) on the presentation site is a clear example of real-world reuse.
 
 As for data, also their _editors_ are modular: for each object model there is a corresponding editing UI, so the full editor is just built by aggregation, too.
 
