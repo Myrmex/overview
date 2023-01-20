@@ -11,7 +11,8 @@ subtitle: "Cadmus Development"
   - [Data Pins at Rescue](#data-pins-at-rescue)
 - [Implementation Details](#implementation-details)
   - [Developer's Hints](#developers-hints)
-  - [PinLinksPart](#pinlinkspart)
+  - [Linking Items: PinLinksPart](#linking-items-pinlinkspart)
+  - [Linking Entities: Asserted ID Brick](#linking-entities-asserted-id-brick)
 
 _Dynamic lookup_ refers to a feature of the system providing lookup data sets dynamically built from searching the underlying index. This feature stands side to side to the _static lookup_ data sets provided by [thesauri](thesauri.md).
 
@@ -146,7 +147,7 @@ This lookup component emits an `entryChange` event whenever a lookup entry is pi
 
 As the backend just leverages the existing search infrastructure, and data pins get updated whenever a part is saved, there is no action to be taken in the backend for this to work.
 
-### PinLinksPart
+### Linking Items: PinLinksPart
 
 A special part, the `PinLinksPart`, is provided among the general Cadmus parts for leveraging this linking mechanism. Essentially, the pin links part concept is simple: it is just a container of links connecting the container item to 1 or more items via a pin-based link.
 
@@ -164,21 +165,21 @@ export const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
   // human-friendly ID for sites
   site: {
     typeId: METADATA_PART_TYPEID,
-    name: 'hid',
+    name: 'eid',
   },
 };
 ```
 
-This definition says that there is a lookup type named `site` which draws its pins named `hid` (=human friendly ID) from parts of type metadata. So, any item having a metadata part with a `hid` name/value pair will be eligible as a link target.
+This definition says that there is a lookup type named `site` which draws its pins named `eid` (=entity ID) from parts of type metadata. So, any item having a metadata part with an `eid` name/value pair will be eligible as a link target.
 
 (2) ensure that the site item facet has a `MetadataPart`, and that the inscription facet has a `PinLinksPart`.
 
 (3) whenever you need to link an inscription to a site:
 
-- ensure that the site item has a metadata part, with its human friendly ID in a pair with name=`hid`, and value equal to the desired ID (e.g. `epidauros`).
-- add a pin links part to the inscription item, and pick as link type the one named `site`. Note that this `site` type is automatically inferred from the index lookup definitions defined in your project. Once you have picked this type, just type some letters to fetch a list of matching site human-friendly IDs; so, you can type `ep` and immediately find `epidauros`. If you pick this from the lookup list, a link will be added from the inscription to the site which contains a metadata part with a `hid` metadatum equal to `epidauros`.
+- ensure that the site item has a metadata part, with its human friendly ID in a pair with name=`eid`, and value equal to the desired ID (e.g. `epidauros`).
+- add a pin links part to the inscription item, and pick as link type the one named `site`. Note that this `site` type is automatically inferred from the index lookup definitions defined in your project. Once you have picked this type, just type some letters to fetch a list of matching site human-friendly IDs; so, you can type `ep` and immediately find `epidauros`. If you pick this from the lookup list, a link will be added from the inscription to the site which contains a metadata part with an `eid` metadatum equal to `epidauros`.
 
-Note that the PinLinksPart gets injected the constant object of type `IndexLookupDefinitions`, and allows users to pick any of its properties as the lookup source. So, you can add several lookup definitions and let the user pick the one he wants as the scope of his search.
+Note that `PinLinksPart` gets injected the constant object of type `IndexLookupDefinitions`, and allows users to pick any of its properties as the lookup source. So, you can add several lookup definitions and let the user pick the one he wants as the scope of his search.
 
 Getting this object injected is simple: just add this parameter to your component's constructor parameters:
 
@@ -186,5 +187,46 @@ Getting this object injected is simple: just add this parameter to your componen
 @Inject('indexLookupDefinitions')
 lookupDefs: IndexLookupDefinitions,
 ```
+
+### Linking Entities: Asserted ID Brick
+
+On the same ground, you can extend this mechanism to work for all the entities scattered across other item's parts. In fact, many parts, especially when including several entities, provide a property, usually named `eid` (entity ID), filled by users to assign a human-friendly ID to some entity.
+
+For instance, say you have a manuscripts decorations part, listing a number of decorations. Each of them can eventually be assigned an ID, freely defined by the user, e.g. `angel1`. This EID is human-friendly, and is unique only in the context of its part. Getting a non-scoped, yet user-friendly ID would then require some conventional strategy, like e.g. prefixing the EID with the item and/or part EID.
+
+As we have seen above, this EID can be extended to the whole item by means of the generic metadata part, where you just add a metadatum named eid with some arbitrarily defined value. This is just a convention, as in the end EIDs are found only in parts, whatever their type. So, for instance a user might enter a metadatum pair like e.g. `eid=vat_lat_123`, and use it as the human friendly identifier for a manuscript item corresponding to Vat. Lat. 123.
+
+>Items and parts always have a globally unique identifier (GUID), like e.g. `30ed7d3d-a70f-4254-a611-8cc1872f10d5`. Of course, while this is granted to be unique, it's not user friendly at all. So, when filling data, most times users prefer shorter and more readable identifiers, like `angel1`. Once this identifier, which is scoped to its part, gets connected with a part and/or an item, the GUID of that item/part ensure that this identifier will be globally unique, too. This combination mechanism is similar to the strategies adopted by mapping rules in projecting data from parts into a [semantic graph](graph.md).
+
+Of course, once we have scattered such EIDs in our parts, we might want some mechanism in the UI to quickly lookup them, and to eventually build non-scoped IDs from their values. This can be accomplished with the [asserted ID(s) bricks](https://github.com/vedph/cadmus-bricks-shell/blob/master/projects/myrmidon/cadmus-refs-asserted-ids/README.md). These provide a way to include external or internal references to resource identifiers, whatever their type and origin.
+
+The asserted ID brick allows editing a simple model representing such IDs, having:
+
+- a value, the ID itself.
+- a scope, representing the context the ID originates from (e.g. an ontology, a repository, a website, etc.).
+- an optional tag, eventually used to group or classify the ID.
+- an optional assertion, eventually used to define the uncertainty level of the assignment of this ID to the context it applies to.
+
+The asserted IDs brick is just a collection of such IDs.
+
+According to the scenario illustrated above, the basic requirements for building non-scoped, unique IDs from scoped, human-friendly identifiers are:
+
+- we must be able to draw EIDs _from parts or from items_, assuming the convention by which an item can be assigned an EID via its generic _metadata_ part.
+- we must let users pick _the preferred combination_ of components which once assembled build a unique, yet human-friendly identifier.
+
+To this end, the asserted ID component provides an internal lookup mechanism based on data pins and metadata conventions. When users want to add an ID referring to some internal entity, either found in a part or corresponding to an item, he just has to pick the type of desired lookup (when more than a single lookup search definition is present), and type some characters to get the first N pins starting with these characters; he can then pick one from the list.
+
+>The type of lookup is just the name of any of the `IndexLookupDefinition`'s specified in your project. When there is only one, the brick component is smart enough to use it silently. Otherwise, it will show an additional control in the UI where you can pick the lookup definition you want to use. This allows using different lookup definitions, leveraging different pin names and filtering criteria.
+
+Once a pin value is picked, the lookup control shows all the relevant data which can be used as components for the ID to build:
+
+- the pin's value itself.
+- the item GUID.
+- the item title.
+- the part GUID.
+- the part type ID.
+- the item's metadata part entries.
+
+The user can then use buttons to append each of these components to the ID being built, and/or variously edit it. When he's ok with the ID, he can then use it as the reference ID being edited.
 
 🏠 [developer's home](../toc.md)
