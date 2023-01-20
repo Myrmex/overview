@@ -194,7 +194,7 @@ On the same ground, you can extend this mechanism to work for all the entities s
 
 For instance, say you have a manuscripts decorations part, listing a number of decorations. Each of them can eventually be assigned an ID, freely defined by the user, e.g. `angel1`. This EID is human-friendly, and is unique only in the context of its part. Getting a non-scoped, yet user-friendly ID would then require some conventional strategy, like e.g. prefixing the EID with the item and/or part EID.
 
-As we have seen above, this EID can be extended to the whole item by means of the generic metadata part, where you just add a metadatum named eid with some arbitrarily defined value. This is just a convention, as in the end EIDs are found only in parts, whatever their type. So, for instance a user might enter a metadatum pair like e.g. `eid=vat_lat_123`, and use it as the human friendly identifier for a manuscript item corresponding to Vat. Lat. 123.
+As we have seen above, this EID can be extended to the whole item by means of the generic metadata part, where you just add a metadatum named `eid` with some arbitrarily defined value. This is just a convention, as in the end EIDs are found only in parts, whatever their type. So, for instance a user might enter a metadatum pair like e.g. `eid=vat_lat_123`, and use it as the human friendly identifier for a manuscript item corresponding to Vat. Lat. 123.
 
 >Items and parts always have a globally unique identifier (GUID), like e.g. `30ed7d3d-a70f-4254-a611-8cc1872f10d5`. Of course, while this is granted to be unique, it's not user friendly at all. So, when filling data, most times users prefer shorter and more readable identifiers, like `angel1`. Once this identifier, which is scoped to its part, gets connected with a part and/or an item, the GUID of that item/part ensure that this identifier will be globally unique, too. This combination mechanism is similar to the strategies adopted by mapping rules in projecting data from parts into a [semantic graph](graph.md).
 
@@ -226,6 +226,10 @@ Once a pin value is picked, the lookup control shows all the relevant data which
 - the part GUID.
 - the part type ID.
 - the item's metadata part entries.
+
+![scoped pin lookup](../../../img/cadmus/scoped-pin-lookup-brick.png)
+
+>Please notice that the data in this screenshot are totally mock, and do not even resemble the real format.
 
 The user can then use buttons to append each of these components to the ID being built, and/or variously edit it. When he's ok with the ID, he can then use it as the reference ID being edited.
 
