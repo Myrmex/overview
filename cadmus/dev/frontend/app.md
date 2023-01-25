@@ -800,7 +800,7 @@ export class AppComponent implements OnInit, OnDestroy {
   <div layout="row" layout-align="center center">
     <p>
       Cadmus by
-      <a href="https://www.fusisoft.net" target="_blank">Daniele Fusi</a> -
+      <a href="http://www.fusisoft.it" target="_blank">Daniele Fusi</a> -
       version {{ version }}
     </p>
   </div>
