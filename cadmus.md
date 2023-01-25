@@ -28,7 +28,9 @@ Cadmus presentation speech at [VeDPH](https://www.unive.it/pag/39287) seminars:
 
 One of the key concepts in Cadmus us **reuse**, which is obtained via modularity, both in data and in their editor.
 
-Using a metaphor, imagine a set of _boxes_ (named _items_), each representing a data record, whatever its type. Every box has a small _label_ (=an essential set of metadata), and may contain any number of _objects_ (named _parts_; the name comes from the fact that they are the parts of a macro-model, built by aggregation).
+![Cadmus objects](img/cadmus/objects.png)
+
+Using a metaphor, imagine a set of _boxes_ (named _items_), each representing a data record, whatever its type. Every box has a small _label_ (=an essential set of metadata), and may contain any number of _objects_ (named _parts_; the name comes from the fact that they are the parts of a macro-model, built by aggregation). The boxes with these objects are stored on shelves, i.e. the database infrastructure.
 
 Eventually, you also have a set of _stickers_ you can attach to any of these objects; these are the _thesauri_, i.e. predefined (yet editable) taxonomies used in your data. For instance, an object representing a set of keywords to attach to your item might want to use a language identifier for each keyword; and in its UI, the language might be selected from a dropdown list. This list of languages would be a thesaurus, having an entry for each language, with an ID (maybe an [ISO639](https://www.iso.org/iso-639-language-codes.html) language code) and a human-friendly label.
 
@@ -36,7 +38,7 @@ Every object has its own data model, designed to be independent and reusable. So
 
 >👉 The [graph under menu Models/Graph](https://cadmus.fusi-soft.com/#/models/graph) on the presentation site is a clear example of real-world reuse.
 
-As for data, also their _editors_ are modular: for each object model there is a corresponding editing UI, so the full editor is just built by aggregation, too.
+As for data, also their _editors_ are modular: for each object model there is a corresponding editing UI, so the full editor is just built by aggregation, too. UI modularity goes even beyond the object level, so that a lot of shared UI widgets ("bricks") are reused across many object editors and projects.
 
 In addition, also _texts_ and all their _annotations_, whatever their complexity and overlap, are included in the same architecture. A text is just an object, put in a box like any other; and each type of annotation is another object too, put in the same box. So you have an object for each "layer" of annotations on top of the same base text, e.g. for critical apparatus, comments, orthographic deviations, ligatures, etc. Users must no more take care of manually marking up a text, which requires specific IT skills; nor to force its model in the cage of the constraints imposed by a specific serialization technology. Models are free to be designed in a more abstract way, taking care only about the knowledge domain they refer to. All what users must do is selecting the text they want to annotate, and clicking a button to get into the editor for the chosen annotation type. This will provide the full UI to cope with its specific model, just like for any other object: the composable editors can be as simple as a web form, or full-fledged web apps, or anything in between.
 
