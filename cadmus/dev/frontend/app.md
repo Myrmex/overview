@@ -63,12 +63,24 @@ npm i @ngneat/elf @ngneat/elf-entities @ngneat/elf-devtools @ngneat/elf-requests
 (4) install the typical Cadmus packages via NPM:
 
 ```bash
-npm i @auth0/angular-jwt @myrmidon/auth-jwt-admin @myrmidon/auth-jwt-login @myrmidon/cadmus-api @myrmidon/cadmus-core @myrmidon/cadmus-graph-ui @myrmidon/cadmus-graph-pg @myrmidon/cadmus-item-editor @myrmidon/cadmus-item-list @myrmidon/cadmus-item-search @myrmidon/cadmus-login @myrmidon/cadmus-part-general-pg @myrmidon/cadmus-part-general-ui @myrmidon/cadmus-part-philology-pg @myrmidon/cadmus-part-philology-ui @myrmidon/cadmus-preview-pg @myrmidon/cadmus-preview-ui @myrmidon/cadmus-profile-core @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-flags-picker @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/ngx-dirty-check @types/diff-match-patch diff-match-patch gravatar ngx-markdown ngx-monaco-editor rangy --force
+npm i @auth0/angular-jwt @myrmidon/auth-jwt-admin @myrmidon/auth-jwt-login
+npm i @myrmidon/cadmus-api @myrmidon/cadmus-core @myrmidon/cadmus-graph-ui @myrmidon/cadmus-graph-pg
+npm i @myrmidon/cadmus-item-editor @myrmidon/cadmus-item-list @myrmidon/cadmus-item-search
+npm i @myrmidon/cadmus-part-general-pg @myrmidon/cadmus-part-general-ui
+npm i @myrmidon/cadmus-part-philology-pg @myrmidon/cadmus-part-philology-ui
+npm i @myrmidon/cadmus-preview-pg @myrmidon/cadmus-preview-ui @myrmidon/cadmus-profile-core
+npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/ngx-dirty-check @types/diff-match-patch diff-match-patch gravatar
+npm i ngx-markdown ngx-monaco-editor rangy --force
 ```
 
 The above packages are fairly typical, but you might well omit those you are not interested in, e.g. general parts or philology parts, or some of the bricks. Some of the legacy third party libraries like rangy may require `--force`.
 
-Typically you will also need `ngx-markdown` if you have components _displaying_ Markdown, and `ngx-monaco` if you components _using_ Markdown or other languages in a Monaco-based editor. Please be sure to follow the directions provided by each library when installing it. For instance, [ngx-markdown](https://github.com/jfcere/ngx-markdown) requires these packages:
+Typically you will also need:
+
+- [ngx-markdown](https://github.com/jfcere/ngx-markdown) if you have components _displaying_ Markdown.
+- [ngx-monaco-editor](https://github.com/atularen/ngx-monaco-editor) if you components _using_ Markdown or other languages in a Monaco-based editor.
+
+Please be sure to follow the directions provided by each library when installing it. For instance, [ngx-markdown](https://github.com/jfcere/ngx-markdown) requires these packages:
 
 ```bash
 npm install ngx-markdown marked --force
@@ -101,6 +113,8 @@ This is essential to let the frontend find the server, while allowing us to manu
   window.__env.version = "0.0.1";
 })(this);
 ```
+
+>💡 You might need additional settings here, like e.g. a Mapbox GL API token if using geographic components.
 
 If you are going to use the [external bibliography API](https://github.com/vedph/cadmus_biblioapi), also add its URL here, e.g.:
 
