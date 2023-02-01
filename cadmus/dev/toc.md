@@ -39,3 +39,4 @@ Then, you create an Angular workspace for your frontend app, eventually adding t
 - [dynamic data lookup strategies](concepts/lookup.md)
 - [semantic graph](concepts/graph.md)
 - [layers reconciliation](concepts/layer-reconciliation.md)
+- 📆 [history](history.md)
