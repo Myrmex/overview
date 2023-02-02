@@ -119,7 +119,75 @@ namespace Cadmus.__PRJ__.Services
 
 ## Part Seeder Factory Provider
 
-Add a `<PRJ>PartSeederFactoryProvider` class, following this template:
+Add a `<PRJ>PartSeederFactoryProvider` class.
+
+The **current** template after the [component factory update](../history.md#2023-02-01---backend-infrastructure-upgrade) is:
+
+```cs
+using Cadmus.Core.Config;
+using Cadmus.Seed;
+using Cadmus.Seed.General.Parts;
+using Cadmus.Seed.Philology.Parts;
+using Cadmus.Seed.__PRJ__.Parts;
+using Cadmus.Seed.Tgr.Parts.Grammar;
+using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
+using Microsoft.Extensions.Hosting;
+using System;
+using System.Reflection;
+
+namespace Cadmus.__PRJ__.Services;
+
+/// <summary>
+/// __PRJ__ part seeders provider.
+/// </summary>
+/// <seealso cref="IPartSeederFactoryProvider" />
+public sealed class __PRJ__PartSeederFactoryProvider :
+    IPartSeederFactoryProvider
+{
+    private static IHost GetHost(string config)
+    {
+        // build the tags to types map for parts/fragments
+        Assembly[] seedAssemblies = new[]
+        {
+            // TODO: include all the assemblies required by your project
+            // Cadmus.Seed.General.Parts
+            typeof(NotePartSeeder).Assembly,
+            // Cadmus.Seed.Philology.Parts
+            typeof(ApparatusLayerFragmentSeeder).Assembly,
+            // Cadmus.Seed.__PRJ__.Parts
+            // typeof(MYSEEDER).GetTypeInfo().Assembly,
+        };
+        TagAttributeToTypeMap map = new();
+        map.Add(seedAssemblies);
+
+        return new HostBuilder()
+            .ConfigureServices((hostContext, services) =>
+            {
+                PartSeederFactory.ConfigureServices(services,
+                    new StandardPartTypeProvider(map),
+                    seedAssemblies);
+            })
+            // extension method from Fusi library
+            .AddInMemoryJson(config)
+            .Build();
+    }
+
+    /// <summary>
+    /// Gets the part/fragment seeders factory.
+    /// </summary>
+    /// <param name="profile">The profile.</param>
+    /// <returns>Factory.</returns>
+    /// <exception cref="ArgumentNullException">profile</exception>
+    public PartSeederFactory GetFactory(string profile)
+    {
+        if (profile == null) throw new ArgumentNullException(nameof(profile));
+
+        return new PartSeederFactory(GetHost(profile));
+    }
+}
+```
+
+This is the **old** template, still using `Fusi.Tools.Config`:
 
 ```cs
 using Cadmus.Core.Config;

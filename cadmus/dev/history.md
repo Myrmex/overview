@@ -160,6 +160,8 @@ The change impacted a number of backend products, in this order:
 5. Cadmus API.
 6. all the backend components of specific Cadmus projects.
 
+Cadmus bricks were not affected, as they have minimal dependencies.
+
 ### Upgrade Path
 
 This change impacts only backend custom parts/fragments and their services. All the other components should just update their libraries.
@@ -167,3 +169,15 @@ This change impacts only backend custom parts/fragments and their services. All 
 - make sure to update `Fusi.Tools`, and replace `Fusi.Tools.Config` with `Fusi.Tools.Configuration`.
 - make sure that you update your pluggable components (in most cases parts/fragments) tagged with `TagAttribute` so that they use the implementation found in `Fusi.Tools.Configuration`, rather than that from `Fusi.Tools` (or `Fusi.Tools.Config`).
 - update all the Cadmus libraries.
+
+In your **project-specific library**, typically you just have to:
+
+1. update all the libraries.
+2. replace namespace reference `Fusi.Tools.Config` with `Fusi.Tools.Configuration`.
+3. replace the part seeder factory provider implementation following its [new template](backend/services.md#part-seeder-factory-provider).
+
+>The corresponding repository provider needs no change.
+
+In your **projec-specific API**, you just have to update all the libraries.
+
+🏠 [developer's home](toc.md)
