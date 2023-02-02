@@ -166,17 +166,14 @@ Cadmus bricks were not affected, as they have minimal dependencies.
 
 This change impacts only backend custom parts/fragments and their services. All the other components should just update their libraries.
 
-- make sure to update `Fusi.Tools`, and replace `Fusi.Tools.Config` with `Fusi.Tools.Configuration`.
-- make sure that you update your pluggable components (in most cases parts/fragments) tagged with `TagAttribute` so that they use the implementation found in `Fusi.Tools.Configuration`, rather than that from `Fusi.Tools` (or `Fusi.Tools.Config`).
-- update all the Cadmus libraries.
-
 In your **project-specific library**, typically you just have to:
 
-1. update all the libraries.
-2. replace namespace reference `Fusi.Tools.Config` with `Fusi.Tools.Configuration`.
+1. update all the libraries in your projects. Make sure to update `Fusi.Tools`, and replace `Fusi.Tools.Config` with `Fusi.Tools.Configuration` everywhere.
+2. replace namespace reference `Fusi.Tools.Config` with `Fusi.Tools.Configuration`. This ensures that your pluggable components (in most cases parts/fragments) tagged with `TagAttribute` use the implementation found in `Fusi.Tools.Configuration`, rather than that from `Fusi.Tools` (or `Fusi.Tools.Config`). This is easy, as once removed any references to the old library you get a compile error wherever you need to apply the replacement.
 3. replace the part seeder factory provider implementation following its [new template](backend/services.md#part-seeder-factory-provider).
+4. in your test library (when present), replace the seeder helper `GetFactory` method following its [new template](backend/part-seeders.md#test-helper).
 
->The corresponding repository provider needs no change.
+>The part repository provider needs no changes.
 
 In your **projec-specific API**, you just have to update all the libraries.
 
