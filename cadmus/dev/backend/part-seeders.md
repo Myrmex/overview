@@ -205,10 +205,9 @@ Sample `TestHelper`:
 ```cs
 using Cadmus.Core;
 using Cadmus.Core.Config;
-using Cadmus.Pura.Parts;
+using Cadmus.__PRJ__.Parts;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
 using Microsoft.Extensions.Configuration;
-using SimpleInjector;
 using System;
 using System.IO;
 using System.Reflection;
@@ -224,7 +223,7 @@ static internal class TestHelper
         if (name == null) throw new ArgumentNullException(nameof(name));
 
         return Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                $"Cadmus.Seed.Pura.Parts.Test.Assets.{name}")!;
+                $"Cadmus.Seed.__PRJ__.Parts.Test.Assets.{name}")!;
     }
 
     static public string LoadResourceText(string name)
@@ -236,37 +235,38 @@ static internal class TestHelper
         return reader.ReadToEnd();
     }
 
-    static public PartSeederFactory GetFactory()
+    private static IHost GetHost(string config)
     {
         // map
         TagAttributeToTypeMap map = new();
         map.Add(new[]
         {
+            // TODO: your parts assemblies here
             // Cadmus.Core
             typeof(StandardItemSortKeyBuilder).Assembly,
-            // Cadmus.Philology.Parts
-            typeof(ApparatusLayerFragment).Assembly
+            // Cadmus.__PRJ__.Parts
+            typeof(YOURPART).Assembly
         });
 
-        // container
-        Container container = new();
-        PartSeederFactory.ConfigureServices(
-            container,
-            new StandardPartTypeProvider(map),
-            new[]
+        return new HostBuilder().ConfigureServices((hostContext, services) =>
             {
-                // Cadmus.Seed.Parts
-                typeof(NotePartSeeder).Assembly,
-                // Cadmus.Seed.Philology.Parts
-                typeof(ApparatusLayerFragmentSeeder).Assembly
-            });
+                PartSeederFactory.ConfigureServices(services,
+                    new StandardPartTypeProvider(map),
+                    new[]
+                    {
+                        // TODO: your seeder assembly here
+                        // Cadmus.Seed.__PRJ__.Parts
+                        typeof(YOURSEEDER).Assembly
+                    });
+            })
+            // extension method from Fusi library
+            .AddInMemoryJson(config)
+            .Build();
+    }
 
-        // config
-        IConfigurationBuilder builder = new ConfigurationBuilder()
-            .AddInMemoryJson(LoadResourceText("SeedConfig.json"));
-        var configuration = builder.Build();
-
-        return new PartSeederFactory(container, configuration);
+    static public PartSeederFactory GetFactory()
+    {
+        return new PartSeederFactory(GetHost(LoadResourceText("SeedConfig.json")));
     }
 
     static public void AssertPartMetadata(IPart part)
@@ -276,6 +276,43 @@ static internal class TestHelper
         Assert.NotNull(part.UserId);
         Assert.NotNull(part.CreatorId);
     }
+}
+```
+
+This template was updated after the [component factory upgrade](../history.md#2023-02-01---backend-infrastructure-upgrade). The **old** GetFactory() helper method using `Fusi.Tools.Config` is:
+
+```cs
+static public PartSeederFactory GetFactory()
+{
+    // map
+    TagAttributeToTypeMap map = new();
+    map.Add(new[]
+    {
+        // Cadmus.Core
+        typeof(StandardItemSortKeyBuilder).Assembly,
+        // Cadmus.Philology.Parts
+        typeof(ApparatusLayerFragment).Assembly
+    });
+
+    // container
+    Container container = new();
+    PartSeederFactory.ConfigureServices(
+        container,
+        new StandardPartTypeProvider(map),
+        new[]
+        {
+            // Cadmus.Seed.Parts
+            typeof(NotePartSeeder).Assembly,
+            // Cadmus.Seed.Philology.Parts
+            typeof(ApparatusLayerFragmentSeeder).Assembly
+        });
+
+    // config
+    IConfigurationBuilder builder = new ConfigurationBuilder()
+        .AddInMemoryJson(LoadResourceText("SeedConfig.json"));
+    var configuration = builder.Build();
+
+    return new PartSeederFactory(container, configuration);
 }
 ```
 
