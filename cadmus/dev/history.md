@@ -106,7 +106,7 @@ public static void ConfigureServices(IServiceCollection services,
 }
 ```
 
-If your components need some options which should not be placed in this document, e.g. a connection string, the factory provides an override mechanism to supply (override) them via code. In this case, the POCO options object should include that property (usually as a nullable property), and you should derive your own factory from ComponentFactory, like in this example:
+If your components need some options which should not be placed in this document, e.g. a connection string, the factory provides an override mechanism to supply (override) them via code. In this case, the POCO options object should include that property (usually as a nullable property), and you should derive your own factory from `ComponentFactory`, like in this example:
 
 ```cs
 internal sealed class AppComponentFactory : ComponentFactory
@@ -158,7 +158,7 @@ The change impacted a number of backend products, in this order:
 3. `Cadmus.Migration` for the preview functions.
 4. all the Cadmus parts (`Cadmus.General.Parts`, `Cadmus.Philology.Parts`, etc.), as they need to reference the correct implementation of `TagAttribute`.
 5. Cadmus API.
-6. all the backend components of specific Cadmus projects.
+6. all the backend components of generic (like `Codicology`, `Geography`, `Epigraphy`) or specific Cadmus projects.
 
 Cadmus bricks were not affected, as they have minimal dependencies.
 
