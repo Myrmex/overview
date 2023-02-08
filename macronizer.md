@@ -28,7 +28,7 @@ Both these layers are distributed in Docker images. Once you have a Docker image
 Apart from endpoints used for diagnostic purposes, the API exposes a single endpoint for the macronization service, `api/macronize`, for a POST request whose body corresponds to a JSON object having this model (\* marks required properties):
 
 - `text` (string)\*: the text to macronize. Max 50,000 characters.
-- `maius` (boolean): true to macronize capitalized words.
+- `maius` (boolean): true to add macrons to words like _maius_ (=/majjus/).
 - `utov` (boolean): true to convert U to V.
 - `itoj` (boolean): true to convert I to J.
 - `ambiguous` (boolean): true to mark ambiguous results. In this case, the output will be HTML instead of plain text, with `span` elements wrapping each word, with a `class` attribute equal to `ambig` or `unknown` (or `auto` for unmarked vowels). In turn, each of these spans will wrap the vowels inside an attribute-less span `element`. You can use the options below to convert it before returning the result.
