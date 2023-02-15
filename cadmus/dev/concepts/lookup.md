@@ -60,7 +60,7 @@ All what is required for our cited persons part is thus knowing:
 
 Just like a part UI must know about the names of the thesauri sets it requires, here the part UI would require to know about these parameters. Both these parameters are defined at design time for each part, so this is not an issue. Also, they are just names, and carry no part-specific structure.
 
-Once the cited persons part knows these parameters, it can use them to query the index service for all the data pins belonging to a specified part type, having a specified name, and maybe having a value starting with the letters typed by a user.
+Once the cited persons part knows these parameters, it can use them to query the index service for all the data pins belonging to a specified part type, having a specified name, and maybe having a value including the letters typed by a user.
 The result would be a list of data pins, which as such provides:
 
 - the pin's name and value.
@@ -125,9 +125,9 @@ Once you have these parameters, use them to build a query and pass it to `ItemSe
 - the specified part's type ID.
 - the optionally specified part's role ID.
 - the specified data pin's name.
-- the data pin's value starting with the input filter.
+- the data pin's value including the input filter.
 
-This way, if a user types `pa` in a lookup control, and there is a data pin for that part type and pin name whose value starts with `pa` (like `Palermo`), it will be included in the results (up to a specified limit). The user will thus see a list of values starting with `pa`, and eventually pick the desired one from it.
+This way, if a user types `pa` in a lookup control, and there is a data pin for that part type and pin name whose value starts with `pa` (like `Palermo`), it will be included in the results (up to a specified limit). The user will thus see a list of values including `pa`, and eventually pick the desired one from it.
 
 For an implementation of this lookup mechanism in the frontend you can see the `LookupPinComponent`, having these input properties:
 
@@ -179,6 +179,8 @@ This definition says that there is a lookup type named `site` which draws its pi
 - ensure that the site item has a metadata part, with its human friendly ID in a pair with name=`eid`, and value equal to the desired ID (e.g. `epidauros`).
 - add a pin links part to the inscription item, and pick as link type the one named `site`. Note that this `site` type is automatically inferred from the index lookup definitions defined in your project. Once you have picked this type, just type some letters to fetch a list of matching site human-friendly IDs; so, you can type `ep` and immediately find `epidauros`. If you pick this from the lookup list, a link will be added from the inscription to the site which contains a metadata part with an `eid` metadatum equal to `epidauros`.
 
+>Optionally you can add a tag to each of the links inserted in the pin links part. This tag might be used e.g. for defining the type of relationship between the source and its target. Among the pins emitted by this part, you have the item IDs, and optionally the tagged item IDs, which for all the item IDs with a tag are equal to the tag plus space plus the item ID.
+
 Note that `PinLinksPart` gets injected the constant object of type `IndexLookupDefinitions`, and allows users to pick any of its properties as the lookup source. So, you can add several lookup definitions and let the user pick the one he wants as the scope of his search.
 
 Getting this object injected is simple: just add this parameter to your component's constructor parameters:
@@ -214,7 +216,7 @@ According to the scenario illustrated above, the basic requirements for building
 - we must be able to draw EIDs _from parts or from items_, assuming the convention by which an item can be assigned an EID via its generic _metadata_ part.
 - we must let users pick _the preferred combination_ of components which once assembled build a unique, yet human-friendly identifier.
 
-To this end, the asserted ID component provides an internal lookup mechanism based on data pins and metadata conventions. When users want to add an ID referring to some internal entity, either found in a part or corresponding to an item, he just has to pick the type of desired lookup (when more than a single lookup search definition is present), and type some characters to get the first N pins starting with these characters; he can then pick one from the list.
+To this end, the asserted ID component provides an internal lookup mechanism based on data pins and metadata conventions. When users want to add an ID referring to some internal entity, either found in a part or corresponding to an item, he just has to pick the type of desired lookup (when more than a single lookup search definition is present), and type some characters to get the first N pins including these characters; he can then pick one from the list.
 
 >The type of lookup is just the name of any of the `IndexLookupDefinition`'s specified in your project. When there is only one, the brick component is smart enough to use it silently. Otherwise, it will show an additional control in the UI where you can pick the lookup definition you want to use. This allows using different lookup definitions, leveraging different pin names and filtering criteria.
 
