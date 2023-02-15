@@ -56,10 +56,10 @@ Finally, as a content editor Cadmus is located at the center of a potentially wi
 
 Technically, the system is a _full-stack framework_ using a number of layers: from bottom to top, they are:
 
-1. database layer (MongoDB)
-2. data layer (C#)
-3. business layer (C#)
-4. web API layer (ASP.NET 7)
-5. web frontend layer (Angular 15+)
+1. database layer ([MongoDB](https://www.mongodb.com))
+2. data layer ([C#](https://dotnet.microsoft.com/en-us/languages/csharp))
+3. business layer ([C#](https://dotnet.microsoft.com/en-us/languages/csharp))
+4. web API layer ([ASP.NET 7](https://www.asp.net))
+5. web frontend layer ([Angular 15+](https://angular.io))
 
-A Cadmus editor, composed by aggregating existing parts or adding new ones, is _distributed_ via [Docker](https://www.docker.com/) images, so that all what you need to run it, either locally or on a server, is a machine with Docker installed. Of course, given the layered architecture, you are free to replace the layers you want, e.g. to use a different frontend, or a different storage technology. Yet, in most cases you can just put together object models created for several projects, and have your own up and running in a few hours. In the end, this tool will allow you to build your own data with your own models, getting a full, standard database for them (or any other resource derived from it, like a TEI document). Once you have the database, you can also grab it, forgetting Cadmus altogether, and do whatever you want with it.
+A Cadmus editor, composed by aggregating existing parts or adding new ones, is _distributed_ via 🐋 [Docker](https://www.docker.com/) images, so that all what you need to run it, either locally or on a server, is a machine with Docker installed. Of course, given the layered architecture, you are free to replace the layers you want, e.g. to use a different frontend, or a different storage technology. Yet, in most cases you can just put together object models created for several projects, and have your own up and running in a few hours. In the end, this tool will allow you to build your own data with your own models, getting a full, standard database for them (or any other resource derived from it, like a TEI document). Once you have the database, you can also grab it, forgetting Cadmus altogether, and do whatever you want with it.
