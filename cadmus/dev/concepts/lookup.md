@@ -13,6 +13,7 @@ subtitle: "Cadmus Development"
   - [Developer's Hints](#developers-hints)
   - [Linking Items: PinLinksPart](#linking-items-pinlinkspart)
   - [Linking Entities: Asserted ID Brick](#linking-entities-asserted-id-brick)
+- [Linking Recap](#linking-recap)
 
 _Dynamic lookup_ refers to a feature of the system providing lookup data sets dynamically built from searching the underlying index. This feature stands side to side to the _static lookup_ data sets provided by [thesauri](thesauri.md).
 
@@ -234,5 +235,41 @@ Once a pin value is picked, the lookup control shows all the relevant data which
 >Please notice that the data in this screenshot are totally mock, and do not even resemble the real format.
 
 The user can then use buttons to append each of these components to the ID being built, and/or variously edit it. When he's ok with the ID, he can then use it as the reference ID being edited.
+
+## Linking Recap
+
+To recap, the main strategies for linking data in Cadmus are:
+
+A. **static** lookup against preset (yet editable) taxonomies ([thesauri](thesauri.md)).
+
+B. **dynamic** lookup:
+
+1. _from item to item(s)_, typically via `PinLinksPart`.
+2. _from entity to entity in the context of the same part_. This is inside the part's model, where some entities are given their ID for this purpose. These IDs, conventionally named EIDs (entity IDs), are unique only within the boundaries of the part including them. So, for instance in a manuscript's decorations part where each decoration is an entity users need only to ensure that each decoration EID is unique inside that part (which in this example is equal to saying that every decoration EID is unique only inside the manuscript including them, as the decorations part is inside a manuscript item).
+3. _from part to entity in another part_, via `LookupPinComponent`. This uses the EIDs provided by parts (via data pins), making them global by means of a part- or item-related prefix.
+
+C. **graph** links: any item, part's entity, or thesaurus entry can be mapped into a graph's node via [mapping rules](graph-mappings.md), and users are free to add new links among nodes (as well as to add new nodes).
+
+>A part can represent one or more entities. For instance, a manuscript's decorations part represents many entities (one for each decoration), while a date part just represents a single entity (the date assigned to the item including that part).
+
+The picture below provides a visual summary:
+
+![Cadmus links](../../../img/cadmus/links.png)
+
+Type (A) above (**static lookup**) is the easiest scenario: any part can use any number of preset taxonomies (thesauri). For instance, here item A has a part linked (red arrow) to an entry in one of the available thesauri.
+
+Type (B) is more complex. Conventionally, **item to item(s)** linking is done via a pin-based links part, where:
+
+- an _index search definition_ is provided, targeting the metadata part type and pin name (`eid`).
+- the _target item_ has a _metadata part_ with an entry name equal to `eid`, whose value is the human-friendly ID we want to assign to the item containing that part. In the picture, item A has a metadata part, and its EID metadatum is indexed as a data pin in the index (the yellow `A` circle).
+- the _source item_ has a _pin links part_, containing an entry referencing the EID assigned to item A and exposed in the index (via data pins). There, users select the type of index search definition (e.g. named metadata, as it refers to metadata part pins), and then type some characters of the EID to find it and insert it as the link's value. The UI also provides full details about the pin's source part and item, because these are required to transform the part-scoped EID into a globally-scoped ID.
+
+In the picture, you can see that the pin derived from the metadata part in item A acts as the link connecting item A to item B via the pin links part in item B.
+
+In turn, item B has another part including a couple of entities, with EIDs equal to `X` and `Y`. These entities generate pins, which are stored in the same index. So, it is now possible to **link to another part's entity** via the index. For instance, item A here has a part which links to the X entity from another part, in item B. This typically happens via a lookup component in the part editor, where users can build a globally-scoped ID by variously assembling a global prefix and a part-scoped EID like `X`.
+
+Of course, should there be the need of **linking entities inside the boundaries of the same part** (here the item B's part containing entities `X` and `Y`), it would be just a matter of looking up them in the part editor.
+
+Finally, in any case you can have **mapping rules** which match either an item, or any of its parts contents, and project them as nodes into a graph. Once there, you can freely add as many links as you want between nodes.
 
 🏠 [developer's home](../toc.md)
