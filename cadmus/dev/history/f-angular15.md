@@ -354,4 +354,4 @@ protected override getReqThesauriIds(): string[] {
 ></cadmus-chronology-fragment>
 ```
 
-🏠 [developer's home](toc.md)
+🏠 [developer's home](../toc.md)

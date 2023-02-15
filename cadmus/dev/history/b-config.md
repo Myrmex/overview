@@ -177,4 +177,4 @@ In your **project-specific library**, typically you just have to:
 
 In your **projec-specific API**, you just have to update all the libraries.
 
-🏠 [developer's home](toc.md)
+🏠 [developer's home](../toc.md)
