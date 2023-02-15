@@ -26,7 +26,7 @@ Cadmus presentation speech at [VeDPH](https://www.unive.it/pag/39287) seminars:
 
 ## Architecture
 
-One of the key concepts in Cadmus us **reuse**, which is obtained via modularity, both in data and in their editor.
+One of the key concepts in Cadmus is **reuse**, which is obtained via modularity, both in _data_ and in their _editor_ UI.
 
 ![Cadmus objects](img/cadmus/objects.png)
 
