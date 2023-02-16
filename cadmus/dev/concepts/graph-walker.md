@@ -14,13 +14,49 @@ subtitle: "Cadmus Development"
 
 The walker is used to traverse the graph by exploring the connections of an arbitrarily chosen starting node in it. Its UI provides an easy way of getting to the desired node, while also visualizing the connections of a specific node.
 
-As the graph may quickly grow up in size, it would be impractical to represent all the nodes and their links (edges) at once; the graph would be barely readable, overcrowded by a high number of overlapping shapes and lines. The solution adopted in the editor, where users may want to explore the relations starting from an object towards any other object, is displaying nodes and edges as you walk across the graph. Also, all the edges of the same type are initially grouped under a single graphical element.
+As the graph may quickly grow up in size, it would be impractical to represent all the nodes and their links (edges) at once; the graph would be barely readable, overcrowded by a high number of overlapping shapes and lines. The solution adopted in the editor, where users may want to explore the relations starting from an object towards any other object, is displaying nodes and edges as you walk across the graph. Also, all the edges of the same type are initially grouped under a single graphical element (a _properties group_).
 
 So, you start from a single node, and just see all its "outbound" (i.e. where this node is the subject) and "inbound" (i.e. where this node is the object) links, grouped by type, with their counts. For instance, if the node has 4 labels in 4 different languages, you won't see 4 links, but just a node representing their group. When you double click it, it will expand into those 4 links, each leading to another node. In the same way, you will be able to walk along all the links, from node to node, progressively unveiling the graph.
 
-Additionally, a number of filters are available to be freely combined, so that you see only those links or nodes you are interested in. These filters vary according to the node selected while walking, and each node retains its own filtering state.
+Additionally, a number of _filters_ are available to be freely combined, so that you see only those links or nodes you are interested in. These filters vary according to the node selected while walking, and each node retains its own filtering state.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/P0TlqbOi590" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+The `GraphWalkerComponent` gets a single node ID (`nodeId`) representing the starting node, and can emit `nodePick` events when the user picks any of the displayed nodes. This component is just a wrapper of the `GraphWalker` class, which mantains a collection of nodes and a collection of edges. In turn, this class uses the `GraphService` to communicate with the [graph API backend](#api).
+
+The parameters of the `GraphWalker` class are:
+
+- `pageSize`: the paging size.
+- `maxLiteralLen`: the max length of the literal value to display.
+
+The class exposes a number of observables:
+
+- `nodes$`: nodes.
+- `edges$`: edges.
+- `loading$`: true when loading data.
+- `error$`: last error if any.
+- `selectedNode$`: the currently selected node (a GraphNode, whose data property is any of the `WalkerData` types).
+- `pOutFilter$`: the outbound linked nodes filter for the currently selected P node.
+- `pInFilter$`: the inbound linked nodes filter for the currently selected P node.
+- `pLitFilter$`: the literal linked nodes filter for the selected P node.
+- `nOutFilter$`: the outbound triples filter for the currently selected N node.
+- `nInFilter$`: the inbound triples filter for the currently selected N node.
+- `childTotals$`: the total items fetched for each filter of the currently selected node. This is an object with a property for each total.
+
+Nodes in the walker may represent nodes, literals, or property groups. While each node in the backend has a numeric ID, the nodes displayed in the walker get a calculated ID used inside it; the same happens for edges. These IDs are defined by the following conventions:
+
+- **nodes**: `N<node_id>`, e.g. `N12` where `12` is the node's numeric ID.
+- **literals**: `L<triple_id>`, e.g. `L34` where `34` is the ID of the triple the literal is the object of.
+- **property groups**: `P<predicate_id>N<node_id>`, e.g. `P12N34` where `12` is the ID of the node acting as a predicate, and `N` is the source node ID. The source node is either the subject or the object of the triple, according to the walk direction.
+- **edges**: `E<source>_<target>`.
+
+All the nodes visualized in the graph include node data in their `data` property. These data are defined in types having the following hierarchy:
+
+- `WalkerData`: the base class for all the nodes data. This contains its origin ID and basic properties (color and visibility).
+  - `WalkerWidgetData`: a node or a property group (selectable and expandable).
+    - `WalkerNodeData`: a node (node data and its outbound and inbound filters).
+    - `WalkerPropData`: a property group (property group data and its outbound, inbound, and literal filters).
+    - `WalkerLitData`: a literal node (literal value and metadata).
 
 ## API
 
