@@ -105,3 +105,7 @@ Cadmus provides a graph-specific API to handle the graph, with a number of endpo
   - `maxLiteralNumber`: min numeric value for a numeric object literal.
   - `subjectId`: the subject node ID in the triple including the literal to match.
   - `predicateId`: the predicate node ID in the triple including the literal to match.
+
+🏠 [developer's home](../toc.md)
+
+◀️ Previous: [graph mappings](graph-mappings.md)

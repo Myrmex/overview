@@ -688,4 +688,6 @@ So, these are the outcome of the mapping process. The user is not aware of all t
 
 - 🕸️ [Cadmus graph demo](https://cadmus-graph-demo.fusi-soft.com)
 
+▶️ Next: [graph walker](graph-walker.md)
+
 🏠 [developer's home](../toc.md)
