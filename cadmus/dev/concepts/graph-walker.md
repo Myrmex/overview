@@ -5,6 +5,7 @@ subtitle: "Cadmus Development"
 ---
 
 - [Walker](#walker)
+- [Sample](#sample)
   - [GraphWalker](#graphwalker)
     - [Properties](#properties)
     - [Methods](#methods)
@@ -23,7 +24,65 @@ So, you start from a single node, and just see all its "outbound" (i.e. where th
 
 Additionally, a number of _filters_ are available to be freely combined, so that you see only those links or nodes you are interested in. These filters vary according to the node selected while walking, and each node retains its own filtering state.
 
+## Sample
+
+The video below shows a sample walk session:
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/P0TlqbOi590" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+This demo relies on a mock dataset, whose nodes are listed in this picture:
+
+![sample nodes](../../../img/cadmus/graph/walker-vid-01.png)
+
+In the video, we start walking from Petrarch node, whose ID is 17 in this table. Note that this node also has a [SID](graph-mappings.md#source-id-sid), because it was derived from mapping a Cadmus part. You can also see that a number of nodes represent predicates, and are thus tagged with `property`; while other nodes represent classes (`is_class`=1). Typically, predicates are injected in the graph at an earlier stage, and are used by mapping rules.
+
+The nodes can then be used as the building blocks of triples:
+
+![sample triples](../../../img/cadmus/graph/walker-vid-02.png)
+
+As every node is identified by a numeric ID, and also predicates are represented here as nodes, a triple is just linking three different numeric IDs for subject (`s_id`), predicate (`p_id`), and object (`o_id`), unless the object is a literal, with its value and metadata like data type and language (`o_lit`, `o_lit_type`, `o_lit_lang`).
+
+For instance, the first row having 17 (=`Petrarch`), 7 (`is-a`), and 16 (`Person class`) says that Petrarch is a person.
+
+(1) If we start our walk from Petrarch, at first we get this graph:
+
+![walking - 1](../../../img/cadmus/graph/walker-vid-03.png)
+
+Here the central node, Petrarch, is the origin; 3 groups of predicates start from it (outbound nodes), while 2 end into it (inbound nodes). In other terms, Petrarch is the subject of a number of triples having as predicates `rdf:type`, `rdfs:label`, and `crm:P11i_participated_in`; the numbers in the squares representing these groups of predicates tell how many triples are inside each group. This is much more compact than directly visualizing all the connections to other nodes stemming from Petrarch. Additionally, Petrarch is also the object of 2 other groups of predicates, `crm:P98_brought_into_life` and `crm:P93_took_out_of_existence`: it is easy to predict that their subjects will be a birth and a death event, respectively.
+
+(2) we can now start exploring the graph in any direction. By double clicking node 4 from `rdfs:label` we get 4 literal nodes, each representing a literal value for a label in a given language. These are the labels attached to the Petrarch node (for Italian, Russian, Greek, and English).
+
+![walking - 2](../../../img/cadmus/graph/walker-vid-04.png)
+
+>As you can see, literal nodes are gray.
+
+Of course, literal nodes are terminal nodes, so no more expansion is possible here. Also, note that each single node in the walker mantains a filters and paging data, so that at any time and from any node you can narrow the visualization to focus on what you are looking for. For instance, here we just have 4 languages: but it might happen that our node has dozens of different languages. Instead of visualizing all of them at once, the property group node shows a virtual "page" at a time; further, you can filter out all the unwanted nodes which might clutter the visualization. So, we might want to see only English labels; this is done by applying a filter at the level of the current node (square 4 from `rdfs:label`). Next to the graph the walker shows a number of tools, mostly including filters, which vary according to the selected node. In this case, we are applying a language filter in the group of literal filters, so that we see only English (`en`):
+
+![walking - 3](../../../img/cadmus/graph/walker-vid-05.png)
+
+The result is now filtered to include only the English label:
+
+![walking - 4](../../../img/cadmus/graph/walker-vid-06.png)
+
+(3) With just 4 languages this is not that useful, but it might be handy when dealing with a lot of them. Meanwhile, we remove the filter to get all the languages back, and continue walking. This time we expand the group from `rdf:type`, and we get to a `Person class node`. This visually reflects the triple with ID 1 we explained above:
+
+![walking - 5](../../../img/cadmus/graph/walker-vid-07.png)
+
+>As you can see, non-literal terminal (leaf) nodes are green.
+
+(4) Again, we can expand the last outbound group, `crm:P11i_participated_in`, and we find a meeting node:
+
+![walking - 6](../../../img/cadmus/graph/walker-vid-07.png)
+
+(5) We can now start expanding the inbound groups: `crm:P98_brought_into_life` takes us to the subject of this triple (whose object is Petrarch), a birth event:
+
+![walking - 7](../../../img/cadmus/graph/walker-vid-08.png)
+
+(6) Similarly, we can expand the other inbound group, for death:
+
+![walking - 8](../../../img/cadmus/graph/walker-vid-09.png)
+
+As you can see, we have started walking from a single node, and expanded all its connections up to other nodes of the graph, visually unveiling the data shown in the above tables. At any time, full filtering and pagins is available for each single node of the graph. Typically, the walker is used to explore the graph and locate the node to edit, or see how all the nodes either created by projection or manually added get composed in the bigger picture.
 
 ### GraphWalker
 
