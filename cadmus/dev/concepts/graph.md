@@ -26,6 +26,14 @@ So, at the hearth of the graph is the _projection via mapping_. The mapping flow
 
 (3) the graph set is **merged** into the graph store.
 
+The graph store is implemented in a RDBMS, which is the same database used for indexing Cadmus data, which currently is a MySql database. The following picture summarizes its schema:
+
+![graph schema](../../../img/cadmus/graph/graph-schema.png)
+
+At the core of this schema there is the node (`node` table), which represents what in LOD are nodes and edges. A node is an entity. This entity can eventually represent a class (which can be the subclass of any other class: `node_class`), or can be used as a predicate (having some property-related metadata: `property`).
+
+Every node is identified by a number, which is uniquely mapped to a shortened URI (via `uri_lookup`). A shortened URI is a URI shortened by an arbitrary (usually conventional) namespace prefix, like `rdf:type`. These prefixes are mapped to their corresponding resolved namespace (`namespace_lookup`). The other tables are used in the mapping process, which projects Cadmus part and item data into graph nodes.
+
 - [graph mapping](graph-mappings.md)
 - [graph walker](graph-walker.md)
 
