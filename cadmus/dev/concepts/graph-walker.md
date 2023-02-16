@@ -5,6 +5,9 @@ subtitle: "Cadmus Development"
 ---
 
 - [Walker](#walker)
+  - [GraphWalker](#graphwalker)
+    - [Properties](#properties)
+    - [Methods](#methods)
 - [API](#api)
   - [API - Nodes](#api---nodes)
   - [API - Triples](#api---triples)
@@ -22,7 +25,11 @@ Additionally, a number of _filters_ are available to be freely combined, so that
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/P0TlqbOi590" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
+### GraphWalker
+
 The `GraphWalkerComponent` gets a single node ID (`nodeId`) representing the starting node, and can emit `nodePick` events when the user picks any of the displayed nodes. This component is just a wrapper of the `GraphWalker` class, which mantains a collection of nodes and a collection of edges. In turn, this class uses the `GraphService` to communicate with the [graph API backend](#api).
+
+#### Properties
 
 The parameters of the `GraphWalker` class are:
 
@@ -35,7 +42,7 @@ The class exposes a number of observables:
 - `edges$`: edges.
 - `loading$`: true when loading data.
 - `error$`: last error if any.
-- `selectedNode$`: the currently selected node (a GraphNode, whose data property is any of the `WalkerData` types).
+- `selectedNode$`: the currently selected node (a `GraphNode`, whose data property is any of the `WalkerData` types).
 - `pOutFilter$`: the outbound linked nodes filter for the currently selected P node.
 - `pInFilter$`: the inbound linked nodes filter for the currently selected P node.
 - `pLitFilter$`: the literal linked nodes filter for the selected P node.
@@ -57,6 +64,17 @@ All the nodes visualized in the graph include node data in their `data` property
     - `WalkerNodeData`: a node (node data and its outbound and inbound filters).
     - `WalkerPropData`: a property group (property group data and its outbound, inbound, and literal filters).
     - `WalkerLitData`: a literal node (literal value and metadata).
+
+#### Methods
+
+- `getSelectedNode`.
+- `selectNode`: select a node as the current node.
+- `reset`: reset the graph setting its origin to the specified node ID.
+- `expandNode`: expand the specified node by loading its property groups.
+- `expandSelectedNode`: expand the currently selected node by loading its property groups.
+- `expandProperty`: expand the currently selected properties group node, by loading its outbound nodes, inbound nodes, and literal nodes.
+- `expandSelectedProperty`: expand the currently selected properties group node, by loading its outbound nodes, inbound nodes, and literal nodes. If there is no selection, or the selected node is not a properties group node, nothing is done.
+- `toggleNode`: toggle the specified node by expanding or collapsing it.
 
 ## API
 
