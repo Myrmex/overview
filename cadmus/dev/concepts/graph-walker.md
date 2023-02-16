@@ -68,8 +68,6 @@ The result is now filtered to include only the English label:
 
 ![walking - 5](../../../img/cadmus/graph/walker-vid-07.png)
 
->As you can see, non-literal terminal (leaf) nodes are green.
-
 (4) Again, we can expand the last outbound group, `crm:P11i_participated_in`, and we find a meeting node:
 
 ![walking - 6](../../../img/cadmus/graph/walker-vid-07.png)
@@ -82,7 +80,25 @@ The result is now filtered to include only the English label:
 
 ![walking - 8](../../../img/cadmus/graph/walker-vid-09.png)
 
-As you can see, we have started walking from a single node, and expanded all its connections up to other nodes of the graph, visually unveiling the data shown in the above tables. At any time, full filtering and pagins is available for each single node of the graph. Typically, the walker is used to explore the graph and locate the node to edit, or see how all the nodes either created by projection or manually added get composed in the bigger picture.
+(7) There is no limit to expansion. We can continue by expanding the birth node. In this case, we get a number of outbound links: one of them already existed, and connected Petrarch to his birth; but the birth node has other outbound property groups: `crm:P96_by_mother`, `crm:P97_by_father`, `crm:P7_took_place_at`, and `crm:P4_has_time_span`. As you can guess, these links are going to specify Petrarch's mother and father, and his place and date of birth:
+
+![walking - 9](../../../img/cadmus/graph/walker-vid-10.png)
+
+(8) We can now expand all these groups, to see the objects of each corresponding triple: so, the object of by-mother predicate is Eletta Cangiani; the object of by-father predicate is Ser Petracco; the object of took-place-at predicate is Arezzo; and the object of has-timespan is a time span:
+
+![walking - 10](../../../img/cadmus/graph/walker-vid-11.png)
+
+(9) In turn, the timespan can be further expanded: we thus discover that it's the subject of two triples, one with predicate `crm:P82_at_some_time_within`, and another with predicate `crm:P87_is_identified_by`. This is because the timespan has a numeric value (expressed with P82) and a text value representing it (expressed with P87). This derives from mapping the Cadmus historical date model.
+
+![walking - 11](../../../img/cadmus/graph/walker-vid-12.png)
+
+(10) In fact, if we further expand these predicates we end up with two literal values: a numeric value, `1304`, and a string value, `1304 AD`:
+
+![walking - 10](../../../img/cadmus/graph/walker-vid-13.png)
+
+The process might continue indefinitely, but that's enough to show how the walker can be used in the context of a Cadmus-generated graph. We have started walking from a single node, and expanded all its connections up to other nodes of the graph, visually unveiling the data shown in the above tables. At any time, full filtering and pagins is available for each single node of the graph.
+
+Typically, the walker is used to explore the graph and locate the node to edit, or see how all the nodes either created by projection or manually added get composed in the bigger picture.
 
 ### GraphWalker
 
