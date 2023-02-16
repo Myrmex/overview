@@ -26,6 +26,9 @@ So, at the hearth of the graph is the _projection via mapping_. The mapping flow
 
 (3) the graph set is **merged** into the graph store.
 
+- [graph mapping](graph-mappings.md)
+- [graph walker](graph-walker.md)
+
 🏠 [developer's home](../toc.md)
 
 ▶️ Next: [graph mappings](graph-mappings.md)
