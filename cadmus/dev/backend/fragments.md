@@ -57,13 +57,22 @@ namespace Cadmus.__PRJ__.Parts
         // TODO: add properties
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="__NAME__LayerFragment">
+        /// class.
+        /// </summary>
+        public __NAME__LayerFragment()
+        {
+            Location = "";
+        }
+
+        /// <summary>
         /// Get all the key=value pairs exposed by the implementor.
         /// </summary>
         /// <param name="item">The optional item. The item with its parts
         /// can optionally be passed to this method for those parts requiring
         /// to access further data.</param>
         /// <returns>The pins: <c>fr.tag</c>=tag if any.</returns>
-        public IEnumerable<DataPin> GetDataPins(IItem item = null)
+        public IEnumerable<DataPin> GetDataPins(IItem? item = null)
         {
             // TODO: build pins, eventually using DataPinBuilder like this:
             //DataPinBuilder builder = new DataPinBuilder(
