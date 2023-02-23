@@ -29,7 +29,7 @@ The typical procedure is:
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Fusi.Tools.Config;
+using Fusi.Tools.Configuration;
 using Cadmus.Core.Layers;
 using Cadmus.Core;
 
@@ -127,7 +127,7 @@ namespace Cadmus.__PRJ__.Parts
 using Cadmus.Core;
 using Cadmus.Seed.Tgr.Parts.Grammar;
 using Cadmus.Tgr.Parts.Grammar;
-using Fusi.Tools.Config;
+using Fusi.Tools.Configuration;
 using System;
 using System.Linq;
 using System.Collections.Generic;

@@ -90,7 +90,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Cadmus.Core;
-using Fusi.Tools.Config;
+using Fusi.Tools.Configuration;
 
 // ...
 
@@ -174,7 +174,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Cadmus.Core;
-using Fusi.Tools.Config;
+using Fusi.Tools.Configuration;
 
 // ...
 

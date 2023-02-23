@@ -37,7 +37,7 @@ If the seeder does not require configuration options (as it happens in most case
 ```cs
 using Bogus;
 using Cadmus.Core;
-using Fusi.Tools.Config;
+using Fusi.Tools.Configuration;
 using System;
 
 // ...
@@ -113,7 +113,7 @@ This test template requires some [infrastructure](#test-helper).
 
 ```cs
 using Cadmus.Core;
-using Fusi.Tools.Config;
+using Fusi.Tools.Configuration;
 using System;
 using System.Reflection;
 using Xunit;

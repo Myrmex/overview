@@ -25,7 +25,7 @@ Add a `<NAME>LayerFragmentSeeder.cs` for the seeder, using this template (replac
 using Bogus;
 using Cadmus.Core;
 using Cadmus.Core.Layers;
-using Fusi.Tools.Config;
+using Fusi.Tools.Configuration;
 using System;
 
 namespace Cadmus.Seed.Parts.Layers
@@ -100,7 +100,7 @@ namespace Cadmus.Seed.Parts.Layers
 ```cs
 using Cadmus.Core;
 using Cadmus.Core.Layers;
-using Fusi.Tools.Config;
+using Fusi.Tools.Configuration;
 using System;
 using System.Reflection;
 using Xunit;
