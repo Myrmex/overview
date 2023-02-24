@@ -274,6 +274,7 @@ The HTML template just wraps the UI editor preceded by a current-item bar:
   ></cadmus-decorated-token-text>
 </div>
 <cadmus-__NAME__-fragment
+  [identity]="identity"
   [data]="$any(data)"
   (dataChange)="save($event)"
   (editorClose)="close()"
