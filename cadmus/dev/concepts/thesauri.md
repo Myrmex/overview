@@ -6,6 +6,7 @@ subtitle: "Cadmus Development"
 
 - [Requirements](#requirements)
 - [Overview](#overview)
+- [Role-Dependent Thesauri](#role-dependent-thesauri)
 - [Model](#model)
   - [Aliases](#aliases)
   - [Models Thesaurus](#models-thesaurus)
@@ -32,6 +33,71 @@ Internally, in the database the only values stored in parts will be IDs. So you 
 All the thesauri are defined in the JSON document with the configuration for your project. You can thus easily edit this document with any text editor, adding all the taxonomies you might need. On first startup, when seeding the initial database, the Cadmus API service will read taxonomies from this JSON document and inject them into the corresponding collection in the database.
 
 Once you have started working on your data, you can still edit and add new taxonomies via the UI provided by the Cadmus editor. Alternatively, you can always import data manually in the database using your favorite bulk import method.
+
+## Role-Dependent Thesauri
+
+In this context, each type of UI component (part or fragment editor) can request all the thesauri it requires. This links the component type with these IDs. Yet, in some cases we might need to have the same type requiring different thesauri according to its role in the context of the same item.
+
+For instance, say we want not just one categories part, but two of them: one for the epigraphic categories, and another for a set of arbitrarily defined periods (e.g. archaic, hellenistic, early imperial, etc.). So, we can have a second part of the same type, categories, in an inscription item; this way, the original categories part continues to represent the epigraphic categories, while the periods categories part will represent the date in a more approximate and conventional way.
+
+To this end, the newly added categories part will get a _role_, which distinguishes it from the original one. Now we can have two categories part in the inscription item; but we still need to tell the periods cayegories part to use a different thesaurus to get its categories.
+
+>The role is a standard mechanism to have more than a single part type inside the same item, and is present since the beginning in the system.
+
+In this scenario, your editor component can opt into a feature which allows the thesauri requested to the server to get an additional suffix equal to underscore (`_`) plus the role ID. This is what happens in the categories part.
+
+So, you could have parts defined like (in your profile's `facets/partDefinitions`):
+
+```json
+{
+  "typeId": "it.vedph.categories",
+  "name": "categories",
+  "description": "Epigraphic categories.",
+  "isRequired": true,
+  "colorKey": "98F8F8",
+  "groupKey": "general",
+  "sortKey": "a"
+},
+{
+  "typeId": "it.vedph.categories",
+  "roleId": "periods",
+  "name": "categories",
+  "description": "Historical periods.",
+  "isRequired": false,
+  "colorKey": "98F8F0",
+  "groupKey": "general",
+  "sortKey": "b"
+},
+```
+
+and two distinct thesauri:
+
+```json
+thesauri: [
+  {
+    "id": "categories@en",
+    "entries": [
+        {
+          "id": "defixio-76",
+          "value": "defixio"
+        },
+        // ...etc.
+    ]
+  },
+  {
+    "id": "categories_periods@en",
+    "entries": [
+      {
+        "id": "arc",
+        "value": "archaic"
+      },
+      // ...etc.
+    ]
+  },
+]
+```
+
+>If some of the requested thesauri need not to change, just add in the backend profile an [alias thesaurus](#aliases) with the role suffix, pointing to the original thesaurus.
 
 ## Model
 
