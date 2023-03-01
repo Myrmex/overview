@@ -11,7 +11,7 @@ subtitle: "Cadmus Development"
   - [Data Pins at Rescue](#data-pins-at-rescue)
 - [Implementation Details](#implementation-details)
   - [Developer's Hints](#developers-hints)
-  - [Linking Items: PinLinksPart](#linking-items-pinlinkspart)
+  - [Linking Items: Pin-based Links](#linking-items-pin-based-links)
   - [Linking Entities: Asserted ID Brick](#linking-entities-asserted-id-brick)
 - [Linking Recap](#linking-recap)
 
@@ -148,7 +148,7 @@ This lookup component emits an `entryChange` event whenever a lookup entry is pi
 
 As the backend just leverages the existing search infrastructure, and data pins get updated whenever a part is saved, there is no action to be taken in the backend for this to work.
 
-### Linking Items: PinLinksPart
+### Linking Items: Pin-based Links
 
 A special part, the `PinLinksPart`, is provided among the general Cadmus parts for leveraging this linking mechanism. Essentially, the pin links part concept is simple: it is just a container of links connecting the container item to 1 or more items via a pin-based link.
 
@@ -191,9 +191,15 @@ Getting this object injected is simple: just add this parameter to your componen
 lookupDefs: IndexLookupDefinitions,
 ```
 
+Additionally, the same mechanism can work for text layers. If you need to link a specific portion of text to some item (or to any other entity in the Cadmus database, provided that it can be looked up via some EID), you can use the `PinLinksFragmentLayer`. This has the same model of the `PinLinksPart`; the only difference is that the links are attached to text portions on a text layer. This allows for any sort of links between portions of a text and items or other entities in the Cadmus database.
+
+For instance, say you have a collection of inscriptions; among other textual layers, like apparatus, orthography, comment, chronology, or ligatures, you would also like to link portions of an inscription to a specific formula. Yet, the formula is not just an ID; it's a complex model, designed as a Cadmus item with a number of parts. Among them, a specific part will contain the patterns for that formula, with all the required structure. Each of these patterns can be identified by an EID.
+
+In this context, you will be able to edit the formulas as you find them, adding new items or new patterns to the existing ones; and yet link each specific pattern to any portion of any inscription, using a dedicated layer part.
+
 ### Linking Entities: Asserted ID Brick
 
-On the same ground, you can extend this mechanism to work for all the entities scattered across other item's parts. In fact, many parts, especially when including several entities, provide a property, usually named `eid` (entity ID), filled by users to assign a human-friendly ID to some entity.
+As already suggested, you can extend this mechanism to work for all the entities scattered across other item's parts. In fact, many parts, especially when including several entities, provide a property, usually named `eid` (entity ID), filled by users to assign a human-friendly ID to some entity.
 
 For instance, say you have a manuscripts decorations part, listing a number of decorations. Each of them can eventually be assigned an ID, freely defined by the user, e.g. `angel1`. This EID is human-friendly, and is unique only in the context of its part. Getting a non-scoped, yet user-friendly ID would then require some conventional strategy, like e.g. prefixing the EID with the item and/or part EID.
 
