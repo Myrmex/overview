@@ -45,74 +45,72 @@ using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.Core.Storage;
 using Cadmus.Mongo;
-using Cadmus.Gisarc.Parts;
 using Cadmus.General.Parts;
 using Cadmus.Philology.Parts;
 
-namespace Cadmus.__PRJ__.Services
+namespace Cadmus.__PRJ__.Services;
+
+/// <summary>
+/// Cadmus __PRJ__ repository provider.
+/// </summary>
+/// <seealso cref="IRepositoryProvider" />
+public sealed class __PRJ__RepositoryProvider : IRepositoryProvider
 {
+    private readonly IPartTypeProvider _partTypeProvider;
+
     /// <summary>
-    /// Cadmus __PRJ__ repository provider.
+    /// The connection string.
     /// </summary>
-    /// <seealso cref="IRepositoryProvider" />
-    public sealed class __PRJ__RepositoryProvider : IRepositoryProvider
+    public string ConnectionString { get; set; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="__PRJ__RepositoryProvider"/>
+    /// class.
+    /// </summary>
+    public __PRJ__RepositoryProvider()
     {
-        private readonly IPartTypeProvider _partTypeProvider;
-
-        /// <summary>
-        /// The connection string.
-        /// </summary>
-        public string ConnectionString { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="__PRJ__RepositoryProvider"/>
-        /// class.
-        /// </summary>
-        public __PRJ__RepositoryProvider()
+        ConnectionString = "";
+        TagAttributeToTypeMap map = new();
+        map.Add(new[]
         {
-            ConnectionString = "";
-            TagAttributeToTypeMap map = new();
-            map.Add(new[]
-            {
-                // Cadmus.General.Parts
-                typeof(NotePart).GetTypeInfo().Assembly,
-                // Cadmus.Philology.Parts
-                typeof(ApparatusLayerFragment).GetTypeInfo().Assembly,
-                // Cadmus.__PRJ__.Parts
-                // typeof(MYPART).GetTypeInfo().Assembly,
-            });
+            // Cadmus.General.Parts
+            typeof(NotePart).GetTypeInfo().Assembly,
+            // Cadmus.Philology.Parts
+            typeof(ApparatusLayerFragment).GetTypeInfo().Assembly,
+            // Cadmus.__PRJ__.Parts
+            // typeof(MYPART).GetTypeInfo().Assembly,
+        });
 
-            _partTypeProvider = new StandardPartTypeProvider(map);
-        }
+        _partTypeProvider = new StandardPartTypeProvider(map);
+    }
 
-        /// <summary>
-        /// Gets the part type provider.
-        /// </summary>
-        /// <returns>part type provider</returns>
-        public IPartTypeProvider GetPartTypeProvider()
+    /// <summary>
+    /// Gets the part type provider.
+    /// </summary>
+    /// <returns>part type provider</returns>
+    public IPartTypeProvider GetPartTypeProvider()
+    {
+        return _partTypeProvider;
+    }
+
+    /// <summary>
+    /// Creates a Cadmus repository.
+    /// </summary>
+    /// <returns>repository</returns>
+    public ICadmusRepository CreateRepository()
+    {
+        // create the repository (no need to use container here)
+        MongoCadmusRepository repository = new(_partTypeProvider,
+                new StandardItemSortKeyBuilder());
+
+        repository.Configure(new MongoCadmusRepositoryOptions
         {
-            return _partTypeProvider;
-        }
+            ConnectionString = ConnectionString ??
+            throw new InvalidOperationException(
+                "No connection string set for IRepositoryProvider implementation")
+        });
 
-        /// <summary>
-        /// Creates a Cadmus repository.
-        /// </summary>
-        /// <returns>repository</returns>
-        public ICadmusRepository CreateRepository()
-        {
-            // create the repository (no need to use container here)
-            MongoCadmusRepository repository = new(_partTypeProvider,
-                    new StandardItemSortKeyBuilder());
-
-            repository.Configure(new MongoCadmusRepositoryOptions
-            {
-                ConnectionString = ConnectionString ??
-                throw new InvalidOperationException(
-                    "No connection string set for IRepositoryProvider implementation")
-            });
-
-            return repository;
-        }
+        return repository;
     }
 }
 ```

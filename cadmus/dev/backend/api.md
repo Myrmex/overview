@@ -180,103 +180,102 @@ using Serilog.Events;
 using Cadmus.Api.Services.Seeding;
 using Cadmus.Api.Services;
 
-namespace Cadmus__PRJ__Api
-{
-    /// <summary>
-    /// Program.
-    /// </summary>
-    public static class Program
-    {
-        private static void DumpEnvironmentVars()
-        {
-            Console.WriteLine("ENVIRONMENT VARIABLES:");
-            IDictionary dct = Environment.GetEnvironmentVariables();
-            List<string> keys = new();
-            var enumerator = dct.GetEnumerator();
-            while (enumerator.MoveNext())
-            {
-                keys.Add(((DictionaryEntry)enumerator.Current).Key.ToString()!);
-            }
+namespace Cadmus__PRJ__Api;
 
-            foreach (string key in keys.OrderBy(s => s))
-                Console.WriteLine($"{key} = {dct[key]}");
+/// <summary>
+/// Program.
+/// </summary>
+public static class Program
+{
+    private static void DumpEnvironmentVars()
+    {
+        Console.WriteLine("ENVIRONMENT VARIABLES:");
+        IDictionary dct = Environment.GetEnvironmentVariables();
+        List<string> keys = new();
+        var enumerator = dct.GetEnumerator();
+        while (enumerator.MoveNext())
+        {
+            keys.Add(((DictionaryEntry)enumerator.Current).Key.ToString()!);
         }
 
-        /// <summary>
-        /// Creates the host builder.
-        /// </summary>
-        /// <param name="args">The arguments.</param>
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        foreach (string key in keys.OrderBy(s => s))
+            Console.WriteLine($"{key} = {dct[key]}");
+    }
 
-        /// <summary>
-        /// Entry point.
-        /// </summary>
-        /// <param name="args">The arguments.</param>
-        public static async Task<int> Main(string[] args)
-        {
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
+    /// <summary>
+    /// Creates the host builder.
+    /// </summary>
+    /// <param name="args">The arguments.</param>
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+
+    /// <summary>
+    /// Entry point.
+    /// </summary>
+    /// <param name="args">The arguments.</param>
+    public static async Task<int> Main(string[] args)
+    {
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .Enrich.FromLogContext()
+            .WriteTo.Console()
 #if DEBUG
-                .WriteTo.File("cadmus-log.txt", rollingInterval: RollingInterval.Day)
+            .WriteTo.File("cadmus-log.txt", rollingInterval: RollingInterval.Day)
 #endif
-                .CreateLogger();
+            .CreateLogger();
 
-            try
-            {
-                Log.Information("Starting Cadmus __PRJ__ API host");
-                DumpEnvironmentVars();
+        try
+        {
+            Log.Information("Starting Cadmus __PRJ__ API host");
+            DumpEnvironmentVars();
 
-                // this is the place for seeding:
-                // see https://stackoverflow.com/questions/45148389/how-to-seed-in-entity-framework-core-2
-                // and https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/?view=aspnetcore-2.1#move-database-initialization-code
-                var host = await CreateHostBuilder(args)
-                    // add in-memory config to override Serilog connection string
-                    // as there is no way of configuring it outside appsettings
-                    // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-5.0#in-memory-provider-and-binding-to-a-poco-class
-                    .ConfigureAppConfiguration((context, config) =>
+            // this is the place for seeding:
+            // see https://stackoverflow.com/questions/45148389/how-to-seed-in-entity-framework-core-2
+            // and https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/?view=aspnetcore-2.1#move-database-initialization-code
+            var host = await CreateHostBuilder(args)
+                // add in-memory config to override Serilog connection string
+                // as there is no way of configuring it outside appsettings
+                // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-5.0#in-memory-provider-and-binding-to-a-poco-class
+                .ConfigureAppConfiguration((context, config) =>
+                {
+                    IConfiguration cfg = AppConfigReader.Read();
+                    string csTemplate = cfg.GetValue<string>("Serilog:ConnectionString")!;
+                    string dbName = cfg.GetValue<string>("DatabaseNames:Data")!;
+                    string cs = string.Format(csTemplate, dbName);
+                    Debug.WriteLine($"Serilog:ConnectionString override = {cs}");
+                    Console.WriteLine($"Serilog:ConnectionString override = {cs}");
+
+                    Dictionary<string, string?> dct = new()
                     {
-                        IConfiguration cfg = AppConfigReader.Read();
-                        string csTemplate = cfg.GetValue<string>("Serilog:ConnectionString")!;
-                        string dbName = cfg.GetValue<string>("DatabaseNames:Data")!;
-                        string cs = string.Format(csTemplate, dbName);
-                        Debug.WriteLine($"Serilog:ConnectionString override = {cs}");
-                        Console.WriteLine($"Serilog:ConnectionString override = {cs}");
+                        { "Serilog:ConnectionString", cs }
+                    };
+                    // (requires Microsoft.Extensions.Configuration package
+                    // to get the MemoryConfigurationProvider)
+                    config.AddInMemoryCollection(dct);
+                })
+                .UseSerilog()
+                .Build()
+                .SeedAsync(); // see Services/HostSeedExtension
 
-                        Dictionary<string, string> dct = new()
-                        {
-                            { "Serilog:ConnectionString", cs }
-                        };
-                        // (requires Microsoft.Extensions.Configuration package
-                        // to get the MemoryConfigurationProvider)
-                        config.AddInMemoryCollection(dct);
-                    })
-                    .UseSerilog()
-                    .Build()
-                    .SeedAsync(); // see Services/HostSeedExtension
+            host.Run();
 
-                host.Run();
-
-                return 0;
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "Cadmus __PRJ__ API host terminated unexpectedly");
-                Debug.WriteLine(ex.ToString());
-                Console.WriteLine(ex.ToString());
-                return 1;
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "Cadmus __PRJ__ API host terminated unexpectedly");
+            Debug.WriteLine(ex.ToString());
+            Console.WriteLine(ex.ToString());
+            return 1;
+        }
+        finally
+        {
+            Log.CloseAndFlush();
         }
     }
 }
@@ -284,7 +283,7 @@ namespace Cadmus__PRJ__Api
 
 ## Startup
 
-Use this template for `Startup.cs` (replace `__PRJ__` with your project's name; in ASP.NET 6 web project you will need to add this file):
+Use this template for `Startup.cs` (replace `__PRJ__` with your project's name; in ASP.NET 6+ web projects you will need to add this file). The project specific [services](services.md) required in this template either come from an external library or are directly placed in a `Services` folder in this project. The usual convention is placing them in an ad-hoc library when your project has its own specific parts. Otherwise, if you are just assembling parts from other libraries, just create the services in this project.
 
 ```cs
 using System.Text;
@@ -316,362 +315,361 @@ using Cadmus.Export.Preview;
 using Cadmus.Graph.MySql;
 using Cadmus.Graph;
 
-namespace Cadmus__PRJ__Api
+namespace Cadmus__PRJ__Api;
+
+/// <summary>
+/// Startup.
+/// </summary>
+public sealed class Startup
 {
     /// <summary>
-    /// Startup.
+    /// Gets the configuration.
     /// </summary>
-    public sealed class Startup
+    public IConfiguration Configuration { get; }
+
+    /// <summary>
+    /// Gets the host environment.
+    /// </summary>
+    public IHostEnvironment HostEnvironment { get; }
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="Startup"/> class.
+    /// </summary>
+    /// <param name="configuration">The configuration.</param>
+    /// <param name="environment">The environment.</param>
+    public Startup(IConfiguration configuration, IHostEnvironment environment)
     {
-        /// <summary>
-        /// Gets the configuration.
-        /// </summary>
-        public IConfiguration Configuration { get; }
+        Configuration = configuration;
+        HostEnvironment = environment;
+    }
 
-        /// <summary>
-        /// Gets the host environment.
-        /// </summary>
-        public IHostEnvironment HostEnvironment { get; }
+    private void ConfigureOptionsServices(IServiceCollection services)
+    {
+        // configuration sections
+        // https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/
+        services.Configure<MessagingOptions>(Configuration.GetSection("Messaging"));
+        services.Configure<DotNetMailerOptions>(Configuration.GetSection("Mailer"));
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Startup"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        /// <param name="environment">The environment.</param>
-        public Startup(IConfiguration configuration, IHostEnvironment environment)
+        // explicitly register the settings object by delegating to the IOptions object
+        services.AddSingleton(resolver =>
+            resolver.GetRequiredService<IOptions<MessagingOptions>>().Value);
+        services.AddSingleton(resolver =>
+            resolver.GetRequiredService<IOptions<DotNetMailerOptions>>().Value);
+    }
+
+    private void ConfigureCorsServices(IServiceCollection services)
+    {
+        string[] origins = new[] { "http://localhost:4200" };
+
+        IConfigurationSection section = Configuration.GetSection("AllowedOrigins");
+        if (section.Exists())
         {
-            Configuration = configuration;
-            HostEnvironment = environment;
+            origins = section.AsEnumerable()
+                .Where(p => !string.IsNullOrEmpty(p.Value))
+                .Select(p => p.Value).ToArray()!;
         }
 
-        private void ConfigureOptionsServices(IServiceCollection services)
+        services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
         {
-            // configuration sections
-            // https://andrewlock.net/adding-validation-to-strongly-typed-configuration-objects-in-asp-net-core/
-            services.Configure<MessagingOptions>(Configuration.GetSection("Messaging"));
-            services.Configure<DotNetMailerOptions>(Configuration.GetSection("Mailer"));
+            builder.AllowAnyMethod()
+                .AllowAnyHeader()
+                // https://github.com/aspnet/SignalR/issues/2110 for AllowCredentials
+                .AllowCredentials()
+                .WithOrigins(origins);
+        }));
+    }
 
-            // explicitly register the settings object by delegating to the IOptions object
-            services.AddSingleton(resolver =>
-                resolver.GetRequiredService<IOptions<MessagingOptions>>().Value);
-            services.AddSingleton(resolver =>
-                resolver.GetRequiredService<IOptions<DotNetMailerOptions>>().Value);
-        }
+    private void ConfigureAuthServices(IServiceCollection services)
+    {
+        // identity
+        string connStringTemplate = Configuration.GetConnectionString("Default")!;
 
-        private void ConfigureCorsServices(IServiceCollection services)
-        {
-            string[] origins = new[] { "http://localhost:4200" };
-
-            IConfigurationSection section = Configuration.GetSection("AllowedOrigins");
-            if (section.Exists())
+        services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(
+            options => { },
+            mongoOptions =>
             {
-                origins = section.AsEnumerable()
-                    .Where(p => !string.IsNullOrEmpty(p.Value))
-                    .Select(p => p.Value).ToArray()!;
-            }
+                mongoOptions.ConnectionString =
+                    string.Format(connStringTemplate,
+                    Configuration.GetSection("DatabaseNames")["Auth"]);
+            });
 
-            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+        // authentication service
+        services
+            .AddAuthentication(options =>
             {
-                builder.AllowAnyMethod()
-                    .AllowAnyHeader()
-                    // https://github.com/aspnet/SignalR/issues/2110 for AllowCredentials
-                    .AllowCredentials()
-                    .WithOrigins(origins);
-            }));
-        }
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+            // NOTE: remember to set the values in configuration:
+            // Jwt:SecureKey, Jwt:Audience, Jwt:Issuer
+            IConfigurationSection jwtSection = Configuration.GetSection("Jwt");
+                string key = jwtSection["SecureKey"]!;
+                if (string.IsNullOrEmpty(key))
+                    throw new InvalidOperationException("Required JWT SecureKey not found");
 
-        private void ConfigureAuthServices(IServiceCollection services)
-        {
-            // identity
-            string connStringTemplate = Configuration.GetConnectionString("Default")!;
-
-            services.AddIdentityMongoDbProvider<ApplicationUser, ApplicationRole>(
-                options => { },
-                mongoOptions =>
+                options.SaveToken = true;
+                options.RequireHttpsMetadata = false;
+                options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    mongoOptions.ConnectionString =
-                        string.Format(connStringTemplate,
-                        Configuration.GetSection("DatabaseNames")["Auth"]);
-                });
-
-            // authentication service
-            services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(options =>
-                {
-                // NOTE: remember to set the values in configuration:
-                // Jwt:SecureKey, Jwt:Audience, Jwt:Issuer
-                IConfigurationSection jwtSection = Configuration.GetSection("Jwt");
-                    string key = jwtSection["SecureKey"]!;
-                    if (string.IsNullOrEmpty(key))
-                        throw new InvalidOperationException("Required JWT SecureKey not found");
-
-                    options.SaveToken = true;
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ValidAudience = jwtSection["Audience"],
-                        ValidIssuer = jwtSection["Issuer"],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-                    };
-                });
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidAudience = jwtSection["Audience"],
+                    ValidIssuer = jwtSection["Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+                };
+            });
 #if DEBUG
-            // use to show more information when troubleshooting JWT issues
-            IdentityModelEventSource.ShowPII = true;
+        // use to show more information when troubleshooting JWT issues
+        IdentityModelEventSource.ShowPII = true;
 #endif
-        }
+    }
 
-        private static void ConfigureSwaggerServices(IServiceCollection services)
+    private static void ConfigureSwaggerServices(IServiceCollection services)
+    {
+        services.AddSwaggerGen(c =>
         {
-            services.AddSwaggerGen(c =>
+            c.SwaggerDoc("v1", new OpenApiInfo
             {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Version = "v1",
-                    Title = "API",
-                    Description = "Cadmus __PRJ__ Services"
-                });
-                c.DescribeAllParametersInCamelCase();
+                Version = "v1",
+                Title = "API",
+                Description = "Cadmus __PRJ__ Services"
+            });
+            c.DescribeAllParametersInCamelCase();
 
-                // include XML comments
-                // (remember to check the build XML comments in the prj props)
-                string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                if (File.Exists(xmlPath))
-                    c.IncludeXmlComments(xmlPath);
+            // include XML comments
+            // (remember to check the build XML comments in the prj props)
+            string xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            string xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            if (File.Exists(xmlPath))
+                c.IncludeXmlComments(xmlPath);
 
-                // JWT
-                // https://stackoverflow.com/questions/58179180/jwt-authentication-and-swagger-with-net-core-3-0
-                // (cf. https://ppolyzos.com/2017/10/30/add-jwt-bearer-authorization-to-swagger-and-asp-net-core/)
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    In = ParameterLocation.Header,
-                    Description = "Please insert JWT with Bearer into field",
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.ApiKey
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+            // JWT
+            // https://stackoverflow.com/questions/58179180/jwt-authentication-and-swagger-with-net-core-3-0
+            // (cf. https://ppolyzos.com/2017/10/30/add-jwt-bearer-authorization-to-swagger-and-asp-net-core/)
+            c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
-                new OpenApiSecurityScheme
-                {
-                    Reference = new OpenApiReference
-                    {
-                        Type = ReferenceType.SecurityScheme,
-                        Id = "Bearer"
-                    }
-                },
-                Array.Empty<string>()
-            }
+                In = ParameterLocation.Header,
+                Description = "Please insert JWT with Bearer into field",
+                Name = "Authorization",
+                Type = SecuritySchemeType.ApiKey
             });
-            });
-        }
-
-        private CadmusPreviewer GetPreviewer(IServiceProvider provider)
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement {
         {
-            // get dependencies
-            ICadmusRepository repository =
-                    provider.GetService<IRepositoryProvider>()!.CreateRepository();
-            ICadmusPreviewFactoryProvider factoryProvider =
-                new StandardCadmusPreviewFactoryProvider();
-
-            // nope if disabled
-            if (!Configuration.GetSection("Preview").GetSection("IsEnabled")
-                .Get<bool>())
+            new OpenApiSecurityScheme
             {
-                return new CadmusPreviewer(factoryProvider.GetFactory("{}"),
-                    repository);
-            }
-
-            // get profile source
-            Serilog.ILogger? logger = provider.GetService<Serilog.ILogger>();
-            IHostEnvironment env = provider.GetService<IHostEnvironment>()!;
-            string path = Path.Combine(env.ContentRootPath,
-                "wwwroot", "preview-profile.json");
-            if (!File.Exists(path))
-            {
-                Console.WriteLine($"Preview profile expected at {path} not found");
-                logger?.Error($"Preview profile expected at {path} not found");
-                return new CadmusPreviewer(factoryProvider.GetFactory("{}"),
-                    repository);
-            }
-
-            // load profile
-            Console.WriteLine($"Loading preview profile from {path}...");
-            logger?.Information($"Loading preview profile from {path}...");
-            string profile;
-            using (StreamReader reader = new(new FileStream(
-                path, FileMode.Open, FileAccess.Read, FileShare.Read), Encoding.UTF8))
-            {
-                profile = reader.ReadToEnd();
-            }
-            CadmusPreviewFactory factory = factoryProvider.GetFactory(profile);
-
-            return new CadmusPreviewer(factory, repository);
-        }
-
-        /// <summary>
-        /// Configures the services.
-        /// </summary>
-        /// <param name="services">The services.</param>
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // configuration
-            ConfigureOptionsServices(services);
-
-            // CORS (before MVC)
-            ConfigureCorsServices(services);
-
-            // base services
-            services.AddControllers();
-            // camel-case JSON in response
-            services.AddMvc()
-                // https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-2.2&tabs=visual-studio#jsonnet-support
-                // Newtonsoft is required by MongoDB
-                .AddNewtonsoftJson()
-                .AddJsonOptions(options =>
+                Reference = new OpenApiReference
                 {
-                    options.JsonSerializerOptions.PropertyNamingPolicy =
-                        JsonNamingPolicy.CamelCase;
-                });
-
-            // authentication
-            ConfigureAuthServices(services);
-
-            // Add framework services
-            // for IMemoryCache: https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory
-            services.AddMemoryCache();
-
-            // user repository service
-            services.AddTransient<IUserRepository<ApplicationUser>,
-                ApplicationUserRepository>();
-
-            // messaging
-            // TODO: you can use another mailer service here. In this case,
-            // also change the types in ConfigureOptionsServices.
-            services.AddTransient<IMailerService, DotNetMailerService>();
-            services.AddTransient<IMessageBuilderService,
-                FileMessageBuilderService>();
-
-            // configuration
-            services.AddSingleton(_ => Configuration);
-            // repository
-            string dataCS = string.Format(
-                Configuration.GetConnectionString("Default")!,
-                Configuration.GetValue<string>("DatabaseNames:Data"));
-            services.AddSingleton<IRepositoryProvider>(
-              _ => new __PRJ__RepositoryProvider { ConnectionString = dataCS });
-
-            // part seeder factory provider
-            services.AddSingleton<IPartSeederFactoryProvider,
-                __PRJ__PartSeederFactoryProvider>();
-            // item browser factory provider
-            services.AddSingleton<IItemBrowserFactoryProvider>(_ =>
-                new StandardItemBrowserFactoryProvider(
-                    Configuration.GetConnectionString("Default")!));
-            // item index factory provider
-            string indexCS = string.Format(
-                Configuration.GetConnectionString("Index")!,
-                Configuration.GetValue<string>("DatabaseNames:Data"));
-            services.AddSingleton<IItemIndexFactoryProvider>(_ =>
-                new StandardItemIndexFactoryProvider(indexCS));
-
-            // graph repository
-            services.AddSingleton<IGraphRepository>(_ =>
-            {
-                var repository = new MySqlGraphRepository();
-                repository.Configure(new SqlOptions
-                {
-                    ConnectionString = indexCS
-                });
-                return repository;
-            });
-
-            // previewer
-            services.AddSingleton(p => GetPreviewer(p));
-
-            // swagger
-            ConfigureSwaggerServices(services);
-
-            // serilog
-            // Install-Package Serilog.Exceptions Serilog.Sinks.MongoDB
-            // https://github.com/RehanSaeed/Serilog.Exceptions
-            string? maxSize = Configuration["Serilog:MaxMbSize"];
-            services.AddSingleton<Serilog.ILogger>(_ => new LoggerConfiguration()
-                .MinimumLevel.Information()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-                .Enrich.WithExceptionDetails()
-                .WriteTo.Console()
-                .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"]!,
-                    cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) &&
-                        int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
-                    .CreateLogger());
-        }
-
-        /// <summary>
-        /// Configures the specified application.
-        /// </summary>
-        /// <param name="app">The application.</param>
-        /// <param name="env">The environment.</param>
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            // https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-2.2#configure-a-reverse-proxy-server
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.XForwardedFor
-                    | ForwardedHeaders.XForwardedProto
-            });
-
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                // https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-5.0&tabs=visual-studio
-                app.UseExceptionHandler("/Error");
-                if (Configuration.GetValue<bool>("Server:UseHSTS"))
-                {
-                    Console.WriteLine("HSTS: yes");
-                    app.UseHsts();
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
                 }
-                else Console.WriteLine("HSTS: no");
-            }
-
-            if (Configuration.GetValue<bool>("Server:UseHttpsRedirection"))
-            {
-                Console.WriteLine("HttpsRedirection: yes");
-                app.UseHttpsRedirection();
-            }
-            else Console.WriteLine("HttpsRedirection: no");
-
-            app.UseHttpsRedirection();
-            app.UseRouting();
-            // CORS
-            app.UseCors("CorsPolicy");
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
-
-            // Swagger
-            app.UseSwagger();
-            app.UseSwaggerUI(options =>
-            {
-                string? url = Configuration.GetValue<string>("Swagger:Endpoint");
-                if (string.IsNullOrEmpty(url)) url = "v1/swagger.json";
-                options.SwaggerEndpoint(url, "V1 Docs");
-            });
+            },
+            Array.Empty<string>()
         }
+        });
+        });
+    }
+
+    private CadmusPreviewer GetPreviewer(IServiceProvider provider)
+    {
+        // get dependencies
+        ICadmusRepository repository =
+                provider.GetService<IRepositoryProvider>()!.CreateRepository();
+        ICadmusPreviewFactoryProvider factoryProvider =
+            new StandardCadmusPreviewFactoryProvider();
+
+        // nope if disabled
+        if (!Configuration.GetSection("Preview").GetSection("IsEnabled")
+            .Get<bool>())
+        {
+            return new CadmusPreviewer(factoryProvider.GetFactory("{}"),
+                repository);
+        }
+
+        // get profile source
+        Serilog.ILogger? logger = provider.GetService<Serilog.ILogger>();
+        IHostEnvironment env = provider.GetService<IHostEnvironment>()!;
+        string path = Path.Combine(env.ContentRootPath,
+            "wwwroot", "preview-profile.json");
+        if (!File.Exists(path))
+        {
+            Console.WriteLine($"Preview profile expected at {path} not found");
+            logger?.Error($"Preview profile expected at {path} not found");
+            return new CadmusPreviewer(factoryProvider.GetFactory("{}"),
+                repository);
+        }
+
+        // load profile
+        Console.WriteLine($"Loading preview profile from {path}...");
+        logger?.Information($"Loading preview profile from {path}...");
+        string profile;
+        using (StreamReader reader = new(new FileStream(
+            path, FileMode.Open, FileAccess.Read, FileShare.Read), Encoding.UTF8))
+        {
+            profile = reader.ReadToEnd();
+        }
+        CadmusPreviewFactory factory = factoryProvider.GetFactory(profile);
+
+        return new CadmusPreviewer(factory, repository);
+    }
+
+    /// <summary>
+    /// Configures the services.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // configuration
+        ConfigureOptionsServices(services);
+
+        // CORS (before MVC)
+        ConfigureCorsServices(services);
+
+        // base services
+        services.AddControllers();
+        // camel-case JSON in response
+        services.AddMvc()
+            // https://docs.microsoft.com/en-us/aspnet/core/migration/22-to-30?view=aspnetcore-2.2&tabs=visual-studio#jsonnet-support
+            // Newtonsoft is required by MongoDB
+            .AddNewtonsoftJson()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy =
+                    JsonNamingPolicy.CamelCase;
+            });
+
+        // authentication
+        ConfigureAuthServices(services);
+
+        // Add framework services
+        // for IMemoryCache: https://docs.microsoft.com/en-us/aspnet/core/performance/caching/memory
+        services.AddMemoryCache();
+
+        // user repository service
+        services.AddTransient<IUserRepository<ApplicationUser>,
+            ApplicationUserRepository>();
+
+        // messaging
+        // TODO: you can use another mailer service here. In this case,
+        // also change the types in ConfigureOptionsServices.
+        services.AddTransient<IMailerService, DotNetMailerService>();
+        services.AddTransient<IMessageBuilderService,
+            FileMessageBuilderService>();
+
+        // configuration
+        services.AddSingleton(_ => Configuration);
+        // repository
+        string dataCS = string.Format(
+            Configuration.GetConnectionString("Default")!,
+            Configuration.GetValue<string>("DatabaseNames:Data"));
+        services.AddSingleton<IRepositoryProvider>(
+          _ => new __PRJ__RepositoryProvider { ConnectionString = dataCS });
+
+        // part seeder factory provider
+        services.AddSingleton<IPartSeederFactoryProvider,
+            __PRJ__PartSeederFactoryProvider>();
+        // item browser factory provider
+        services.AddSingleton<IItemBrowserFactoryProvider>(_ =>
+            new StandardItemBrowserFactoryProvider(
+                Configuration.GetConnectionString("Default")!));
+        // item index factory provider
+        string indexCS = string.Format(
+            Configuration.GetConnectionString("Index")!,
+            Configuration.GetValue<string>("DatabaseNames:Data"));
+        services.AddSingleton<IItemIndexFactoryProvider>(_ =>
+            new StandardItemIndexFactoryProvider(indexCS));
+
+        // graph repository
+        services.AddSingleton<IGraphRepository>(_ =>
+        {
+            var repository = new MySqlGraphRepository();
+            repository.Configure(new SqlOptions
+            {
+                ConnectionString = indexCS
+            });
+            return repository;
+        });
+
+        // previewer
+        services.AddSingleton(p => GetPreviewer(p));
+
+        // swagger
+        ConfigureSwaggerServices(services);
+
+        // serilog
+        // Install-Package Serilog.Exceptions Serilog.Sinks.MongoDB
+        // https://github.com/RehanSaeed/Serilog.Exceptions
+        string? maxSize = Configuration["Serilog:MaxMbSize"];
+        services.AddSingleton<Serilog.ILogger>(_ => new LoggerConfiguration()
+            .MinimumLevel.Information()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .Enrich.WithExceptionDetails()
+            .WriteTo.Console()
+            .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"]!,
+                cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) &&
+                    int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
+                .CreateLogger());
+    }
+
+    /// <summary>
+    /// Configures the specified application.
+    /// </summary>
+    /// <param name="app">The application.</param>
+    /// <param name="env">The environment.</param>
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        // https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/linux-nginx?view=aspnetcore-2.2#configure-a-reverse-proxy-server
+        app.UseForwardedHeaders(new ForwardedHeadersOptions
+        {
+            ForwardedHeaders = ForwardedHeaders.XForwardedFor
+                | ForwardedHeaders.XForwardedProto
+        });
+
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+        }
+        else
+        {
+            // https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-5.0&tabs=visual-studio
+            app.UseExceptionHandler("/Error");
+            if (Configuration.GetValue<bool>("Server:UseHSTS"))
+            {
+                Console.WriteLine("HSTS: yes");
+                app.UseHsts();
+            }
+            else Console.WriteLine("HSTS: no");
+        }
+
+        if (Configuration.GetValue<bool>("Server:UseHttpsRedirection"))
+        {
+            Console.WriteLine("HttpsRedirection: yes");
+            app.UseHttpsRedirection();
+        }
+        else Console.WriteLine("HttpsRedirection: no");
+
+        app.UseHttpsRedirection();
+        app.UseRouting();
+        // CORS
+        app.UseCors("CorsPolicy");
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
+
+        // Swagger
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
+        {
+            string? url = Configuration.GetValue<string>("Swagger:Endpoint");
+            if (string.IsNullOrEmpty(url)) url = "v1/swagger.json";
+            options.SwaggerEndpoint(url, "V1 Docs");
+        });
     }
 }
 ```
