@@ -164,8 +164,6 @@ General shells:
 
 👉 Sidonius Letters:
 
-PhD _Sidonius Apollinaris_ critical edition (E. Recupero Porcino, Università di Venezia Ca' Foscari).
-
 - [API](https://github.com/vedph/cadmus-sidon-api)
 - [app](https://github.com/vedph/cadmus-sidon-app)
 
