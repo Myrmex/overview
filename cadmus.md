@@ -13,6 +13,7 @@ subtitle: Structured Content Creation System
 Cadmus is an open-ended, modular, and full-stack creation system for highly structured content, including text with any number of specialized annotation layers, and capable of multiple types of data export (including TEI) and import (mostly via the [Proteus](proteus.md) system).
 
 - 🛠️ [developer's guide](cadmus/dev/toc.md)
+- 🔰 [directory of Cadmus code repositories](cadmus/dev/repos.md)
 - 🌐 [hosting Cadmus](cadmus/hosting.md)
   - [installing Docker](cadmus/docker-setup.md)
   - [configuring HTTPS](cadmus/https.md)

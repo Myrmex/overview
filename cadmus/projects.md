@@ -13,7 +13,7 @@ subtitle: "Directory"
   - [PAGES](#pages)
   - [PURA](#pura)
   - [Re.Novella](#renovella)
-  - [Vela](#vela)
+  - [VeLA](#vela)
   - [GISARC](#gisarc)
   - [Inquisitions Graffiti](#inquisitions-graffiti)
   - [Sidonius](#sidonius)
@@ -26,10 +26,12 @@ The picture below summarizes the usage of parts among different projects.
 
 The top row lists the projects, while the columns list the parts and fragments. Whenever a part is reused in a project, it appears listed under its column. The background color of each part represents the project where it has been defined. As you can see, most shared parts come from Cadmus infrastructure (cyan background). You can look at a more dynamic visualization in the [Cadmus presentation page about models](https://cadmus.fusi-soft.com/#/models/graph).
 
+👉 You can find the full source code for all these projects in the [repositories directory](dev/repos.md).
+
 ## Production Sites
 
 - [presentation](https://cadmus.fusi-soft.com/)
-- [Itinera](http://itinera.unisi.it/)
+- [Itinera](https://itinera.unisi.it/)
 - [PURA](https://6008.cophilab-cloud.ilc.cnr.it/)
 - [PURA API](https://6009.cophilab-cloud.ilc.cnr.it/swagger/index.html)
 - [Re.Novella](https://renovella.unisi.it/)
@@ -54,7 +56,7 @@ The top row lists the projects, while the columns list the parts and fragments. 
 
 ### MapAeg
 
-MapAeg: Buondelmonti's Liber Insularum (B. Bessi, Università di Venezia Ca' Foscari).
+MapAeg: Buondelmonti's _Liber Insularum_ (B. Bessi, Università di Venezia Ca' Foscari).
 
 - [API](https://github.com/vedph/cadmus_bdm_api)
 - [app](https://github.com/vedph/cadmus-bdm-app)
@@ -99,7 +101,7 @@ Re.Novella: Il genere novella nel Rinascimento italiano: repertorio, database e 
 - [API](https://github.com/vedph/cadmus-renovella-api)
 - [app](https://github.com/vedph/cadmus-renovella-app)
 
-### Vela
+### VeLA
 
 - [API](https://github.com/vedph/cadmus-vela-api)
 - [app](https://github.com/vedph/cadmus-vela-app)
@@ -122,7 +124,7 @@ PhD Inquisitions Graffiti (A.C. Basilicò, Università di Venezia Ca' Foscari).
 
 ### Sidonius
 
-PhD Sidonius Apollinaris critical edition (E. Recupero Porcino, Università di Venezia Ca' Foscari).
+PhD _Sidonius Apollinaris_ critical edition (E. Recupero Porcino, Università di Venezia Ca' Foscari).
 
 - [API](https://github.com/vedph/cadmus-sidon-api)
 - [app](https://github.com/vedph/cadmus-sidon-app)
