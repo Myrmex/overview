@@ -35,9 +35,9 @@ In what follows, `<PRJ>` represents the short name you chose for your project.
 
 (2) add to this solution a _C# .NET 7 class library_, named `Cadmus.<PRJ>.Parts`. This will hold parts and fragments specific to your projects. Usually a single library is enough, but you are free to distribute components across several libraries should you need more granularity for their reuse. Once created, delete the empty `Class1.cs` file from it.
 
-![adding new project](../../img/cadmus/a01_add-new-project.png)
+![adding new project](../../../img/cadmus/a01_add-new-project.png)
 
-![adding new project](../../img/cadmus/a02_add-new-project.png)
+![adding new project](../../../img/cadmus/a02_add-new-project.png)
 
 (3) add another _C# .NET 7 class library_ named `Cadmus.Seed.<PRJ>.Parts` to provide the mock data seeders for your components. This is not strictly a requirement, but it's suggested to let you play with the editor while building it. Once created, delete the empty `Class1.cs` file from it.
 
@@ -45,13 +45,13 @@ In what follows, `<PRJ>` represents the short name you chose for your project.
 
 (5) add a _XUnit Test Project_ named `Cadmus.<PRJ>.Parts.Test` to contain the tests for the `Cadmus.<PRJ>.Parts` library. Alternatively, any other unit test framework can be used; this just reflects my preferences, and is suggested as the test templates I provide use XUnit. Once created, delete the empty `UnitTest1.cs` class.
 
-![adding new project](../../img/cadmus/a03_add-new-xunit-project.png)
+![adding new project](../../../img/cadmus/a03_add-new-xunit-project.png)
 
 (6) add a _XUnit Test Project_ named `Cadmus.Seed.<PRJ>.Parts.Test` to contain the tests for the `Cadmus.Seed.<PRJ>.Parts` library. Alternatively, any other unit test framework can be used; this just reflects my preferences, and is suggested as the test templates I provide use XUnit. Once created, delete the empty `UnitTest1.cs` class.
 
 Your solution should now look like this (here `<PRJ>` is `Pura`):
 
-![adding new project](../../img/cadmus/a04_solution.png)
+![adding new project](../../../img/cadmus/a04_solution.png)
 
 (7) add references across projects in the solution, according to this schema:
 
@@ -68,9 +68,9 @@ Your solution should now look like this (here `<PRJ>` is `Pura`):
 
 Adding a project reference can be done by right clicking the `Dependencies` node under the test project, selecting `Add Project Reference` from the popup menu, and checking the target project in the list which appears. Finally close the dialog with `OK`.
 
-![adding new project](../../img/cadmus/a05_project-deps.png)
+![adding new project](../../../img/cadmus/a05_project-deps.png)
 
-![adding new project](../../img/cadmus/a06_project-deps.png)
+![adding new project](../../../img/cadmus/a06_project-deps.png)
 
 Alternatively, just edit the `csproj` XML file and add a line in an `ItemGroup` element like in this sample (replace the path with the correct one):
 
