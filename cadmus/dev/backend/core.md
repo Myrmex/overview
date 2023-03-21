@@ -88,7 +88,7 @@ You can now add as many parts and fragments as required to the `Cadmus.<PRJ>.Par
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Cadmus.Core" Version="5.0.0" />
+  <PackageReference Include="Cadmus.Core" Version="6.0.2" />
 </ItemGroup>
 ```
 
@@ -96,8 +96,8 @@ Should you need existing components to build your own (e.g. to extend or integra
 
 (2) add a plain C# class for each part or fragment, representing its data model. Please refer to these pages for details:
 
-- [adding parts](./backend-part.md)
-- [adding fragments](./backend-fragment.md)
+- [adding parts](./parts.md)
+- [adding fragments](./fragments.md)
 
 ## Adding Part or Fragment Seeders
 
@@ -107,9 +107,9 @@ For each part or fragment you should provide a corresponding mock data seeder to
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Bogus" Version="32.1.1" />
-  <PackageReference Include="Cadmus.Core" Version="5.0.0" />
-  <PackageReference Include="Cadmus.Seed" Version="5.0.0" />
+  <PackageReference Include="Bogus" Version="34.0.2" />
+  <PackageReference Include="Cadmus.Core" Version="6.0.2" />
+  <PackageReference Include="Cadmus.Seed" Version="6.0.2" />
 </ItemGroup>
 ```
 
