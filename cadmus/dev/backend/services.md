@@ -24,14 +24,14 @@ Add these packages to the services project (updating version numbers as required
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Cadmus.Core" Version="5.0.0" />
-  <PackageReference Include="Cadmus.General.Parts" Version="3.0.0" />
-  <PackageReference Include="Cadmus.Index.Sql" Version="5.0.0" />
-  <PackageReference Include="Cadmus.Mongo" Version="5.0.0" />
-  <PackageReference Include="Cadmus.Philology.Parts" Version="5.0.0" />
-  <PackageReference Include="Cadmus.Seed.General.Parts" Version="3.0.0" />
-  <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="5.0.0" />
-  <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="2.0.0" />
+  <PackageReference Include="Cadmus.Core" Version="6.0.2" />
+  <PackageReference Include="Cadmus.General.Parts" Version="4.2.0" />
+  <PackageReference Include="Cadmus.Index.Sql" Version="6.0.2" />
+  <PackageReference Include="Cadmus.Mongo" Version="6.0.2" />
+  <PackageReference Include="Cadmus.Philology.Parts" Version="6.0.1" />
+  <PackageReference Include="Cadmus.Seed.General.Parts" Version="4.2.0" />
+  <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="6.0.1" />
+  <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
 </ItemGroup>
 ```
 
