@@ -659,7 +659,7 @@ Once you have the part editor, you need its wrapper page, which in turn is linke
 
 (2) ensure that this component is both under the module `declarations` and `exports`, and in the `public-api.ts` barrel file.
 
-(3) add the corresponding **route** in the PG library's module of the project's PG library, e.g.:
+(3) add the corresponding **route** in the PG library's module, e.g.:
 
 ```ts
 {
