@@ -194,8 +194,9 @@ export class __NAME__PartComponent
       this.form.reset();
       return;
     }
-    this.tag.setValue(part.tag || null);
-    this.text.setValue(part.text);
+	// TODO: set values of your form controls, e.g.:
+    // this.tag.setValue(part.tag || null);
+    // this.text.setValue(part.text);
     this.form.markAsPristine();
   }
 
