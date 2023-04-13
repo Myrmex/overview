@@ -662,12 +662,32 @@ Once you have the part editor, you need its wrapper page, which in turn is linke
 (3) add the corresponding **route** in the PG library's module, e.g.:
 
 ```ts
-{
-  path: `${__NAME___PART_TYPEID}/:pid`,
-  pathMatch: 'full',
-  component: __NAME__PartFeatureComponent,
-  canDeactivate: [PendingChangesGuard]
-},
+export const RouterModuleForChild = RouterModule.forChild([
+  // TODO your part route
+  {
+     path: `${__NAME___PART_TYPEID}/:pid`,
+     pathMatch: 'full',
+     component: __NAME__PartFeatureComponent,
+     canDeactivate: [PendingChangesGuard]
+  },
+]);
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    // Cadmus
+    RouterModuleForChild,
+    CadmusCoreModule,
+    CadmusStateModule,
+    CadmusUiModule,
+    CadmusUiPgModule,
+  ],
+  exports: [],
+})
+export class CadmusPart__PRJ__PgModule {}
 ```
 
 (4) implement the feature **editor component** by making it extend `EditPartFeatureBase`, like in this code template:
