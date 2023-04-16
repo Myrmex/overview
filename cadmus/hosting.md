@@ -214,9 +214,9 @@ environment:
 
 - `DatabaseNames`: the names of the authentication and data databases. These are not found in the connection string templates, where there is a placeholder `{0}` representing them, as the program needs to know both the full connection string and the database name alone.
 - `Seed`:
-  - `ProfileSource`: the source of the profile file. Typically you should not change this.
-  - `ItemCount`: the count of the mock items you might want to seed into your database when creating it. On startup, the API service creates and seeds the database if not found.
-  - `IndexDelay`: an optional delay in milliseconds. When greater than 0, the API service waits the specified amount of time before starting to seed the database index. This may be required if the underlying database service takes some time to startup in your host.
+  - `ProfileSource` (`SEED__PROFILESOURCE`): the source of the profile file. Typically you should not change this.
+  - `ItemCount` (`SEED__ITEMCOUNT`): the count of the mock items you might want to seed into your database when creating it. On startup, the API service creates and seeds the database if not found.
+  - `IndexDelay` (`SEED__INDEXDELAY`): an optional delay in milliseconds. When greater than 0, the API service waits the specified amount of time before starting to seed the database index. This may be required if the underlying database service takes some time to startup in your host.
 
 #### External Databases
 
