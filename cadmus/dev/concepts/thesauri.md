@@ -46,6 +46,8 @@ To this end, the newly added categories part will get a _role_, which distinguis
 
 In this scenario, your editor component can opt into a feature which allows the thesauri requested to the server to get an additional suffix equal to underscore (`_`) plus the role ID. This is what happens in the categories part.
 
+>To opt in, just set `this.roleIdInThesauri = true;` in the constructor of your part editor wrapper (the component derived from `EditPartFeatureBase`).
+
 So, you could have parts defined like (in your profile's `facets/partDefinitions`):
 
 ```json
