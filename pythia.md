@@ -4,7 +4,7 @@ title: Pythia
 subtitle: "Text Search Engine"
 ---
 
-- [Real World Applications](#real-world-applications)
+- [Real-World Applications](#real-world-applications)
 - [Main Features](#main-features)
 - [Architecture](#architecture)
 - [Analysis](#analysis)
@@ -16,7 +16,7 @@ Pythia is a simple and modular concordance search engine, first designed in the 
 
 For a general introduction see D. Fusi, _Text Searching Beyond the Text: a Case Study_, «Rationes Rerum» 15 (2020) 199-230, and the [source code repository](https://github.com/vedph/pythia). With relation to the cited paper, the current implementation of the system is more advanced, the query syntax was changed, and some new features were added; but the approach is the same.
 
-## Real World Applications
+## Real-World Applications
 
 While being designed for more complex texts, the first real-world application of the Pythia prototype is _Minerva_, an upcoming digital service from project [AttiChiari](https://attichiari.unige.it/). You can follow a short, totally non-technical presentation about it in this video (in Italian):
 
