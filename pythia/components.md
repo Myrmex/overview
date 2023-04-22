@@ -448,8 +448,8 @@ Each node definition has these properties:
 
 XML text picker. Options:
 
-- `HitOpen`: the string to be inserted after the hit in the picked text (default is `}}`).
-- `HitClose`: the string to be inserted after the hit in the picked text (default is `{{`).
+- `HitOpen`: the string to be inserted after the hit in the picked text (default is two closing braces).
+- `HitClose`: the string to be inserted after the hit in the picked text (default is two opening braces).
 - `Namespaces`: a set of optional key=namespace URI pairs. Each string has format `prefix=namespace`.
 - `DefaultNsPrefix`: gets or sets the default namespace prefix. When this is set, and the document has a default empty-prefix namespace (`xmlns="URI"`), all the XPath queries get their empty-prefix names prefixed with this prefix, which in turn is mapped to the default namespace.
 
