@@ -195,12 +195,27 @@ Metadata can be emitted by the mapping process itself, or be defined in a mappin
 Currently, the mapping process automatically emits these metadata:
 
 - `item-id`: the item ID (GUID).
+- `item-eid` (*): the EID of the item, as conventionally defined by the first matching metadatum with name = `eid` from the item's `MetadataPart`, if present. As this is the typical lookup mechanism, your consumer code can provide this additional metadatum by opting in via a metadata supplier.
 - `part-id`: the part ID (GUID).
 - `group-id`: the item's group ID.
 - `facet-id`: the item's facet ID.
 - `flags`: the item's flags.
 - `.`: the value of the current leaf node in the source JSON data. For instance, if the mapping is selecting a string property from `events/event[0].eid`, this is the value of `eid`.
 - `index`: the index of the element being processed from a source array. When the source expression used by the mapping points to an array, every item of the array gets processed separately from that mapping onwards. At each iteration, the `index` metadatum is set to the current index.
+
+> (*) As an example, see the Cadmus CLI tool code which by default opts into this metadatum with a code like this:
+
+```cs
+GraphUpdater updater = new(graphRepository)
+  {
+      // we want item-eid as an additional metadatum, derived from
+      // eid in the role-less MetadataPart of the item, when present
+      MetadataSupplier = new MetadataSupplier()
+          .SetCadmusRepository(repository)
+          // from Cadmus.Graph.Extras
+          .AddItemEid()
+  };
+```
 
 ### Macros
 
