@@ -7,6 +7,7 @@ subtitle: Summary
 - [Backend](#backend)
 - [Frontend](#frontend)
 - [Concepts](#concepts)
+- [Deployment](#deployment)
 - [History](#history)
 
 To create a Cadmus editor for your project, you need a backend and a frontend. For the most part, you will end up just customizing the provided code templates, so you do not need advanced programming skills to setup an editor. Of course, a minimal familiarity with the languages and technologies involved is required.
@@ -40,6 +41,10 @@ Then, you create an Angular workspace for your frontend app, eventually adding t
 - [dynamic data lookup strategies](concepts/lookup.md)
 - [semantic graph](concepts/graph.md)
 - [layers reconciliation](concepts/layer-reconciliation.md)
+
+## Deployment
+
+- [deployment](deploy.md)
 
 ## History
 

@@ -10,6 +10,7 @@ subtitle: "Cadmus Development"
 - [Model](#model)
   - [Aliases](#aliases)
   - [Models Thesaurus](#models-thesaurus)
+- [Bulk Import](#bulk-import)
 
 ## Requirements
 
@@ -307,6 +308,26 @@ Example:
         "value": "orthography fr."
     }
 ]
+```
+
+## Bulk Import
+
+Typically most thesauri are created with the editor; you can then use the editing UI to make modifications. Anyway, when you massively add or edit data, it may be convenient to just remove the thesauri collection from the Mongo database and re-import it. To this end, you can adopt this procedure:
+
+(1) export the `thesauri` collection from an up-to-date database. This can be created by just launching the editor with updated thesauri in an environment where there is no database for that project. In this case, the databases will be created anew, together with their thesauri. The fastest export type is probably a gzipped archive resulting in a single compressed file, like e.g. `thesauri.agz`.
+
+(2) login into the target database with MongoDB shell:
+
+```bash
+mongo
+use cadmus-yourproject;
+db.thesauri.drop();
+```
+
+(3) restore the `thesauri` collection from the archive file:
+
+```bash
+mongorestore --gzip --archive=thesauri.agz --nsInclude 'cadmus-itinera.thesauri'
 ```
 
 🏠 [developer's home](../toc.md)
