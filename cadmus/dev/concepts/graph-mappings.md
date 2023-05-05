@@ -53,7 +53,7 @@ The algorithm building the SID is idempotent, so you can run it any time being c
 
 A SID is built with these components:
 
-a) for **items**:
+(a) for **items**:
 
 (a1) the _GUID_ of the source (item).
 (a2) if the node comes from a group or a facet, the suffix `|group` or `|facet`.
@@ -66,7 +66,7 @@ Examples:
 - `76066733-6f81-48dd-a653-284d5be54cfb|group`: an entity derived from an item's group.
 - `76066733-6f81-48dd-a653-284d5be54cfb|group|2`: an entity derived from the 2nd component of an item's composite group.
 
-b) for **parts**:
+(b) for **parts**:
 
 (b1) the _GUID_ of the source (part).
 (b2) if the part has a role ID, the _role ID_ preceded by `#`.
@@ -75,6 +75,8 @@ Examples:
 
 - `76066733-6f81-48dd-a653-284d5be54cfb`: an entity derived from a part. In this case, the SID is equal to the part's ID (which is a GUID).
 - `76066733-6f81-48dd-a653-284d5be54cfb#some-role`: an entity derived from a part with a specific role (`some-role`).
+
+>For entities in parts, usually the part's SID is followed by more details about the source for that entity. For instance, an event entity inside an events part can append a suffix to the part SID representing the event's EID, like e.g. `76066733-6f81-48dd-a653-284d5be54cfb/birth`. This provides more details about the effective source of the node or triple, while still allowing an item/part-based update mechanism.
 
 ### Entry ID (EID)
 
@@ -234,7 +236,9 @@ The macro syntax in the placeholder is very simple: it consists of the macro ID,
 
 Some macros are **built-in**, and conventionally their ID start with an underscore (`_`). Currently there is only one:
 
-- `_hdate(separator)`: this macro gets the JSON code representing a Cadmus historical date, and returns either its sort value, or its human-friendly, machine-parsable text value. The return type is defined by the second argument, which can be either `value` (the default) or `text`.
+- `_hdate(json,property)`: this macro handles a Cadmus historical date and returns either its sort value, or its human-friendly, machine-parsable text value. Its arguments are:
+  1. the JSON code representing a Cadmus historical date;
+  2. the property of the date to return: `value` (default) or `text`.
 
 ### Filters
 
