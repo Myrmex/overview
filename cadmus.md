@@ -20,6 +20,7 @@ Cadmus is an open-ended, modular, and full-stack creation system for highly stru
   - [managing backup](cadmus/dev/deploy/backup.md)
 - 🧑‍🤝‍🧑 [projects using Cadmus](cadmus/projects.md)
 - 🕸️ [Cadmus graph demo](https://cadmus-graph-demo.fusi-soft.com)
+- 🧰 [Cadmus graph studio](cadmus/graph-studio/graph-studio.md)
 - 🧱 [Cadmus bricks demo](https://cadmus-bricks.fusi-soft.com)
 
 Cadmus presentation speech at [VeDPH](https://www.unive.it/pag/39287) seminars:
