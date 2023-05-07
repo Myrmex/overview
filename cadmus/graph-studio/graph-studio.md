@@ -18,7 +18,7 @@ No database is required; you just create your mappings, and get the correspondin
 
 The tool's homepage provides a paged list of mappings. To start with, some preset mappings are used as examples. You can import your own mappings, or just delete these samples and start from scratch.
 
-![mappings list](../img/cadmus/graph/gs-mapping-list.png)
+![mappings list](../../img/cadmus/graph/gs-mapping-list.png)
 
 If you have a lot of mappings, you can use the left filters pane to filter the list according to any combination of the available parameters.
 
@@ -38,7 +38,7 @@ Also, as often mappings have descendant mappings, these are represented as a tre
 
 ### Metadata
 
-![mappings editor - metadata](../img/cadmus/graph/gs-editor-metadata.png)
+![mappings editor - metadata](../../img/cadmus/graph/gs-editor-metadata.png)
 
 The metadata section includes the mapping's metadata:
 
@@ -51,7 +51,7 @@ The metadata section includes the mapping's metadata:
 
 ### Input
 
-![mappings editor - input](../img/cadmus/graph/gs-editor-input.png)
+![mappings editor - input](../../img/cadmus/graph/gs-editor-input.png)
 
 The input section selects the input data for the mapping via a [JMES Path expression](https://jmespath.org). You can test your expressions directly in the UI, by setting an input JSON document, and clicking the _run_ button next to the expression. You will get the output in the corresponding pane.
 
@@ -61,7 +61,7 @@ You are free to edit your presets, as none will survive the current edit session
 
 ### Output
 
-![mappings editor - output](../img/cadmus/graph/gs-editor-output.png)
+![mappings editor - output](../../img/cadmus/graph/gs-editor-output.png)
 
 The output section defines the mapping's output, structured in 3 categories:
 
@@ -71,7 +71,7 @@ The output section defines the mapping's output, structured in 3 categories:
 
 ### Test
 
-![mappings editor - test](../img/cadmus/graph/gs-editor-test.png)
+![mappings editor - test](../../img/cadmus/graph/gs-editor-test.png)
 
 The test section allows you to test your mapping against some test data. As for JMES Path, you can use presets to store and reuse input data.
 
