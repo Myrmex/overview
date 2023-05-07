@@ -4,6 +4,16 @@ title: Cadmus Graph Studio
 subtitle: Examples
 ---
 
+- [Work](#work)
+  - [Work Example](#work-example)
+- [Events](#events)
+  - [Named Mappings](#named-mappings)
+    - [Note](#note)
+    - [Chronotope](#chronotope)
+  - [Document Mappings](#document-mappings)
+    - [Text Sent Event](#text-sent-event)
+  - [Event Example](#event-example)
+
 Let us consider a couple of example mappings for [Graph Studio](graph-studio.md). Say we have a Cadmus item representing a literary work, including:
 
 - a metadata part which among others includes an `eid` metadatum, providing the user-friendly EID for the work.
