@@ -123,7 +123,11 @@ The mapping model contains these properties:
 - `source`\*: the source expression representing the data selected by this mapping. In the current implementation this is a [JMES path](https://jmespath.org/). For instance, `events[?type=='person.birth']` matches only the entries in the `events` array property of a part's model whose type is equal to `person.birth`.
 - `output`:
   - `nodes`: an object (dictionary) where each property is the key of a node emitted by the mapping rule, whose string value is the node's identifier [template](#templates). Optionally, this template can be followed by space plus the node's label, and/or its tag between square brackets. For instance, `x:events/{$.} label [tag]` defines the node's UID, its human-friendly label, and an optional tag.
-  - `triples`: an array of strings, each representing a triple [template](#templates).
+  - `triples`: an array of strings, each representing a triple [template](#templates). Each triple is in any of these forms:
+    - `S P O`: subject, predicate, object (all URIs);
+    - `S P "O"`: subject, predicate, literal object in double quotes;
+    - `S P "O"@lang`: subject, predicate, literal object in double quotes followed by an [ISO639](https://en.wikipedia.org/wiki/ISO_639) language identifier (e.g. `"sample"@en`);
+    - `S P "O"^^type`: subject, predicate, literal object in double quotes followed by a type specifier (e.g. `"123"^^xs:int`).
   - `metadata`: optional metadata to be consumed in [templates](#templates). Metadata come from several sources: the source object, the mapping process itself, and these definitions in the mapping.
 - `children`: children mappings. Each child mapping has the same properties of a root mapping, except for those which would make no sense in children, as noted above.
 
