@@ -21,14 +21,30 @@ Let us consider a couple of example mappings for [Graph Studio](graph-studio.md)
 
 In mapping these data to the graph, for each work we want:
 
-- a node representing it.
-- a number of nodes and triples representing events involving that work.
+- a node representing the _work_.
+- a number of nodes and triples representing _events_ involving that work.
+
+Let us now consider the mappings for this output.
 
 ## Work
 
-As we want a human-readable ID for work nodes, we assume that every work item has a `MetadataPart` with an entry named `eid` and a value equal to the human-friendly ID for that work. So, when mapping a work item we don't start from the item itself, but rather from its `MetadataPart`.
+For each work, we want a node representing it, whose identifier must be both unique and human-readable. In Cadmus, the human readable identifier for an item (`EID`) can be provided inside a metadata part in that item, having a metadatum named `eid` whose value is equal to the human-readable ID.
 
-The mapping is:
+So, in this example we assume that every work item has a `MetadataPart` with an entry named `eid` and a value equal to the human-friendly ID for that work. Thus, when mapping a work item we don't start from the item itself, but rather from its `MetadataPart`.
+
+So, our mapping for the work will have a number of features we can group in the following sections:
+
+- **metadata**: the mapping filters its input source data as it refers to a _part_ source, whose type is a _metadata_ part; also, such parts must belong to items with a `work` _facet_. This means that only items representing works (and not persons, manuscripts, etc.) will be considered.
+- **input**: inside each matched metadata part, we must pick the metadatum entry with name=`eid`, and extract its value. This is the item's EID (the item's human-readable ID).
+- **output**: we must create an entity (=a graph node) representing the work, assigning a globally unique identifier to it; and say that this entity is a CIDOC-CRM `E90_symbolic_object`.
+
+We can build a globally unique identifier for the work by concatenating:
+
+1. a conventional prefix we want to use for all our works, here `itn:works/`;
+2. the item's globally unique ID (GUID), which is the internal ID of the item in Cadmus, but is not human-readable;
+3. the item's human-readable ID (EID), as read from the metadata part.
+
+The formal representation of this mapping in JSON is:
 
 ```json
 {
@@ -48,15 +64,19 @@ The mapping is:
 }
 ```
 
-This mapping:
+As you can see, here `name`, `sourceType` (`2`=part, i.e. the source is a part rather than an item), `facetFilter`, `partTypeFilter`, and `description` refer to the mapping's metadata; these provide filtering for input data, an arbitrary name for the mapping, and its description.
 
-- refers to a part source (2), which is a metadata part.
-- is limited to part belonging to items with a `work` facet. This means that only work items will be considered.
-- inside the metadata part, we pick the entry with name=`eid` and extract its value. This is the item's EID.
-- the SID is equal to the part's GUID suffixed with the EID.
-- the output is:
-  - a node representing the work. This has an UID built of a fixed prefix (`itn:works/`) for works; the item GUID; and the item EID.
-  - a triple saying that the work node is an `E90_symbolic_object`.
+Then, the `source` property determines the input data we select from our source object, here the metadata part. This JMES expression, `metadata[?name='eid']`, means:
+
+- from our data object, select the property named `metadata`. This happens to be an array, i.e. a list of objects, each representing a metadatum with two properties: `name` and `value`.
+- among the entries of this metadata list, select the one whose name is `eid`.
+
+>The [SID](../dev/concepts/graph-mappings.md) (source ID) is an ID used by the mapper to identify the source data connected to this mapping. Whenever these data change (because a user saves a part matching this SID), Cadmus will be able to find which mappings should be run again to update the graph. The SID here is equal to the part's GUID suffixed with the EID.
+
+Finally, the output is:
+
+- a node representing the work. This has an UID built of a fixed prefix (`itn:works/`) for works; the item GUID; and the item EID.
+- a triple saying that the work node is an `E90_symbolic_object`.
 
 👉 Note that the same value of metadatum `eid` is recalled in two different templates in a different way. In the mapping properties, the SID refers to the JSON code returned by matching the source JMES expression, which is an array like:
 
@@ -74,7 +94,7 @@ So, in this case the `sid` property draws the value from the first item in the a
 
 ### Work Example
 
-For instance, from such JSON input data:
+Let us see a concrete example, starting from this JSON input data which corresponds to the serialized data of a Cadmus metadata part, here having two entries, `eid` and `copyright`:
 
 ```json
 {
@@ -91,7 +111,7 @@ For instance, from such JSON input data:
 }
 ```
 
-this mapping produces 1 node and 1 triple:
+The above mapping produces 1 node and 1 triple:
 
 - node:
   - URI: `itn:works/a3fee4e4-34e5-442c-978b-20e9fcd6af21/alpha`.
@@ -106,7 +126,7 @@ this mapping produces 1 node and 1 triple:
 
 ## Events
 
-Events are complex entities, which produce several nodes and triples. Each event type has its mapping. The historical events part model is:
+Events are complex entities, which produce several nodes and triples. Each event type has its mapping. The historical events part model in Cadmus is an array of objects of type `HistoricalEvent`:
 
 - `events` (`HistoricalEvent[]`):
   - `eid` (`string`)
@@ -142,7 +162,7 @@ Events are complex entities, which produce several nodes and triples. Each event
     - `id` (`string`)
   - `note` (`string`)
 
-Some of the output data, like those coming from an event's note or chronotope, always require the same mappings. Thus, rather than repeating all these mappings for each event in its descendants, we use a more compact notation, where shared mappings are under section `namedMappings`. Here, each of these mapping is under an arbitrary key. Later, in the `documentMappings` section, these mappings will be referenced by their key only. Once the software reads this JSON document, it will dereference mappings and supply other required values, like identifiers.
+Some of the output data for such events, like those coming from an event's note or chronotope, always require the same mappings. Thus, rather than repeating all these mappings for each event in its descendants, we use a more compact notation, where shared mappings are under section `namedMappings`. Here, each of these mapping is under an arbitrary key. Later, in the `documentMappings` section, these mappings will be referenced by their key only. Once the software reads this JSON document, it will dereference mappings and supply other required values, like identifiers.
 
 ### Named Mappings
 
@@ -241,7 +261,7 @@ The root mapping is:
       "work": "itn:works/{$item-id}/{$item-eid}"
     },
     "nodes": {
-      "event": "itn:events/{$id}"
+      "event": "itn:events/{$id} itn:events/{@eid}"
     },
     "triples": [
       "{?event} a crm:E7_Activity",
@@ -320,7 +340,7 @@ The **output nodes** are (in what follows, the GUID, `dafb0766-bc89-4c21-99d7-8f
 
 | # | label                       | UID                         |
 |---|-----------------------------|-----------------------------|
-| 1 | itn:events/GUID/alpha-send  | itn:events/GUID/alpha-send  |
+| 1 | itn:events/alpha-send       | itn:events/GUID/alpha-send  |
 | 2 | itn:places/arezzo           | itn:places/arezzo           |
 | 3 | itn:timespans/ts            | itn:timespans/ts            |
 | 4 | itn:persons/arezzo_bishop   | itn:persons/arezzo_bishop   |
@@ -359,6 +379,12 @@ The other triples are emitted by children mappings:
 - 7-9 are emitted by matching the event's chronotope date; they say that the event took place at about 1234, a timesapan with a human-friendly expression "mag 1234 AD".
 - 10 is emitted by matching the recipient.
 - 11 is emitted by matching the carrier.
+
+Here is the output as shown in the mapping runner UI:
+
+![mapping test](../../img/cadmus/graph/gs-editor-test.png)
+
+>Note that literal values (in blue) may have additional metadata, like the timespan's value, which has a data type and its numeric value, or the timespan's text, which has English language (the standard in displaying dates, whereas the note is Italian, the default language of this sample project).
 
 - ⬅️ [Graph Studio](graph-studio.md)
 - 🏠 [Cadmus home](../../cadmus.md)
