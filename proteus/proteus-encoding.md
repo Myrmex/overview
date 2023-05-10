@@ -160,8 +160,4 @@ This is right the decode-encode process performed by the converter sketeched abo
 
 ▶️ Next:
 
-- [Format Encoding](./proteus/proteus-format.md)
-
-◀️ Previous:
-
-- [Text Encoding](./proteus/proteus-encoding.md)
+- [Format Encoding](proteus-format.md)

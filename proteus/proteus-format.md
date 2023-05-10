@@ -66,3 +66,7 @@ Anyway, the main usage of Proteus happens in connection with [Cadmus](../cadmus.
 In the video below you can see a short sample about recovering critical apparatus and remodeling it into the Cadmus system.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/27_7iBQVjg0" title="Daniele Fusi and Daniel Kiss, Encoding a critical apparatus" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+◀️ Previous:
+
+- [Text Encoding](proteus-encoding.md)
