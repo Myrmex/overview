@@ -36,7 +36,7 @@ All the backend Cadmus libraries are distributed via [NuGet](https://www.nuget.o
 
 - [Cadmus core](https://github.com/vedph/cadmus_core): the core set of libraries for Cadmus backend, providing the infrastructure for core, indexing, storage, and mock data seeding.
 - [Cadmus bricks](https://github.com/vedph/cadmus-bricks): the core set of libraries including sub-models shared across many of the part/fragment models.
-- [Cadmus graph](https://github.com/vedph/cadmus-graph): libraries used for the semantic graph projection and editing of Cadmus data. 👀 A small [online demo for the mapping infrastructure](https://cadmus-graph-demo.fusi-soft.com/) is available.
+- [Cadmus graph](https://github.com/vedph/cadmus-graph): libraries used for the semantic graph projection and editing of Cadmus data. 👀 An essential [online tool for building and testing mappings](https://cadmus-graph-studio.fusi-soft.com/) is available.
 - [Cadmus migration](https://github.com/vedph/cadmus-migration): libraries used for data migration (e.g. TEI export).
 - [Cadmus general models](https://github.com/vedph/cadmus-general): libraries including generic-usage data models (parts and fragments). Practically all the Cadmus projects use one or more of these components. More specialized models are found in other libraries.
 - [Cadmus philology models](https://github.com/vedph/cadmus-philology): libraries including philological data models (parts and fragments).

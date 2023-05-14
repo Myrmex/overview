@@ -6,7 +6,7 @@ subtitle: "Cadmus Development"
 
 - 👉 [introduction](https://cadmus.fusi-soft.com/#/docs/semantic-graph)
 - 🛠️ [code documentation](https://github.com/vedph/cadmus-graph/blob/master/docs/index.md)
-- 🕸️ [Cadmus graph demo](https://cadmus-graph-demo.fusi-soft.com)
+- 💼 [Cadmus graph studio](https://cadmus-graph-studio.fusi-soft.com)
 
 Cadmus semantic graph is a way of projecting data models into LOD entities and connecting them into a graph. In a sense, this represents a higher level of abstraction which can be added on top of data models.
 

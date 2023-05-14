@@ -709,7 +709,7 @@ x:timespans/ts#1 | crm:p87_is_identified_by      | "1374 AD"@en              | b
 
 So, these are the outcome of the mapping process. The user is not aware of all this: his only task is filling a form in a UI. This form lists events. Then, whenever he saves his work, the mapping process for the edited part steps in, and generates this graph of nodes. The graph will then be merged to the graph stored in the database.
 
-- 🕸️ [Cadmus graph demo](https://cadmus-graph-demo.fusi-soft.com)
+- 🕸️ [Cadmus graph studio](https://cadmus-graph-studio.fusi-soft.com)
 
 ▶️ Next: [graph walker](graph-walker.md)
 
