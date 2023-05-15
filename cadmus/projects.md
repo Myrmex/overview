@@ -44,7 +44,7 @@ The top row lists the projects, while the columns list the parts and fragments. 
 
 ## Demos
 
-- [graph mapper](https://cadmus-graph-demo.fusi-soft.com/)
+- [graph studio](https://cadmus-graph-studio.fusi-soft.com/)
 
 ## Repositories
 
