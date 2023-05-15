@@ -86,7 +86,7 @@ Repositories:
 
 ### PURA
 
-PURA: PURism in Antiquity (prof. O. Tribulato, Università di Venezia Ca' Foscari).
+[PURA: PURism in Antiquity](https://www.unive.it/pag/40985) (prof. O. Tribulato, Università di Venezia Ca' Foscari).
 
 - [models](https://github.com/vedph/cadmus_pura)
 - [API](https://github.com/vedph/cadmus_pura_api)
