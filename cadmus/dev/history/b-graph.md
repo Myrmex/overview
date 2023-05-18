@@ -69,7 +69,7 @@ private void ConfigureIndexServices(IServiceCollection services)
 ```cs
 // item index factory provider
 string indexCS = string.Format(
-    Configuration.GetConnectionString("Index"),
+    Configuration.GetConnectionString("Index")!,
     Configuration.GetValue<string>("DatabaseNames:Data"));
 services.AddSingleton<IItemIndexFactoryProvider>(_ =>
     new StandardItemIndexFactoryProvider(indexCS));
