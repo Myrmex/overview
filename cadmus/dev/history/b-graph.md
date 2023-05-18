@@ -31,7 +31,7 @@ private void ConfigureIndexServices(IServiceCollection services)
 {
     // item index factory provider
     string indexCS = string.Format(
-        Configuration.GetConnectionString("Index"),
+        Configuration.GetConnectionString("Index")!,
         Configuration.GetValue<string>("DatabaseNames:Data"));
 
     services.AddSingleton<IItemIndexFactoryProvider>(_ =>
@@ -51,8 +51,8 @@ private void ConfigureIndexServices(IServiceCollection services)
     // graph updater
     services.AddTransient<GraphUpdater>(provider =>
     {
-        IRepositoryProvider rp = provider.GetService<IRepositoryProvider>();
-        return new(provider.GetService<IGraphRepository>())
+        IRepositoryProvider rp = provider.GetService<IRepositoryProvider>()!;
+        return new(provider.GetService<IGraphRepository>()!)
         {
             // we want item-eid as an additional metadatum, derived from
             // eid in the role-less MetadataPart of the item, when present
@@ -63,6 +63,8 @@ private void ConfigureIndexServices(IServiceCollection services)
     });
 }
 ```
+
+>Note that the `AddItemEid` extension method requires you to install `Cadmus.Graph.Extras` if not already present.
 
 (3) in your API `Startup.cs` file, locate the `ConfigureServices` method, and replace the index configuration:
 
