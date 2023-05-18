@@ -51,12 +51,13 @@ private void ConfigureIndexServices(IServiceCollection services)
     // graph updater
     services.AddTransient<GraphUpdater>(provider =>
     {
+        IRepositoryProvider rp = provider.GetService<IRepositoryProvider>();
         return new(provider.GetService<IGraphRepository>())
         {
             // we want item-eid as an additional metadatum, derived from
             // eid in the role-less MetadataPart of the item, when present
             MetadataSupplier = new MetadataSupplier()
-                .SetCadmusRepository(provider.GetService<ICadmusRepository>())
+                .SetCadmusRepository(rp.CreateRepository())
                 .AddItemEid()
         };
     });
