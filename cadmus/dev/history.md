@@ -8,5 +8,6 @@ This page contains a list of the main changes applied to Cadmus during its devel
 
 - [Backend Infrastructure Upgrade](history/b-config.md)
 - [Frontend Migration to Angular 15](history/f-angular15.md)
+- [Backend Graph Upgrade](history/b-graph.md)
 
 🏠 [developer's home](toc.md)

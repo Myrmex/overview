@@ -11,7 +11,7 @@ subtitle: History - Backend Infrastructure Upgrade
 
 ## Backend Infrastructure Upgrade
 
-📆 Date: 2023-02-01.
+📆 Date: 2023-02-01
 
 ### Rationale
 
@@ -175,6 +175,6 @@ In your **project-specific library**, typically you just have to:
 
 >The part repository provider needs no changes.
 
-In your **projec-specific API**, you just have to update all the libraries.
+In your **project-specific API**, you just have to update all the libraries.
 
 🏠 [developer's home](../toc.md)
