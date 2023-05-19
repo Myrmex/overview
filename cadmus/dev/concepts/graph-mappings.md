@@ -55,7 +55,8 @@ A SID is built with these components:
 
 (a) for **items**:
 
-(a1) the _GUID_ of the source (item).
+(a1) the 36-characters _GUID_ of the source (item).
+
 (a2) if the node comes from a group or a facet, the suffix `|group` or `|facet`.
 
 >The group ID can be composite (using slash, e.g. `alpha/beta`); in this case, a mapping producing nodes for groups emits several nodes, one for each component. The top component is the first in the group ID, followed by its children (in the above sample, `beta` is child of `alpha`). Each of these nodes has an additional suffix for the component ordinal, preceded by `|`.
@@ -68,7 +69,8 @@ Examples:
 
 (b) for **parts**:
 
-(b1) the _GUID_ of the source (part).
+(b1) the 36-characters _GUID_ of the source (part).
+
 (b2) if the part has a role ID, the _role ID_ preceded by `#`.
 
 Examples:

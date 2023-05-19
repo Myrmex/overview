@@ -316,7 +316,7 @@ Typically most thesauri are created with the editor; you can then use the editin
 
 (1) export the `thesauri` collection from an up-to-date database. This can be created by just launching the editor with updated thesauri in an environment where there is no database for that project. In this case, the databases will be created anew, together with their thesauri. The fastest export type is probably a gzipped archive resulting in a single compressed file, like e.g. `thesauri.agz`.
 
-(2) login into the target database with MongoDB shell:
+(2) login into the target database with MongoDB shell, and drop the thesauri collection:
 
 ```bash
 mongo
