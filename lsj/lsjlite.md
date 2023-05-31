@@ -10,13 +10,13 @@ subtitle: Downloads
 
 Text provided by Perseus Digital Library, with funding from The National Endowment for the Humanities. Original version available for viewing and download at [http://www.perseus.tufts.edu](http://www.perseus.tufts.edu).
 
-LSJ Lite is a minimalist application created to browse the Greek LSJ ([Liddell-Scott-Jones](https://en.wikipedia.org/wiki/A_Greek%E2%80%93English_Lexicon)) and Latin LS ([Lewis-Short](https://en.wikipedia.org/wiki/A_Latin_Dictionary</a>)) dictionaries I converted from [Beta code](https://en.wikipedia.org/wiki/Beta_Code) from the [Perseus Digital Library](http://www.perseus.tufts.edu/hopper/). As such, it provides only quick lookup capabilities: you can locate lemmata by any portion of their text (starting with a text, ending with a text, or just containing it anywhere), of course discarding non-relevant traits (diacritics, casing, etc.), and type Greek either in Unicode or in Beta code.
+LSJ Lite is an old, minimalist application created to browse the Greek LSJ ([Liddell-Scott-Jones](https://en.wikipedia.org/wiki/A_Greek%E2%80%93English_Lexicon)) and Latin LS ([Lewis-Short](https://en.wikipedia.org/wiki/A_Latin_Dictionary</a>)) dictionaries I converted from [Beta code](https://en.wikipedia.org/wiki/Beta_Code) from the [Perseus Digital Library](http://www.perseus.tufts.edu/hopper/). As such, it provides only quick lookup capabilities: you can locate lemmata by any portion of their text (starting with a text, ending with a text, or just containing it anywhere), of course discarding non-relevant traits (diacritics, casing, etc.), and type Greek either in Unicode or in Beta code.
 
-I created this application for personal use, so this should be regarded as an alpha release, including only the minimal set of functions I am happy with at this time. Of course, I could add more search functions and platforms (web, mobile, etc.), but this is not a priority at this time.
+I created this application for personal use, so this should be regarded as an alpha release, including only the minimal set of functions I was happy with at that time. Of course, I could add more search functions and platforms (web, mobile, etc.), but this is not a priority.
 
 I converted the original [XML-TEI](https://en.wikipedia.org/wiki/Text_Encoding_Initiative) text from Perseus Beta code to [Unicode](https://home.unicode.org/), using my [Proteus](../proteus.md) conversion system, preprocessed, and archived into a database. This allows for powerful and reasonably fast searches, and makes it possible to use these dictionaries in an offline environment, thus providing the convenience of having these two great dictionaries always at your fingertips. Offline usage is the main reason for choosing a desktop platform. Among the available Windows flavors, the current application was developed with WPF 3, to make the distribution easier in a limited environment, outside the Marketplace.
 
-👉 A more recent, web-based UI for online usage is available at my [demo server](lsj.fusi-soft.com).
+👉 As this application relies on an older WPF-based platform, you might prefer to use a more recent, web-based UI for online usage is available at my [demo server]([lsj.fusi-soft.com](https://lsj.fusi-soft.com)).
 
 ## Usage
 
