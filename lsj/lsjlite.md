@@ -16,7 +16,7 @@ I created this application for personal use, so this should be regarded as an al
 
 I converted the original [XML-TEI](https://en.wikipedia.org/wiki/Text_Encoding_Initiative) text from Perseus Beta code to [Unicode](https://home.unicode.org/), using my [Proteus](../proteus.md) conversion system, preprocessed, and archived into a database. This allows for powerful and reasonably fast searches, and makes it possible to use these dictionaries in an offline environment, thus providing the convenience of having these two great dictionaries always at your fingertips. Offline usage is the main reason for choosing a desktop platform. Among the available Windows flavors, the current application was developed with WPF 3, to make the distribution easier in a limited environment, outside the Marketplace.
 
-👉 As this application relies on an older WPF-based platform, you might prefer to use a more recent, web-based UI for online usage is available at my [demo server]([lsj.fusi-soft.com](https://lsj.fusi-soft.com)).
+👉 As this application relies on an older WPF-based platform, you might prefer to use a more recent, web-based UI for online usage is available at my [demo server](https://lsj.fusi-soft.com).
 
 ## Usage
 
