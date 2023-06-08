@@ -36,6 +36,7 @@ Every node is identified by a number, which is uniquely mapped to a shortened UR
 
 - [graph mapping](graph-mappings.md)
 - [graph walker](graph-walker.md)
+- [graph classes](graph-classes.md)
 
 🏠 [developer's home](../toc.md)
 
