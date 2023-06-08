@@ -54,10 +54,10 @@ INSERT INTO uri_lookup (uri) VALUES
 
 -- nodes
 INSERT INTO node (id, is_class, tag, label, source_type, sid) VALUES
-     (16,1,NULL,'x:animal',0,NULL),
-     (17,1,NULL,'x:mammal',0,NULL),
-     (18,1,NULL,'x:dog',0,''),
-     (19,0,NULL,'x:snoopy',0,NULL);
+     (16, true, NULL, 'x:animal', 0, NULL),
+     (17, true, NULL, 'x:mammal', 0, NULL),
+     (18, true, NULL, 'x:dog', 0, ''),
+     (19, false, NULL, 'x:snoopy', 0, NULL);
 
 -- triples:
 -- snoopy a dog
@@ -77,7 +77,12 @@ CALL populate_node_class(19, 7, 8);
 
 where 19=snoopy, 7=a, 8=subclass, the function will populate table `node_class` with these rows:
 
-- 19=snoopy, 17=mammal, 2=level
-- 19=snoopy, 16=animal, 3=level
+node_id   | class_id  | level
+----------|-----------|------
+19=snoopy | 18=dog    | 1
+19=snoopy | 17=mammal | 2
+19=snoopy | 16=animal | 3
 
 This way, starting from the triple telling that snoopy is a dog, we infer other triples telling that snoopy is a mammal and also an animal.
+
+>Note that the result is the union of the anchor query, which produced level-1 row, with the recursive query, which produced the other rows.
