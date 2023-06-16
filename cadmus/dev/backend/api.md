@@ -121,7 +121,7 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
   "Jwt": {
     "Issuer": "https://cadmus.azurewebsites.net",
     "Audience": "https://www.fusisoft.it",
-    "SecureKey": "g>ueVcdZ7}:>4W5W"
+    "SecureKey": "7W^3*y5@a!3%5Wu4xzd@au5Eh9mdFG6%WmzQpjDEB8#F5nXT"
   },
   "StockUsers": [
     {
@@ -149,7 +149,6 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
   },
   "Indexing": {
     "IsEnabled": true,
-    "DatabaseType": "mysql",
     "IsGraphEnabled": false
   },
   "Preview": {
@@ -167,6 +166,8 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
   }
 }
 ```
+
+>⚠️ before API v8, which followed [RDBMS refactoring](../history/b-rdbms.md), the index connection string targeted a MySql database: `"Index": "Server=localhost;Database={0};Uid=root;Pwd=mysql;"`. Now it targets a PostgreSQL database, though you can change it to MySql if you prefer, adjusting the code accordingly.
 
 ## Program
 
@@ -343,6 +344,10 @@ public sealed class Startup
         HostEnvironment = environment;
     }
 
+    /// <summary>
+    /// Configures the options services providing typed configuration objects.
+    /// </summary>
+    /// <param name="services">The services.</param>
     private void ConfigureOptionsServices(IServiceCollection services)
     {
         // configuration sections
@@ -357,6 +362,12 @@ public sealed class Startup
             resolver.GetRequiredService<IOptions<DotNetMailerOptions>>().Value);
     }
 
+    /// <summary>
+    /// Configures the CORS services. Allowed origins are read from configuration
+    /// <c>AllowedOrigins</c> (an array of URIs). If this section does not exist,
+    /// the only allowed origin is <c>http://localhost:4200</c>.
+    /// </summary>
+    /// <param name="services">The services.</param>
     private void ConfigureCorsServices(IServiceCollection services)
     {
         string[] origins = new[] { "http://localhost:4200" };
@@ -379,6 +390,15 @@ public sealed class Startup
         }));
     }
 
+    /// <summary>
+    /// Configures the authentication services. These refer to a database
+    /// whose connection string is built from a template in configuration
+    /// <c>ConnectionStrings:Default</c>, whose database name is filled by
+    /// the value from <c>DatabaseNames:Auth</c>. JWT tokens are configured
+    /// according to <c>Jwt:SecureKey</c>, <c>Jwt:Audience</c>, and
+    /// <c>Jwt:Issuer</c>.
+    /// </summary>
+    /// <param name="services">The services.</param>
     private void ConfigureAuthServices(IServiceCollection services)
     {
         // identity
@@ -427,6 +447,11 @@ public sealed class Startup
 #endif
     }
 
+    /// <summary>
+    /// Configures the Swagger services to include comments from code and
+    /// use JWT authentication.
+    /// </summary>
+    /// <param name="services">The services.</param>
     private static void ConfigureSwaggerServices(IServiceCollection services)
     {
         services.AddSwaggerGen(c =>
@@ -457,17 +482,17 @@ public sealed class Startup
                 Type = SecuritySchemeType.ApiKey
             });
             c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-        {
-            new OpenApiSecurityScheme
             {
-                Reference = new OpenApiReference
+                new OpenApiSecurityScheme
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                Array.Empty<string>()
+            }
         });
         });
     }
@@ -515,23 +540,44 @@ public sealed class Startup
         return new CadmusPreviewer(factory, repository);
     }
 
+    /// <summary>
+    /// Configures the item index services with the connection string template
+    /// from <c>ConnectionStrings:Index</c>, whose database name is defined in
+    /// <c>DatabaseNames:Data</c>.
+    /// </summary>
+    /// <param name="services">The services.</param>
     private void ConfigureIndexServices(IServiceCollection services)
     {
-        // item index factory provider
-        string indexCS = string.Format(
-            Configuration.GetConnectionString("Index")!,
+        // item index factory provider (from ConnectionStrings/Index)
+        string cs = string.Format(Configuration.GetConnectionString("Index")!,
             Configuration.GetValue<string>("DatabaseNames:Data"));
 
         services.AddSingleton<IItemIndexFactoryProvider>(_ =>
-            new StandardItemIndexFactoryProvider(indexCS));
+            new StandardItemIndexFactoryProvider(cs));
+    }
 
-        // graph repository
+    /// <summary>
+    /// Configures the item graph services with the connection string template
+    /// from <c>ConnectionStrings:Graph</c> (falling back to <c>:Index</c> if
+    /// not found), whose database name is defined in <c>DatabaseNames:Data</c>
+    /// plus suffix <c>-graph</c>.
+    /// </summary>
+    /// <param name="services">The services.</param>
+    private void ConfigureGraphServices(IServiceCollection services)
+    {
+        string cs = string.Format(Configuration.GetConnectionString("Graph")
+            ?? Configuration.GetConnectionString("Index")!,
+            Configuration.GetValue<string>("DatabaseNames:Data") + "-graph");
+
+        services.AddSingleton<IItemGraphFactoryProvider>(_ =>
+            new StandardItemGraphFactoryProvider(cs));
+
         services.AddSingleton<IGraphRepository>(_ =>
         {
-            var repository = new MySqlGraphRepository();
-            repository.Configure(new SqlOptions
+            var repository = new EfPgSqlGraphRepository();
+            repository.Configure(new EfGraphRepositoryOptions
             {
-                ConnectionString = indexCS
+                ConnectionString = cs
             });
             return repository;
         });
@@ -544,7 +590,6 @@ public sealed class Startup
             {
                 // we want item-eid as an additional metadatum, derived from
                 // eid in the role-less MetadataPart of the item, when present
-                // NOTE: this requires Cadmus.Graph.Extras
                 MetadataSupplier = new MetadataSupplier()
                     .SetCadmusRepository(rp.CreateRepository())
                     .AddItemEid()
@@ -614,6 +659,7 @@ public sealed class Startup
 
         // index and graph
         ConfigureIndexServices(services);
+        ConfigureGraphServices(services);
 
         // previewer
         services.AddSingleton(p => GetPreviewer(p));
@@ -694,6 +740,47 @@ public sealed class Startup
             options.SwaggerEndpoint(url, "V1 Docs");
         });
     }
+}
+```
+
+>⚠️ Before API v8, the `ConfigureIndexServices` method was used for both index and graph:
+
+```cs
+private void ConfigureIndexServices(IServiceCollection services)
+{
+    // item index factory provider
+    string indexCS = string.Format(
+        Configuration.GetConnectionString("Index")!,
+        Configuration.GetValue<string>("DatabaseNames:Data"));
+
+    services.AddSingleton<IItemIndexFactoryProvider>(_ =>
+        new StandardItemIndexFactoryProvider(indexCS));
+
+    // graph repository
+    services.AddSingleton<IGraphRepository>(_ =>
+    {
+        var repository = new MySqlGraphRepository();
+        repository.Configure(new SqlOptions
+        {
+            ConnectionString = indexCS
+        });
+        return repository;
+    });
+
+    // graph updater
+    services.AddTransient<GraphUpdater>(provider =>
+    {
+        IRepositoryProvider rp = provider.GetService<IRepositoryProvider>()!;
+        return new(provider.GetService<IGraphRepository>()!)
+        {
+            // we want item-eid as an additional metadatum, derived from
+            // eid in the role-less MetadataPart of the item, when present
+            // NOTE: this requires Cadmus.Graph.Extras
+            MetadataSupplier = new MetadataSupplier()
+                .SetCadmusRepository(rp.CreateRepository())
+                .AddItemEid()
+        };
+    });
 }
 ```
 
