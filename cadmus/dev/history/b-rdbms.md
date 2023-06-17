@@ -156,6 +156,8 @@ private void ConfigureGraphServices(IServiceCollection services)
 }
 ```
 
+⚠️ `AddItemEid` is an extension method found in package `Cadmus.Graph.Extras`.
+
 >Note that you can provide a totally different connection string template for the graph database (named `Graph`). Anyway, if such string does not exist, the template of `Index` will be used. This allows old code work without having to change connection strings settings.
 
 (4) in `ConfigureServices`, ensure to call _both_ these methods:
