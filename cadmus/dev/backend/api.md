@@ -835,32 +835,93 @@ ENTRYPOINT ["dotnet", "Cadmus__PRJ__Api.dll"]
 
 (2) add a `docker-compose.yml` file to allow you using the API in a composer stack (replace `PRJ` with your project name; of course, you can change your image name as required to fit your organization).
 
-**ATTENTION**: under cadmus-api ports replace `59590` with the port value used by your API project (you can find it under the project's properties, Debug).
+⚠️ **ATTENTION**: under cadmus-api ports replace `61691` with the port value used by your API project (you can find it under the project's properties, Debug).
 
 ```yml
 version: '3.7'
 
 services:
   # MongoDB
-  cadmus-mongo:
+  cadmus-PRJ-mongo:
     image: mongo
-    container_name: cadmus-mongo
+    container_name: cadmus-PRJ-mongo
     environment:
       - MONGO_DATA_DIR=/data/db
       - MONGO_LOG_DIR=/dev/null
-    command: mongod --logpath=/dev/null # --quiet
+    command: mongod --logpath=/dev/null
     ports:
       - 27017:27017
     networks:
-      - cadmus-network
+      - cadmus-PRJ-network
 
+  # PostgreSQL
+  cadmus-PRJ-pgsql:
+    image: postgres
+    container_name: cadmus-PRJ-pgsql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - 5432:5432
+    networks:
+      - cadmus-PRJ-network
+
+  # Biblio API
+  # TODO: remove if you are not using it
+  cadmus-biblio-api:
+    image: vedph2020/cadmus_biblio_api:5.0.0
+    container_name: cadmus-biblio-api
+    ports:
+      - 61691:80
+    depends_on:
+      - cadmus-PRJ-mongo
+      - cadmus-PRJ-pgsql
+    environment:
+      - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-PRJ-mongo:27017/{0}
+      - CONNECTIONSTRINGS__BIBLIO=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
+      - SEED__BIBLIODELAY=50
+      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-PRJ-mongo:27017/{0}-log
+      - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
+    networks:
+      - cadmus-PRJ-network
+
+  # Cadmus PRJ API
+  cadmus-PRJ-api:
+    image: vedph2020/cadmus-PRJ-api:6.0.0
+    container_name: cadmus-PRJ-api
+    ports:
+      - 5052:80
+    depends_on:
+      - cadmus-PRJ-mongo
+      - cadmus-PRJ-pgsql
+    environment:
+      - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-PRJ-mongo:27017/{0}
+      - CONNECTIONSTRINGS__INDEX=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
+      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-PRJ-mongo:27017/{0}-log
+      - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
+      - SEED__INDEXDELAY=25
+      - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
+      - MESSAGING__APPROOTURL=http://cadmusapi.com/
+      - MESSAGING__SUPPORTEMAIL=support@cadmus.com
+    networks:
+      - cadmus-PRJ-network
+
+networks:
+  cadmus-PRJ-network:
+    driver: bridge
+```
+
+>API before v8 used MySql:
+
+```yml
   # MySql
   # https://github.com/docker-library/docs/tree/master/mysql#mysql_database
   # https://docs.docker.com/samples/library/mysql/#environment-variables
   # https://github.com/docker-library/mysql/issues/275 (troubleshooting connection)
-  cadmus-mysql:
+  cadmus-PRJ-mysql:
     image: mysql
-    container_name: cadmus-mysql
+    container_name: cadmus-PRJ-mysql
     # https://github.com/docker-library/mysql/issues/454
     command: --default-authentication-plugin=mysql_native_password
     # https://stackoverflow.com/questions/55559386/how-to-fix-mbind-operation-not-permitted-in-mysql-error-log
@@ -876,33 +937,7 @@ services:
     ports:
       - 3306:3306
     networks:
-      - cadmus-network
-
-  cadmus-api:
-    image: vedph2020/cadmus-__PRJ__-api:1.0.0
-    ports:
-      # https://stackoverflow.com/questions/48669548/why-does-aspnet-core-start-on-port-80-from-within-docker
-      - 59590:80
-    depends_on:
-      - cadmus-mongo
-      - cadmus-mysql
-    environment:
-      # for Windows use : as separator, for non Windows use __
-      # (see https://github.com/aspnet/Configuration/issues/469)
-      - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-mongo:27017/{0}
-      - CONNECTIONSTRINGS__INDEX=Server=cadmus-mysql;port=3306;Database={0};Uid=root;Pwd=mysql
-      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-mongo:27017/{0}-log
-      - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
-      - SEED__INDEXDELAY=25
-      - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
-      - MESSAGING__APPROOTURL=http://cadmusapi.com/
-      - MESSAGING__SUPPORTEMAIL=support@cadmus.com
-    networks:
-      - cadmus-network
-
-networks:
-  cadmus-network:
-    driver: bridge
+      - cadmus-PRJ-network
 ```
 
 (3) add a `.dockerignore` file with this content:
