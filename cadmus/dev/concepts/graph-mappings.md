@@ -98,7 +98,11 @@ Thus, here we call EIDs the identifiers provided by users for entries in a Cadmu
 
 The entity ID is a _shortened URI_ where (like in Turtle) a conventional prefix replaces the namespace, calculated as defined by the entity mapping.
 
-To get relatively human-friendly UIDs, the UID is essentially derived from a _template_ defined in the mapping rule generating a node. Yet, as we have to ensure that each UID is unique, whenever the template provides a result which happens to be already present, the UID gets a numeric _suffix_ preceded by `#`. This suffix is granted to be unique in the context of our data.
+To get relatively human-friendly UIDs, the UID is essentially derived from a template defined in the mapping rule generating a node.
+
+Yet, as we have to ensure that each UID is unique, whenever the template provides a result which happens to be already present and the mapping explicitly requests a unique UID, the UID gets a numeric suffix preceded by `#`. This suffix is granted to be unique in the context of our data.
+
+>By convention, any UID built by mapping must end with `##` to indicate that a unique UID is required. For instance, `itn:timespans/ts##` means that the first time such a UID is generated it will be stored as `itn:timespans/ts`; the next time, it will rather be suffixed with a number, e.g. `itn:timespans/ts#3`.
 
 So, this mechanism ensures that the UID is unique, even though it is specified by users as a human-friendly identifier.
 
@@ -210,6 +214,11 @@ Currently, the mapping process automatically emits these metadata:
 - `flags`: the item's flags.
 - `.`: the value of the current leaf node in the source JSON data. For instance, if the mapping is selecting a string property from `events/event[0].eid`, this is the value of `eid`.
 - `index`: the index of the element being processed from a source array. When the source expression used by the mapping points to an array, every item of the array gets processed separately from that mapping onwards. At each iteration, the `index` metadatum is set to the current index.
+
+Additionally, your backend code might use a metadata supplier with extra metadata sources to provide more metadata. A typical source is `ItemEidMetadataSource`, which adds these metadata:
+
+- `item-eid`: the value of metadatum `eid` in the `MetadataPart` (if any) of the current item.
+- `metadata-pid`: the part ID (GUID) of the metadata part (if any) of the current item.
 
 > (*) As an example, see the Cadmus CLI tool code which by default opts into this metadatum with a code like this:
 
