@@ -278,7 +278,7 @@ In this API service the connection string points to the `somedb` server (`Server
 
 The settings here are used to fill some placeholders in the body of the messages being built. The provided values are mock values. Feel free to change these settings as you prefer, or just leave them as they are if you are not going to use email.
 
-- `Mailer`: this object is used to configure an SMTP service to be consumed by the API service, when managing users. For instance, a user might want to recover his/her password, which here requires an email message to reset the forgotten password and setup a new one. Anyway, this is not a requirement, especially if you just manage a few users managed by an admin. The object is like this for a standard SMTP server:
+- `Mailer`: this object is used to configure an SMTP service to be consumed by the API service, when managing users. For instance, a user might want to recover his/her password, which here requires an email message to reset the forgotten password and setup a new one. Anyway, this is not a requirement, especially if you just manage a few users; so you can just disable this service altogether. The configuration object is like this for a standard SMTP server:
 
 ```json
 "Mailer": {
@@ -343,7 +343,17 @@ Then, in your Docker compose script:
       - 80:80
 ```
 
-Another option is just using a bound volume with a modified copy of `env.js`.
+Another option is just using a bound volume with a modified copy of `env.js`, e.g.:
+
+```yml
+services:
+  cadmus-PRJ-app:
+    # ...
+    volumes:
+      - /opt/cadmus/web/env.js:/usr/share/nginx/html/env.js
+```
+
+In this sample, your host machine has a patched `env.js` file under `/opt/cadmus/web`, which gets bound to the container's `env.js` file in its NGINX `/usr/share/nginx/html` directory.
 
 >Alternatively, you may might "hack" the Docker image by directly changing the file's content in the container. Anyway, manually changing a Docker image is not a good practice.
 
