@@ -27,11 +27,29 @@ Essentially, to host Cadmus on a server you should just customize the default _D
 The default script skeleton includes 4 services:
 
 - `cadmus-mongo`: MongoDB service.
-- `cadmus-index`: MySql service used for indexes and semantic graphs.
+- `cadmus-pgsql`: PostgreSQL service used for indexes and semantic graphs.
 - `cadmus-api`: API backend service. This is exposed at some port in `localhost`. This is ASP.NET 7 served by [Kestrel](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel).
-- `cadmus-web`: web app service, exposed at port 4200 in `localhost`. This is Angular served by [NGINX](https://www.nginx.com/).
+- `cadmus-app`: web app service, exposed at port 4200 in `localhost`. This is Angular served by [NGINX](https://www.nginx.com/).
 
->⚠️ Please notice that if you want your data to persist when containers are destroyed, you must use Docker _volumes_ for databases. You can find a ready-to-use sample of this in a variant of the default Docker compose script.
+⚠️ Please notice that if you want your _data to persist when containers are destroyed_, you must use Docker _volumes_ for databases, e.g.:
+
+```yml
+services:
+  # MongoDB
+  cadmus-mongo:
+    # ...
+    volumes:
+      - mongo-vol:/data/db
+  # PostgreSQL
+  cadmus-pgsql:
+    # ...
+    volumes:
+      - pgsql-vol:/var/lib/postgresql/data
+
+volumes:
+  mongo-vol:
+  pgsql-vol:
+```
 
 ## API Settings
 
@@ -117,7 +135,7 @@ Here, you must replace the `localhost` origin (`ALLOWEDORIGINS__0`) with the URL
 
 #### Jwt
 
-🚩 This object contains the configuration for the authentication JWT token. Among its properties, the relevant one is `SecureKey`, which contains a seed for generating the token. This must be a string whose length _must_ be a multiple of 8. Use some long and complex string here; it should at least be 32 characters long, but the longer the better. For instance:
+🚩 This object contains the configuration for the authentication JWT token. Among its properties, the relevant one is `SecureKey`, which contains a seed for generating the token. This must be a string whose length _must_ be a multiple of 8. Use some long and complex string here; it should at least be 48 characters long, but the longer the better. For instance:
 
 ```yml
   environment:
@@ -166,6 +184,8 @@ Here, you must at least replace the default stock user _password_. Of course, yo
     - STOCKUSERS__0__PASSWORD=2R$M&o*4ej4@
 ```
 
+In descending order of assigned authorizations, **roles** are: `admin`, `editor`, `operator`, `visitor`.
+
 >⚠️ Please ensure that you are complying with all the requirements setup in Cadmus for a password, or you will get errors at startup. The password must include at least 8 characters, uppercase and lowercase letters, digits, and symbols like dash, stop, parentheses, etc.
 
 #### Auditing and Privacy
@@ -186,7 +206,7 @@ The database-related settings essentially refer to connection strings. In `appse
 {
   "ConnectionStrings": {
     "Default": "mongodb://localhost:27017/{0}",
-    "Index": "Server=localhost;Database={0};Uid=root;Pwd=mysql;"
+    "Index": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True"
   },
   "DatabaseNames": {
     "Auth": "cadmus-__PRJ__auth",
@@ -207,10 +227,10 @@ The database-related settings essentially refer to connection strings. In `appse
 ```yml
 environment:
   - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-mongo:27017/{0}
-  - CONNECTIONSTRINGS__INDEX=Server=cadmus-index;port=3306;Database={0};Uid=root;Pwd=mysql
+  - CONNECTIONSTRINGS__INDEX=Server=cadmus-pgsql;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
 ```
 
->💡 Note that here the hostnames (like `cadmus-mongo` or `cadmus-index`) are just the names of the database containerized services in the Docker compose script.
+>💡 Note that here the hostnames (like `cadmus-mongo` or `cadmus-pgsql`) are just the names of the database containerized services in the Docker compose script.
 
 - `DatabaseNames`: the names of the authentication and data databases. These are not found in the connection string templates, where there is a placeholder `{0}` representing them, as the program needs to know both the full connection string and the database name alone.
 - `Seed`:
@@ -322,6 +342,8 @@ Then, in your Docker compose script:
     ports:
       - 80:80
 ```
+
+Another option is just using a bound volume with a modified copy of `env.js`.
 
 >Alternatively, you may might "hack" the Docker image by directly changing the file's content in the container. Anyway, manually changing a Docker image is not a good practice.
 
