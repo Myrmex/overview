@@ -14,7 +14,7 @@ Cadmus is an open-ended, modular, and full-stack creation system for highly stru
 
 - 🛠️ [developer's guide](cadmus/dev/toc.md)
 - 🔰 [directory of Cadmus code repositories](cadmus/dev/repos.md)
-- 🌐 [hosting Cadmus](cadmus/hosting.md)
+- 🌐 [hosting Cadmus](cadmus/dev/deploy/hosting.md)
   - [installing Docker](cadmus/docker-setup.md)
   - [configuring HTTPS](cadmus/dev/deploy/https.md)
   - [managing backup](cadmus/dev/deploy/backup.md)
