@@ -37,7 +37,7 @@ var host = await CreateHostBuilder(args)
     .UseSerilog((hostingContext, loggerConfiguration) =>
     {
         string cs = hostingContext.Configuration
-            .GetConnectionString("Log");
+            .GetConnectionString("Log")!;
         var maxSize = hostingContext.Configuration["Serilog:MaxMbSize"];
 
         loggerConfiguration
@@ -51,6 +51,20 @@ var host = await CreateHostBuilder(args)
     })
     .Build()
     .SeedAsync(); // see Services/HostSeedExtension
+```
+
+If present, remove the static `Serilog.Log.Logger` configuration:
+
+```cs
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+#if DEBUG
+    .WriteTo.File("cadmus-log.txt", rollingInterval: RollingInterval.Day)
+#endif
+    .CreateLogger();
 ```
 
 (4) in `Startup.cs`, `ConfigureServices`, _remove_ any logging configuration, which usually is like this:
@@ -71,6 +85,14 @@ services.AddSingleton<ILogger>(_ => new LoggerConfiguration()
         .CreateLogger());
 ```
 
-If you have additional controllers which require an instance of `ILogger`, inject the `Microsoft.Extensions.Logging.ILogger<T>` where `T` is the target of the injection (i.e. the controller class). No reference to Serilog is required.
+(5) in `Startup.cs`, `GetPreviewer`, replace the line which gets the logger from services (`Serilog.ILogger? logger = provider.GetService<Serilog.ILogger>()`) with this:
+
+```cs
+ILogger<Startup> logger = provider.GetService<ILogger<Startup>>();
+```
+
+and change its method calls accordingly.
+
+(6) if you have additional controllers which require an instance of `ILogger`, inject the `Microsoft.Extensions.Logging.ILogger<T>` where `T` is the target of the injection (i.e. the controller class). No reference to Serilog is required.
 
 >This type of injection has been applied also to the default controllers in `Cadmus.Api.Controllers`.
