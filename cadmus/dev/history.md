@@ -10,5 +10,6 @@ This page contains a list of the main changes applied to Cadmus during its devel
 - [Frontend Migration to Angular 15](history/f-angular15.md)
 - [Backend Graph Upgrade](history/b-graph.md)
 - [RDBMS Refactoring](history/b-rdbms.md)
+- [Logging Refactoring](history/b-logging.md)
 
 🏠 [developer's home](toc.md)
