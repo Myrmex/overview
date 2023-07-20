@@ -88,7 +88,7 @@ services.AddSingleton<ILogger>(_ => new LoggerConfiguration()
 (5) in `Startup.cs`, `GetPreviewer`, replace the line which gets the logger from services (`Serilog.ILogger? logger = provider.GetService<Serilog.ILogger>()`) with this:
 
 ```cs
-ILogger<Startup> logger = provider.GetService<ILogger<Startup>>();
+ILogger<Startup>? logger = provider.GetService<ILogger<Startup>>();
 ```
 
 and change its method calls accordingly.
