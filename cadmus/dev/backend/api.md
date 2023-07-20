@@ -92,14 +92,14 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "Default": "mongodb://localhost:27017/{0}",
-    "Index": "Server=localhost;Database={0};Uid=root;Pwd=mysql;"
+    "Index": "Server=localhost;Database={0};Uid=root;Pwd=mysql;",
+    "Log": "mongodb://localhost:27017/cadmus-__PRJ__-log",
   },
   "DatabaseNames": {
     "Auth": "cadmus-__PRJ__-auth",
     "Data": "cadmus-__PRJ__"
   },
   "Serilog": {
-    "ConnectionString": "mongodb://localhost:27017/{0}-log",
     "MaxMbSize": 10,
     "TableName": "Logs",
     "MinimumLevel": {
@@ -220,16 +220,6 @@ public static class Program
     /// <param name="args">The arguments.</param>
     public static async Task<int> Main(string[] args)
     {
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Debug()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-            .Enrich.FromLogContext()
-            .WriteTo.Console()
-#if DEBUG
-            .WriteTo.File("cadmus-log.txt", rollingInterval: RollingInterval.Day)
-#endif
-            .CreateLogger();
-
         try
         {
             Log.Information("Starting Cadmus __PRJ__ API host");
@@ -239,29 +229,23 @@ public static class Program
             // see https://stackoverflow.com/questions/45148389/how-to-seed-in-entity-framework-core-2
             // and https://docs.microsoft.com/en-us/aspnet/core/migration/1x-to-2x/?view=aspnetcore-2.1#move-database-initialization-code
             var host = await CreateHostBuilder(args)
-                // add in-memory config to override Serilog connection string
-                // as there is no way of configuring it outside appsettings
-                // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-5.0#in-memory-provider-and-binding-to-a-poco-class
-                .ConfigureAppConfiguration((context, config) =>
-                {
-                    IConfiguration cfg = AppConfigReader.Read();
-                    string csTemplate = cfg.GetValue<string>("Serilog:ConnectionString")!;
-                    string dbName = cfg.GetValue<string>("DatabaseNames:Data")!;
-                    string cs = string.Format(csTemplate, dbName);
-                    Debug.WriteLine($"Serilog:ConnectionString override = {cs}");
-                    Console.WriteLine($"Serilog:ConnectionString override = {cs}");
+              .UseSerilog((hostingContext, loggerConfiguration) =>
+              {
+                      string cs = hostingContext.Configuration
+                          .GetConnectionString("Log")!;
+                      var maxSize = hostingContext.Configuration["Serilog:MaxMbSize"];
 
-                    Dictionary<string, string?> dct = new()
-                    {
-                        { "Serilog:ConnectionString", cs }
-                    };
-                    // (requires Microsoft.Extensions.Configuration package
-                    // to get the MemoryConfigurationProvider)
-                    config.AddInMemoryCollection(dct);
-                })
-                .UseSerilog()
-                .Build()
-                .SeedAsync(); // see Services/HostSeedExtension
+                      loggerConfiguration
+                          .ReadFrom.Configuration(hostingContext.Configuration)
+              #if DEBUG
+                          .WriteTo.File("cadmus-log.txt", rollingInterval: RollingInterval.Day)
+              #endif
+                          .WriteTo.MongoDBCapped(cs,
+                              cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) &&
+                                  int.TryParse(maxSize, out int n) && n > 0 ? n : 10);
+              })
+              .Build()
+              .SeedAsync(); // see Services/HostSeedExtension
 
             host.Run();
 
@@ -299,8 +283,6 @@ using AspNetCore.Identity.Mongo;
 using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
 using System.Reflection;
 using Serilog;
-using Serilog.Events;
-using Serilog.Exceptions;
 using Cadmus.Core;
 using Cadmus.Seed;
 using Cadmus.Core.Config;
@@ -514,21 +496,19 @@ public sealed class Startup
         }
 
         // get profile source
-        Serilog.ILogger? logger = provider.GetService<Serilog.ILogger>();
+        ILogger<Startup>? logger = provider.GetService<ILogger<Startup>>();
         IHostEnvironment env = provider.GetService<IHostEnvironment>()!;
         string path = Path.Combine(env.ContentRootPath,
             "wwwroot", "preview-profile.json");
         if (!File.Exists(path))
         {
-            Console.WriteLine($"Preview profile expected at {path} not found");
-            logger?.Error($"Preview profile expected at {path} not found");
+            logger?.LogError("Preview profile expected at {path} not found", path);
             return new CadmusPreviewer(factoryProvider.GetFactory("{}"),
                 repository);
         }
 
         // load profile
-        Console.WriteLine($"Loading preview profile from {path}...");
-        logger?.Information($"Loading preview profile from {path}...");
+        logger?.LogInformation("Loading preview profile from {path}...", path);
         string profile;
         using (StreamReader reader = new(new FileStream(
             path, FileMode.Open, FileAccess.Read, FileShare.Read), Encoding.UTF8))
@@ -666,20 +646,6 @@ public sealed class Startup
 
         // swagger
         ConfigureSwaggerServices(services);
-
-        // serilog
-        // Install-Package Serilog.Exceptions Serilog.Sinks.MongoDB
-        // https://github.com/RehanSaeed/Serilog.Exceptions
-        string? maxSize = Configuration["Serilog:MaxMbSize"];
-        services.AddSingleton<Serilog.ILogger>(_ => new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-            .Enrich.WithExceptionDetails()
-            .WriteTo.Console()
-            .WriteTo.MongoDBCapped(Configuration["Serilog:ConnectionString"]!,
-                cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) &&
-                    int.TryParse(maxSize, out int n) && n > 0 ? n : 10)
-                .CreateLogger());
     }
 
     /// <summary>
