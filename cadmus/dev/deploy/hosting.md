@@ -206,7 +206,8 @@ The database-related settings essentially refer to connection strings. In `appse
 {
   "ConnectionStrings": {
     "Default": "mongodb://localhost:27017/{0}",
-    "Index": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True"
+    "Index": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True",
+    "Log": "mongodb://localhost:27017/cadmus-__PRJ__-log"
   },
   "DatabaseNames": {
     "Auth": "cadmus-__PRJ__auth",

@@ -11,23 +11,18 @@ To backup your Cadmus data, you must:
 
 If you expose the database services from your Docker containers, as it is usually the case, you just have to use the corresponding database tools to dump databases. Just be sure to use the right port, as often ports are remapped when several services run in the same host machine.
 
-For instance, here are typical dump commands for MongoDB and PostgreSQL:
+## Linux
 
-```bash
-mongodump -h 127.0.0.1 --port=27027 --archive=./backup/cadmus-PRJ-mongo.gz --gzip
-psql -U postgres -d cadmus-PRJ-pgsql | gzip > ./backup/cadmus-PRJ-pgsql-${vardate}.gz
-```
+In Linux, which is the most typical host, you can just have a `.sh` batch file savinig your data somewhere, and then launch it periodically with [crontab](https://crontab.guru). Here is an example, which saves all the databases into separate, compressed files, with their date.
 
-In Linux, you can just have a `.sh` batch file savinig your data somewhere, and then launch it periodically with [crontab](https://crontab.guru):
+### Backup
 
 ```sh
 #!/bin/bash
-# you can launch it by editing cron with crontab -e, using a line like this (daily dump at 3 AM):
+# you can launch this by editing cron with crontab -e, using a line like this (daily dump at 3 AM):
 # 00 03 * * * /home/crontab-scripts/cadmus-dump.sh
 
 vardate=`date +%Y%m%d`
-echo mongo all...
-mongodump --port=27017 --archive=./backup/cadmus-PRJ-mongo-${vardate}.gz --gzip
 
 echo mongo data...
 mongodump --port=27017 --db cadmus-PRJ --archive=./backup/cadmus-PRJ-${vardate}.gz --gzip
@@ -35,8 +30,11 @@ mongodump --port=27017 --db cadmus-PRJ --archive=./backup/cadmus-PRJ-${vardate}.
 echo mongo auth...
 mongodump --port=27017 --db cadmus-PRJ-auth --archive=./backup/cadmus-PRJ-auth-${vardate}.gz --gzip
 
+echo mongo log...
+mongodump --port=27017 --db cadmus-PRJ-log --archive=./backup/cadmus-PRJ-log-${vardate}.gz --gzip
+
 echo pgsql data...
-psql -U postgres -d cadmus-PRJ-pgsql | gzip > ./backup/cadmus-PRJ-pgsql-${vardate}.gz
+pg_dump --username=postgres -h 127.0.0.1 cadmus-renovella | gzip > ./backup/cadmus-renovella-pgsql-${vardate}.gz
 
 # if using MySql
 # echo mysql...
@@ -44,6 +42,8 @@ psql -U postgres -d cadmus-PRJ-pgsql | gzip > ./backup/cadmus-PRJ-pgsql-${vardat
 
 echo completed!
 ```
+
+### Transfer
 
 Of course, you can then **transfer** your files somewhere else, e.g. (this script is placed in `backup` folder):
 
