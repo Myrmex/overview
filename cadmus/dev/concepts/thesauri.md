@@ -14,10 +14,15 @@ subtitle: "Cadmus Development"
 
 ## Requirements
 
+To deal with thesauri, you will need:
+
 - rudimentary knowledge of [JSON](https://www.json.org/json-en.html).
 - a code editor like [VSCode](https://code.visualstudio.com/download), or an online JSON editor like [JSON editor online](https://jsoneditoronline.org).
 
->💡 [Online Tools](https://cadmus.fusi-soft.com/#/profile): the Cadmus presentation website has some visual editing tools to help you work with thesauri.
+💡 Also, there are some **tools** you can use:
+
+- [Cadmus command line tool](https://github.com/vedph/cadmus_tool): this tool has functions to variously import thesauri into an existing database with different modes (replacing, patching, or synching), and from different formats (JSON, CSV, XLSX, XLS).
+- [online tools](https://cadmus.fusi-soft.com/#/profile): the Cadmus presentation website has some visual editing tools to help you work with thesauri.
 
 ## Overview
 
@@ -312,7 +317,7 @@ Example:
 
 ## Bulk Import
 
-Typically most thesauri are created with the editor; you can then use the editing UI to make modifications. Anyway, when you massively add or edit data, it may be convenient to just remove the thesauri collection from the Mongo database and re-import it. To this end, you can adopt this procedure:
+Typically most thesauri are created with the editor; you can then use the editing UI to make modifications. Anyway, when you massively add or edit data, it may be convenient to just remove the thesauri collection from the Mongo database and re-import it. To this end, you can use the Cadmus command line tool for more fine-grained imports, or also generic MongoDB commands like these:
 
 (1) export the `thesauri` collection from an up-to-date database. This can be created by just launching the editor with updated thesauri in an environment where there is no database for that project. In this case, the databases will be created anew, together with their thesauri. The fastest export type is probably a gzipped archive resulting in a single compressed file, like e.g. `thesauri.agz`.
 
@@ -329,5 +334,7 @@ db.thesauri.drop();
 ```bash
 mongorestore --gzip --archive=thesauri.agz --nsInclude 'cadmus-itinera.thesauri'
 ```
+
+>Note: in Linux you might need to specify the host in your server, e.g. adding the option `-h 127.0.0.1`.
 
 🏠 [developer's home](../toc.md)
