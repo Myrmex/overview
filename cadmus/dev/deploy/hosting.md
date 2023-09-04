@@ -142,6 +142,11 @@ Here, you must replace the `localhost` origin (`ALLOWEDORIGINS__0`) with the URL
     - JWT__SECUREKEY=Rh+m(dkh_Rn6DhOD-wKcd;>P=]Q*T}J/MPbnfenDKOL[1y4I_1Oy1JAU./V98Zex
 ```
 
+Other, less relevant settings are:
+
+- `Issuer`: the issuer URI.
+- `Audience`: the audience URI.
+
 #### Server
 
 This object contains the configuration for HTTPS. You might need this if you are configuring HTTPS at the level of the Docker containers. If instead you are using a reverse proxy to handle HTTPS, and dealing with HTTP-only containerized services (which is the easiest and most common configuration), this is not necessary.
@@ -183,6 +188,8 @@ Here, you must at least replace the default stock user _password_. Of course, yo
   environment:
     - STOCKUSERS__0__PASSWORD=2R$M&o*4ej4@
 ```
+
+>💡 If you want to preload a set of users, create them directly in `appsettings.json`, like in the above example. For security reasons, just ensure that their usernames and passwords are fake. Then, override their usernames and passwords with the real ones via environment variables in your host. This way, you can create fully structured user accounts in JSON, and just provide the sensitive data from environment variables.
 
 In descending order of assigned authorizations, **roles** are: `admin`, `editor`, `operator`, `visitor`.
 
@@ -344,7 +351,7 @@ Then, in your Docker compose script:
       - 80:80
 ```
 
-Another option is just using a bound volume with a modified copy of `env.js`, e.g.:
+Another option is just using a _bind mount_ with a modified copy of `env.js`, e.g.:
 
 ```yml
 services:
@@ -354,7 +361,7 @@ services:
       - /opt/cadmus/web/env.js:/usr/share/nginx/html/env.js
 ```
 
-In this sample, your host machine has a patched `env.js` file under `/opt/cadmus/web`, which gets bound to the container's `env.js` file in its NGINX `/usr/share/nginx/html` directory.
+In this sample, your host machine has a patched `env.js` file in its local file system, in the directory `/opt/cadmus/web`; this file gets bound to the container's `env.js` file in its NGINX `/usr/share/nginx/html` directory.
 
 >Alternatively, you may might "hack" the Docker image by directly changing the file's content in the container. Anyway, manually changing a Docker image is not a good practice.
 
