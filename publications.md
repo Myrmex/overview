@@ -4,6 +4,7 @@ layout: page
 
 ## Publications
 
+- 2023 L. Clemenzi, F. Fusco, D.Fusi, G. Lombardi, _Processing of personal data in Court Proceedings: A model for linguistic and legal studies_, in P. Anesa, J. Engberg (edd.), _The digital (r)evolution of legal discourse. New genres, media, and linguistic practices_, _Foundations in Language and Law_ vol.10.
 - 2022 D. Fusi, _I due volti di Giano - Saggio di filologia classica e tardoantica allo specchio delle Digital Humanities_, Parma 2022 (ISBN 978-88-32158-49-6)
 - 2022 L. Clemenzi, F. Fusco, D. Fusi, G. Lombardi, _Analisi linguistica e pseudonimizzazione: strumenti e paradigmi_, in Fabio Ciracì, Giulia Miglietta, Carola Gatto (edd.), _AIUCD 2022 - Culture digitali. Intersezioni: filosofia, arti, media. Preceedings della 11a conferenza nazionale_, Lecce, 2022.
 - 2021 D. Fusi, _Digitalizzazione e marcatura XML degli atti_, in R. Gualdo (ed.), Atti chiari. Chiarezza e concisione nella scrittura forense ("Atti Chiari. Chiarezza e concisione nella scrittura forense", Viterbo 20 maggio 2021), 59-73.
