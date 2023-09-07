@@ -51,6 +51,44 @@ volumes:
   pgsql-vol:
 ```
 
+The `volumes:` section in a `docker-compose.yml` file is used to define named volumes. _Named volumes_ are a type of Docker volume that can persist data between container lifecycles, and can be more easily referenced and managed.
+
+When you specify a volume this section, Docker Compose will ensure that this volume is created if it does not already exist. In the `services` section of your `docker-compose.yml` file, you can use named volumes like so:
+
+```yml
+services:
+  # MongoDB
+  cadmus-mongo:
+    # ...
+    volumes:
+      - mongo-vol:/data/db
+  # PostgreSQL
+  cadmus-pgsql:
+    # ...
+    volumes:
+      - pgsql-vol:/var/lib/postgresql/data
+```
+
+This tells Docker to mount the named volumes at the specified paths within the containers. Any data that the MongoDB or PostgreSQL services write to these paths will be stored in the named volumes, and will persist even if the containers are stopped or deleted (unless you destroy also the volumes like in `docker compose down -v`).
+
+For databases, named volumes are the default choice rather than bind mounts. A named volume is created and managed by Docker, while a _bind mount_ is a file or directory on the host machine that is mounted into a container.
+
+Named volumes are created using the docker volume create command, or by specifying them in the `volumes:` section of a `docker-compose.yml` file. They are stored in the Docker host's filesystem, typically under `/var/lib/docker/volumes`, and can be more easily referenced and managed using the docker volume command.
+
+On the other hand, bind mounts are created by specifying the path to a file or directory on the host machine when starting a container, using the `-v` or `--mount` flag, or by using another syntax in the `docker-compose.yml` file, like:
+
+```yml
+services:
+  cadmus-itinera-app:
+    # ...
+    volumes:
+      - /opt/cadmus/web/env.js:/usr/share/nginx/html/env.js
+```
+
+In this case we have a single JavaScript file (`env.js`) which contains environment-dependent values defined. A patched copy of this file has been placed in the host's `/opt/cadmus/web` directory, and is directly bound to the corresponding file in the NGINX container, under `/usr/share/nginx/html/`.
+
+Bind mounts rely on the host machine's filesystem having a specific directory structure available, and give the container access to files and directories on the host machine. So, one key difference between named volumes and bind mounts is that named volumes are completely managed by Docker, while bind mounts depend on the directory structure and operating system of the host machine. This means that named volumes are generally easier to back up, migrate, and manage than bind mounts.
+
 ## API Settings
 
 All the API settings are defined in `appsettings.json`. This is packed in the Docker image, but you can override any of its values by just providing an _environment variable_ in the Docker compose script. So, you don't need to change the Docker image, but just setup some environment variables in your host.
