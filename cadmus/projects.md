@@ -7,6 +7,7 @@ subtitle: "Directory"
 - [Production Sites](#production-sites)
 - [Demos](#demos)
 - [Repositories](#repositories)
+  - [CHICGC](#chicgc)
   - [Itinera](#itinera)
   - [MapAeg](#mapaeg)
   - [Musisque Deoque](#musisque-deoque)
@@ -47,6 +48,12 @@ The top row lists the projects, while the columns list the parts and fragments. 
 - [graph studio](https://cadmus-graph-studio.fusi-soft.com/)
 
 ## Repositories
+
+### CHICGC
+
+- [models](https://github.com/vedph/cadmus-chgc)
+- [API](https://github.com/vedph/cadmus-chgc-api)
+- [app](https://github.com/vedph/cadmus-chgc-app)
 
 ### Itinera
 

@@ -41,7 +41,7 @@ The typical steps for developing a Cadmus frontend (as based on the [reference s
 
 (1) create a **new Angular app**: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use CSS (you may use SCSS if you prefer, or if you want to customize your theme).
 
->If you are creating an app for the only purpose of developing component libraries in it, the convention is naming it as `-shell` rather than `-app`.
+>If you are creating an app for the only purpose of developing component libraries in it, our convention is naming it as `-shell` rather than `-app`.
 
 (2) enter the newly created directory and **add Angular Material** (choose the Indigo/Pink theme - or whatever you prefer -, setup typography styles=yes, include and enable animations=yes) and **Angular localization package**:
 
@@ -52,22 +52,7 @@ ng add @angular/localize
 
 >The localization package is a development package which is required by some localization-ready components such as the authentication libraries (`@myrmidon/auth-jwt-*`). You can also just add the NPM package via `npm -i --save-dev @angular/localize`.
 
-(3) install ELF with command `npx @ngneat/elf-cli install`. When prompted, install:
-
-- @ngneat/elf
-- @ngneat/elf-entities
-- @ngneat/elf-devtools
-- @ngneat/elf-requests
-- @ngneat/elf-pagination
-- @ngneat/elf-cli-ng
-
-No external package is needed. Should you prefer, you can just use NPM to install these packages:
-
-```bash
-npm i @ngneat/elf @ngneat/elf-entities @ngneat/elf-devtools @ngneat/elf-requests @ngneat/elf-pagination @ngneat/elf-cli-ng --force
-```
-
-(4) install the typical Cadmus packages via NPM:
+(3) install the typical Cadmus packages via NPM:
 
 ```bash
 npm i @auth0/angular-jwt @myrmidon/auth-jwt-admin @myrmidon/auth-jwt-login
@@ -76,7 +61,7 @@ npm i @myrmidon/cadmus-item-editor @myrmidon/cadmus-item-list @myrmidon/cadmus-i
 npm i @myrmidon/cadmus-part-general-pg @myrmidon/cadmus-part-general-ui
 npm i @myrmidon/cadmus-part-philology-pg @myrmidon/cadmus-part-philology-ui
 npm i @myrmidon/cadmus-preview-pg @myrmidon/cadmus-preview-ui @myrmidon/cadmus-profile-core
-npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/ngx-dirty-check @types/diff-match-patch diff-match-patch gravatar
+npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/paged-data-browsers @myrmidon/ngx-dirty-check @types/diff-match-patch diff-match-patch gravatar
 npm i ngx-markdown ngx-monaco-editor rangy --force
 ```
 
@@ -118,6 +103,8 @@ This is essential to let the frontend find the server, while allowing us to manu
   // environment-dependent settings
   window.__env.apiUrl = "http://localhost:60849/api/";
   window.__env.version = "0.0.1";
+  // enable thesaurus import in thesaurus list for admins
+  window.__env.thesImportEnabled = true;
 })(this);
 ```
 
@@ -182,7 +169,6 @@ This is suggested to enable source maps in production and avoid nasty warnings a
 ```json
 "sourceMap": {
   "scripts": true,
-  "styles": true,
   "hidden": false,
   "vendor": true
 },
@@ -295,10 +281,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 
-// ELF
-import { devTools } from '@ngneat/elf-devtools';
-import { Actions } from '@ngneat/effects-ng';
-
 // ngx-monaco
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 // ngx-markdown
@@ -308,6 +290,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { NgxDirtyCheckModule } from '@myrmidon/ngx-dirty-check';
 import { EnvServiceProvider, NgToolsModule } from '@myrmidon/ng-tools';
 import { NgMatToolsModule } from '@myrmidon/ng-mat-tools';
+import { PagedDataBrowsersModule } from '@myrmidon/paged-data-browsers';
 import {
   AuthJwtInterceptor,
   AuthJwtLoginModule,
@@ -346,16 +329,6 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { PART_EDITOR_KEYS } from './part-editor-keys';
 import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
 import { ITEM_BROWSER_KEYS } from './item-browser-keys';
-
-// https://ngneat.github.io/elf/docs/dev-tools/
-export function initElfDevTools(actions: Actions) {
-  return () => {
-    devTools({
-      name: 'Cadmus __PRJ__',
-      actionsDispatcher: actions,
-    });
-  };
-}
 
 @NgModule({
   // ...
@@ -408,6 +381,7 @@ export function initElfDevTools(actions: Actions) {
     NgToolsModule,
     NgMatToolsModule,
     NgxDirtyCheckModule,
+    PagedDataBrowsersModule,
     AuthJwtLoginModule,
     AuthJwtAdminModule,
     // cadmus bricks
@@ -457,13 +431,6 @@ export function initElfDevTools(actions: Actions) {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthJwtInterceptor,
       multi: true,
-    },
-    // ELF dev tools
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      useFactory: initElfDevTools,
-      deps: [Actions],
     },
   ],
   bootstrap: [AppComponent],
@@ -713,13 +680,14 @@ export class AppComponent implements OnInit, OnDestroy {
 ```html
 <header>
   <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="start center">
-    <span style="flex: 0 0 60px"
+    <span id="logo"
       ><img src="./assets/img/logo-white-40.png" alt="Fusisoft"
     /></span>
     <a mat-button routerLink="/home">Cadmus</a>
 
     <!-- items menu -->
     <button
+      type="button"
       mat-button
       [matMenuTriggerFor]="itemMenu"
       *ngIf="logged && itemBrowsers"
@@ -737,15 +705,20 @@ export class AppComponent implements OnInit, OnDestroy {
     </mat-menu>
     <!-- item menu -->
     <ng-container *ngIf="logged && !itemBrowsers">
-      <button mat-button routerLink="/items">Items</button>
+      <button type="button" mat-button routerLink="/items">Items</button>
     </ng-container>
 
     <!-- search menu -->
-    <button mat-button routerLink="/search" *ngIf="logged">Search</button>
+    <button type="button" mat-button routerLink="/search" *ngIf="logged">
+      Search
+    </button>
     <!-- graph menu -->
-    <button mat-button routerLink="/graph" *ngIf="logged">Graph</button>
+    <button type="button" mat-button routerLink="/graph" *ngIf="logged">
+      Graph
+    </button>
     <!-- thesauri menu -->
     <button
+      type="button"
       mat-button
       routerLink="/thesauri"
       *ngIf="
@@ -756,9 +729,13 @@ export class AppComponent implements OnInit, OnDestroy {
     </button>
 
     <!-- demo menu -->
-    <button mat-button [matMenuTriggerFor]="demoMenu">Demo</button>
+    <button type="button" mat-button [matMenuTriggerFor]="demoMenu">
+      Demo
+    </button>
     <mat-menu #demoMenu>
-      <button mat-menu-item routerLink="/demo/layers">Text Layers</button>
+      <button type="button" mat-menu-item routerLink="/demo/layers">
+        Text Layers
+      </button>
     </mat-menu>
 
     <span class="tb-fill-remaining-space"></span>
@@ -766,7 +743,11 @@ export class AppComponent implements OnInit, OnDestroy {
     <!-- user -->
     <div *ngIf="user" fxLayout="row" fxLayoutAlign="start center">
       <!-- indicators -->
-      <img [src]="getGravatarUrl(user.email, 32)" [alt]="user.userName" />
+      <img
+        alt="avatar"
+        [src]="getGravatarUrl(user.email, 32)"
+        [alt]="user.userName"
+      />
       <mat-icon
         class="small-icon"
         *ngIf="user && user.roles.includes('admin')"
@@ -781,6 +762,9 @@ export class AppComponent implements OnInit, OnDestroy {
         }}"
         >feedback</mat-icon
       >
+      <!-- <button mat-icon-button [mat-menu-trigger-for]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button> -->
 
       <!-- user menu -->
       <button mat-button [matMenuTriggerFor]="userMenu">User</button>
@@ -803,11 +787,11 @@ export class AppComponent implements OnInit, OnDestroy {
     </div>
 
     <!-- login -->
-    <button *ngIf="!logged" mat-icon-button routerLink="/login">
+    <button type="button" *ngIf="!logged" mat-icon-button routerLink="/login">
       <mat-icon>login</mat-icon>
     </button>
     <!-- logout -->
-    <button *ngIf="logged" mat-icon-button (click)="logout()">
+    <button type="button" *ngIf="logged" mat-icon-button (click)="logout()">
       <mat-icon>logout</mat-icon>
     </button>
   </mat-toolbar>
@@ -821,8 +805,10 @@ export class AppComponent implements OnInit, OnDestroy {
   <div layout="row" layout-align="center center">
     <p>
       Cadmus by
-      <a href="http://www.fusisoft.it" target="_blank">Daniele Fusi</a> -
-      version {{ version }}
+      <a rel="noopener" href="http://www.fusisoft.it" target="_blank"
+        >Daniele Fusi</a
+      >
+      - version {{ version }}
     </p>
   </div>
 </footer>
@@ -845,6 +831,10 @@ footer {
   color: #808080;
   padding: 4px;
   text-align: center;
+}
+
+#logo {
+  flex: 0 0 60px;
 }
 ```
 

@@ -108,6 +108,12 @@ General shells:
 
 - [Cadmus presentation app](https://github.com/vedph/cadmus_show_app): a short interactive introduction to Cadmus with some online tools: 👀 its [online version](https://cadmus.fusi-soft.com) is available.
 
+👉 CHICGC
+
+- [models](https://github.com/vedph/cadmus-chgc)
+- [API](https://github.com/vedph/cadmus-chgc-api)
+- [app](https://github.com/vedph/cadmus-chgc-app)
+
 👉 [GISARC](https://6001.cophilab-cloud.ilc.cnr.it/home):
 
 - [models](https://github.com/vedph/cadmus-gisarc)
