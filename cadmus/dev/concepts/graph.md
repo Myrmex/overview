@@ -26,7 +26,7 @@ So, at the hearth of the graph is the _projection via mapping_. The mapping flow
 
 (3) the graph set is **merged** into the graph store.
 
-The graph store is implemented in a RDBMS, which is the same database used for indexing Cadmus data, which currently is a MySql database. The following picture summarizes its schema:
+The graph store is implemented in a RDBMS, which is the same database used for indexing Cadmus data, which currently is a [PostgreSql](https://www.postgresql.org) database. The following picture summarizes its schema:
 
 ![graph schema](../../../img/cadmus/graph/graph-schema.png)
 
