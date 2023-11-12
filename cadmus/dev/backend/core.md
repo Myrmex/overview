@@ -27,29 +27,60 @@ The following procedure will:
 - create a new Visual Studio solution for the backend components (business layer).
 - add to it a library for parts/fragments (if required), another library for their mock data seeders, and a third library for API services. Also, each model-related library will have its unit tests library.
 
-In what follows, `<PRJ>` represents the short name you chose for your project.
+In what follows, `PRJ` represents the short name you chose for your project.
 
 ## Creating Solution
 
-(1) launch VS and create a new _blank solution_ named `Cadmus<PRJ>`.
+(1) launch VS and create a new _blank solution_ named `CadmusPRJ`. Alternatively, use this command (replace `PRJ` with your project's name):
 
-(2) add to this solution a _C# .NET 7 class library_, named `Cadmus.<PRJ>.Parts`. This will hold parts and fragments specific to your projects. Usually a single library is enough, but you are free to distribute components across several libraries should you need more granularity for their reuse. Once created, delete the empty `Class1.cs` file from it.
+```bash
+dotnet new sln -n CadmusPRJ
+```
+
+(2) add to this solution a _C# .NET 7 class library_, named `Cadmus.PRJ.Parts`:
+
+```bash
+dotnet new classlib -n Cadmus.PRJ.Parts
+dotnet sln CadmusPRJ.sln add Cadmus.PRJ.Parts/Cadmus.PRJ.Parts.csproj
+```
+
+ This will hold parts and fragments specific to your projects. Usually a single library is enough, but you are free to distribute components across several libraries should you need more granularity for their reuse. Once created, delete the empty `Class1.cs` file from it.
 
 ![adding new project](../../../img/cadmus/a01_add-new-project.png)
 
 ![adding new project](../../../img/cadmus/a02_add-new-project.png)
 
-(3) add another _C# .NET 7 class library_ named `Cadmus.Seed.<PRJ>.Parts` to provide the mock data seeders for your components. This is not strictly a requirement, but it's suggested to let you play with the editor while building it. Once created, delete the empty `Class1.cs` file from it.
+(3) add another _C# .NET 7 class library_ named `Cadmus.Seed.PRJ.Parts` to provide the mock data seeders for your components. This is not strictly a requirement, but it's suggested to let you play with the editor while building it. Once created, delete the empty `Class1.cs` file from it.
 
-(4) add another _C# .NET 7 class library_ named `Cadmus.<PRJ>.Services` to provide some API services to plug into your API. Once created, delete the empty `Class1.cs` file from it.
+```bash
+dotnet new classlib -n Cadmus.Seed.PRJ.Parts
+dotnet sln CadmusPRJ.sln add Cadmus.Seed.PRJ.Parts/Cadmus.Seed.PRJ.Parts.csproj
+```
 
-(5) add a _XUnit Test Project_ named `Cadmus.<PRJ>.Parts.Test` to contain the tests for the `Cadmus.<PRJ>.Parts` library. Alternatively, any other unit test framework can be used; this just reflects my preferences, and is suggested as the test templates I provide use XUnit. Once created, delete the empty `UnitTest1.cs` class.
+(4) add another _C# .NET 7 class library_ named `Cadmus.PRJ.Services` to provide some API services to plug into your API. Once created, delete the empty `Class1.cs` file from it.
+
+```bash
+dotnet new classlib -n Cadmus.PRJ.Services
+dotnet sln CadmusPRJ.sln add Cadmus.PRJ.Services/Cadmus.PRJ.Services.csproj
+```
+
+(5) add a _XUnit Test Project_ named `Cadmus.PRJ.Parts.Test` to contain the tests for the `Cadmus.PRJ.Parts` library. Alternatively, any other unit test framework can be used; this just reflects my preferences, and is suggested as the test templates I provide use XUnit. Once created, delete the empty `UnitTest1.cs` class.
+
+```bash
+dotnet new xunit -n Cadmus.PRJ.Parts.Test
+dotnet sln CadmusPRJ.sln add Cadmus.PRJ.Parts.Test/Cadmus.PRJ.Parts.Test.csproj
+```
 
 ![adding new project](../../../img/cadmus/a03_add-new-xunit-project.png)
 
-(6) add a _XUnit Test Project_ named `Cadmus.Seed.<PRJ>.Parts.Test` to contain the tests for the `Cadmus.Seed.<PRJ>.Parts` library. Alternatively, any other unit test framework can be used; this just reflects my preferences, and is suggested as the test templates I provide use XUnit. Once created, delete the empty `UnitTest1.cs` class.
+(6) add a _XUnit Test Project_ named `Cadmus.Seed.PRJ.Parts.Test` to contain the tests for the `Cadmus.Seed.PRJ.Parts` library. Alternatively, any other unit test framework can be used; this just reflects my preferences, and is suggested as the test templates I provide use XUnit. Once created, delete the empty `UnitTest1.cs` class.
 
-Your solution should now look like this (here `<PRJ>` is `Pura`):
+```bash
+dotnet new xunit -n Cadmus.Seed.PRJ.Parts.Test
+dotnet sln CadmusPRJ.sln add Cadmus.Seed.PRJ.Parts.Test/Cadmus.Seed.PRJ.Parts.Test.csproj
+```
+
+Your solution should now look like this (here `PRJ` is `Pura`):
 
 ![adding new project](../../../img/cadmus/a04_solution.png)
 
@@ -82,9 +113,18 @@ Alternatively, just edit the `csproj` XML file and add a line in an `ItemGroup` 
 
 ## Adding Parts or Fragments
 
-You can now add as many parts and fragments as required to the `Cadmus.<PRJ>.Parts` project.
+You can now add as many parts and fragments as required to the `Cadmus.PRJ.Parts` project.
 
-(1) add a reference to the Cadmus core components to this project. This can be done in the VS UI, by adding a new NuGet package named `Cadmus.Core`, or by editing the `csproj` project XML file, and adding this line under an `<ItemGroup>` element (replace the version number with the latest available version):
+(1) add a reference to the Cadmus core components to this project. This can be done in the VS UI, by adding a new NuGet package named `Cadmus.Core`; from the command line, as shown below; or by editing the `csproj` project XML file, and adding this line under an `<ItemGroup>` element (replace the version number with the latest available version):
+
+- command line:
+
+```bash
+cd Cadmus.PRJ.Parts
+dotnet add package Cadmus.Core
+```
+
+- CS project file:
 
 ```xml
 <ItemGroup>
@@ -101,9 +141,20 @@ Should you need existing components to build your own (e.g. to extend or integra
 
 ## Adding Part or Fragment Seeders
 
-For each part or fragment you should provide a corresponding mock data seeder to the `Cadmus.Seed.<PRJ>.Parts` project. This is extremely useful to let developers and users play with the editor.
+For each part or fragment you should provide a corresponding mock data seeder to the `Cadmus.Seed.PRJ.Parts` project. This is extremely useful to let developers and users play with the editor.
 
 (1) add a reference to the Cadmus core seed components to this project, as explained above. Also, a reference to the `Bogus` package is useful to leverage the power of this library rather than creating mock data from scratch. The package references are listed below (replace the version number with the latest available version):
+
+- command line:
+
+```bash
+cd Cadmus.Seed.PRJ.Parts
+dotnet add package Bogus
+dotnet add package Cadmus.Core
+dotnet add package Cadmus.Seed
+```
+
+- CS project file:
 
 ```xml
 <ItemGroup>
@@ -134,7 +185,7 @@ Once your parts, seeders, and services are ready, typically you should package t
 
 To package the libraries for NuGet (you must have a free account for it), you should do this just once:
 
-(1) not required, but suggested: ensure that you have added these to the PropertyGroup of each csproj to be packaged:
+(1) not required, but suggested: ensure that you have added these to the `PropertyGroup` of each csproj to be packaged:
 
 ```xml
 <IncludeSymbols>true</IncludeSymbols>
@@ -149,18 +200,18 @@ Once you have setup your projects in this way, just publish them like in this ba
 
 ```bat
 @echo off
-echo BUILD Cadmus Pura Packages
-del .\Cadmus.Pura.Parts\bin\Debug\*.nupkg
+echo BUILD Cadmus PRJ Packages
+del .\Cadmus.PRJ.Parts\bin\Debug\*.nupkg
 
-cd .\Cadmus.Pura.Parts
+cd .\Cadmus.PRJ.Parts
 dotnet pack -c Debug -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 cd..
 
-cd .\Cadmus.Pura.Services
+cd .\Cadmus.PRJ.Services
 dotnet pack -c Debug -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 cd..
 
-cd .\Cadmus.Seed.Pura.Parts
+cd .\Cadmus.Seed.PRJ.Parts
 dotnet pack -c Debug -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 cd..
 
