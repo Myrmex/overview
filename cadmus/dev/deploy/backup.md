@@ -34,11 +34,11 @@ echo mongo log...
 mongodump --port=27017 --db cadmus-PRJ-log --archive=./backup/cadmus-PRJ-log-${vardate}.gz --gzip
 
 echo pgsql data...
-pg_dump --username=postgres -h 127.0.0.1 cadmus-renovella | gzip > ./backup/cadmus-renovella-pgsql-${vardate}.gz
+pg_dump --username=postgres -h 127.0.0.1 cadmus-PRJ | gzip > ./backup/cadmus-PRJ-pgsql-${vardate}.gz
 
 # if using MySql
 # echo mysql...
-#mysqldump --host 127.0.0.1 --port 3306 -uroot -pmysql cadmus-renovella | gzip > ./backup/cadmus-renovella-mysql-${vardate}.gz
+#mysqldump --host 127.0.0.1 --port 3306 -uroot -pmysql cadmus-PRJ | gzip > ./backup/cadmus-PRJ-mysql-${vardate}.gz
 
 echo completed!
 ```
