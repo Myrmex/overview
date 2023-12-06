@@ -239,9 +239,35 @@ Cadmus has a granular auditing policy for data being edited. Most edits are logg
 
 Anyway, no personal data is directly found in the log, as it just stores user names, which usually mean nothing outside a team. For instance, my user name for testing is "zeus"; and the mapping between zeus and my real name, if any, is found only in another database, related to user accounts. Of course, it's up to you to decide whether you want to map user names to real names, or just use first names, fake names, or whatever you prefer.
 
-In any case, all sensitive operations on data are logged with user names and their IP address. The log is cyclic, so that it won't grow indefinitely (usually it's limited to 10 MB); you can anyway control its options via `Serilog`-related settings in the configuration.
+If you enable logging, all sensitive operations on data are logged with user names and their IP address. In most cases the log is cyclic, so that it won't grow indefinitely (usually it's limited to 10 MB).
 
 Data history instead never gets pruned, as it's part of the data themselves and can be used to recover from errors or other accidents, and track the evolution of data being entered.
+
+There are usually 4 types of log targets:
+
+- file: log to a local text file named `cadmus-log.txt`.
+- console: log to console. This can be useful when you are running the API from a Docker container, so you can look at the log with `docker logs <CONTAINER_NAME>`.
+- MongoDB: log to a MongoDB database. This is specified by `ConnectionStrings:MongoLog`.
+- PostgreSQL: log to a PostgreSQL database. This is specified by `ConnectionStrings:PostgresLog`.
+
+The corresponding boolean switches to turn this logging on or off are:
+
+- Auditing:
+  - File
+  - Mongo
+  - Postgres
+  - Console
+
+For instance:
+
+```json
+"Auditing": {
+  "File": true,
+  "Mongo": true,
+  "Postgres": false,
+  "Console": true
+}
+```
 
 ### Database
 
