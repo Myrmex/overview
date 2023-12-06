@@ -6,7 +6,8 @@ subtitle: "Directory"
 
 - [Production Sites](#production-sites)
 - [Demos](#demos)
-- [Repositories](#repositories)
+- [Code Repositories](#code-repositories)
+  - [General Modules](#general-modules)
   - [CHICGC](#chicgc)
   - [Itinera](#itinera)
   - [MapAeg](#mapaeg)
@@ -33,10 +34,14 @@ The top row lists the projects, while the columns list the parts and fragments. 
 
 - [presentation](https://cadmus.fusi-soft.com/)
 - [Itinera](https://itinera.unisi.it/)
-- [PURA](https://6008.cophilab-cloud.ilc.cnr.it/)
-- [PURA API](https://6009.cophilab-cloud.ilc.cnr.it/swagger/index.html)
+  - [editor](https://itinera.unisi.it:8443/)
+  - [API](https://itinera.unisi.it:5053/swagger/index.html)
+- [PURA](https://atticism.eu/)
+  - [editor](https://6008.cophilab-cloud.ilc.cnr.it/)
+  - [API](https://6009.cophilab-cloud.ilc.cnr.it/swagger/index.html)
 - [Re.Novella](https://renovella.unisi.it/)
-- [Re.Novella API](https://renovella.unisi.it:40393/swagger/index.html)
+  - [editor](https://renovella.unisi.it:8443/#/home)
+  - [API](https://renovella.unisi.it:40393/swagger/index.html)
 - [Sidon](https://cadmus-sidon.fusi-soft.com/)
 - [Sidon API](https://cadmus-sidon-api.fusi-soft.com/)
 - [Inquisition Graffiti](https://cadmus-ingra.fusi-soft.com/)
@@ -45,9 +50,52 @@ The top row lists the projects, while the columns list the parts and fragments. 
 
 ## Demos
 
+- [bricks](https://cadmus-bricks.fusi-soft.com/)
 - [graph studio](https://cadmus-graph-studio.fusi-soft.com/)
 
-## Repositories
+## Code Repositories
+
+- [backend core](https://github.com/vedph/cadmus_core)
+- [backend API](https://github.com/vedph/cadmus_api)
+- [frontend shell](https://github.com/vedph/cadmus-shell-2)
+- [CLI tool](https://github.com/vedph/cadmus_tool)
+
+- [graph libraries](https://github.com/vedph/cadmus-graph)
+- [graph shell](https://github.com/vedph/cadmus-graph-shell)
+- [graph studio API](https://github.com/vedph/cadmus-graph-studio-api)
+- [graph studio app](https://github.com/vedph/cadmus-graph-studio-app)
+
+- [migration libraries](https://github.com/vedph/cadmus-migration)
+- [preview templates](https://github.com/vedph/cadmus-previews)
+
+- [bibliography API](https://github.com/vedph/cadmus_biblioapi)
+- [bibliography shell](https://github.com/vedph/cadmus_biblio_shell)
+
+- [presentation site](https://github.com/vedph/cadmus_show_app)
+
+### General Modules
+
+- [bricks models](https://github.com/vedph/cadmus-bricks)
+- [bricks shell](https://github.com/vedph/cadmus-bricks-shell)
+
+- [general models](https://github.com/vedph/cadmus-general)
+- [philology models](https://github.com/vedph/cadmus-philology)
+
+- [codicology models](https://github.com/vedph/cadmus-codicology)
+- [codicology API](https://github.com/vedph/cadmus-codicology-api)
+- [codicology shell](https://github.com/vedph/cadmus-codicology-shell)
+
+- [epigraphy models](https://github.com/vedph/cadmus-epigraphy)
+- [epigraphy API](https://github.com/vedph/cadmus-epigraphy-api)
+- [epigraphy shell](https://github.com/vedph/cadmus-epigraphy-shell)
+
+- [geography models](https://github.com/vedph/cadmus-geo)
+- [geography API](https://github.com/vedph/cadmus-geo-api)
+- [geography shell](https://github.com/vedph/cadmus-geo-shell)
+
+- [imaging models](https://github.com/vedph/cadmus-img)
+- [imaging API](https://github.com/vedph/cadmus-img-api)
+- [imaging shell](https://github.com/vedph/cadmus-img-shell)
 
 ### CHICGC
 
@@ -58,6 +106,7 @@ The top row lists the projects, while the columns list the parts and fragments. 
 ### Itinera
 
 - [models](https://github.com/vedph/cadmus_itinera)
+- [graph semantic projection rules](https://github.com/vedph/cadmus-itinera-rdf)
 - [API](https://github.com/vedph/cadmus_itinera_api)
 - [app](https://github.com/vedph/cadmus_itinera_app)
 
@@ -102,13 +151,15 @@ Repositories:
 
 ### Re.Novella
 
-Re.Novella: Il genere novella nel Rinascimento italiano: repertorio, database e inquadramento storiografico (prof. M. Marchi, Università di Siena).
+_Re.Novella: Il genere novella nel Rinascimento italiano: repertorio, database e inquadramento storiografico_ (prof. M. Marchi, Università di Siena).
 
 - [models](https://github.com/vedph/cadmus-renovella)
 - [API](https://github.com/vedph/cadmus-renovella-api)
 - [app](https://github.com/vedph/cadmus-renovella-app)
 
 ### VeLA
+
+[Venezia Libro Aperto](https://projet.biblissima.fr/en/calls-projects/selected-projects/venezia-libro-aperto-vela) (prof. F. De Rubeis, Università di Venezia Ca' Foscari):
 
 - [API](https://github.com/vedph/cadmus-vela-api)
 - [app](https://github.com/vedph/cadmus-vela-app)
