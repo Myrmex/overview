@@ -11,5 +11,6 @@ This page contains a list of the main changes applied to Cadmus during its devel
 - [Backend Graph Upgrade](history/b-graph.md)
 - [RDBMS Refactoring](history/b-rdbms.md)
 - [Logging Refactoring](history/b-logging.md)
+- [logging Configuration](history/b-logging-cfg.md)
 
 🏠 [developer's home](toc.md)
