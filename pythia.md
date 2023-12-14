@@ -14,7 +14,11 @@ subtitle: "Text Search Engine"
 
 Pythia is a simple and modular concordance search engine, first designed in the context of [Chiron](chiron.md), to provide a concordance-based search engine capable of handling an overwhelming metadata set, even coming from different sources, and deal with text structures longer than just tokens, even when overlapping. It was designed to be easy to integrate in other systems and fully customizable, with a new approach to text, "dematerialized" into a set of objects. It is currently adopted by another research project, [Atti Chiari](https://attichiari.unige.it/), in the context of a wider flow including also a couple of other software tools I created for a new type of pseudonymization for documents with sensitive data, and a very simple [BLOB remote archiving system](https://github.com/vedph/simple-blob) to collect them.
 
-For a general introduction see D. Fusi, _Text Searching Beyond the Text: a Case Study_, «Rationes Rerum» 15 (2020) 199-230, and the [source code repository](https://github.com/vedph/pythia). With relation to the cited paper, the current implementation of the system is more advanced, the query syntax was changed, and some new features were added; but the approach is the same.
+For a general introduction see:
+
+- Fusi, D. (2020). Text Searching Beyond the Text: a Case Study. Rationes Rerum 15, 199-230.
+- Clemenzi, L., Fusco, F., Fusi, D., & Lombardi, G. (2023). [Masked texts: new tools for the security and linguistic analysis of legal corpora](https://umanisticadigitale.unibo.it/issue/view/1220). Umanistica Digitale, 7(16), 1–32. <https://doi.org/10.6092/issn.2532-8816/15608>
+- the [source code repository](https://github.com/vedph/pythia). With relation to the 2020 paper the current implementation of the system is more advanced, the query syntax was changed, and some new features were added; but the approach is the same.
 
 ## Real-World Applications
 
