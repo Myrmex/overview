@@ -63,9 +63,10 @@ private static bool IsAuditEnabledFor(IConfiguration config, string key)
     return value != null && value != false;
 }
 
-private static void ConfigurePostgreLogging(HostBuilderContext context,  loggerConfiguration)
+private static void ConfigurePostgreLogging(HostBuilderContext context,
+    LoggerConfiguration loggerConfiguration)
 {
-    string cs = context.Configuration.GetConnectionString("PostgresLog");
+    string? cs = context.Configuration.GetConnectionString("PostgresLog");
     if (string.IsNullOrEmpty(cs))
     {
         Console.WriteLine("Postgres log connection string not found");
@@ -116,7 +117,7 @@ private static void ConfigurePostgreLogging(HostBuilderContext context,  loggerC
 }
 ```
 
-(4) also, in your `Program.cs` `Main` method, replace the host creation with this:
+(4) also, in your `Program.cs` `Main` method, replace the `host` creation with this:
 
 ```cs
 var host = await CreateHostBuilder(args)
@@ -137,7 +138,7 @@ var host = await CreateHostBuilder(args)
         if (IsAuditEnabledFor(hostingContext.Configuration, "Mongo"))
         {
             Console.WriteLine("Logging to Mongo enabled");
-            string cs = hostingContext.Configuration
+            string? cs = hostingContext.Configuration
                 .GetConnectionString("MongoLog");
 
             if (!string.IsNullOrEmpty(cs))
