@@ -139,6 +139,25 @@ Should you need existing components to build your own (e.g. to extend or integra
 - [adding parts](./parts.md)
 - [adding fragments](./fragments.md)
 
+💡 If you have several parts/fragments using the `StandardDataPinTextFilter` to filter pin string values, you have better use a helper class providing a singleton for it, like in the following code:
+
+```cs
+static internal class DataPinHelper
+{
+    private static StandardDataPinTextFilter? _filter;
+
+    /// <summary>
+    /// Gets the default filter used for pins.
+    /// This improves performance, as we can share this filter
+    /// among several parts.
+    /// </summary>
+    static public IDataPinTextFilter DefaultFilter
+    {
+        get { return _filter ??= new StandardDataPinTextFilter(); }
+    }
+}
+```
+
 ## Adding Part or Fragment Seeders
 
 For each part or fragment you should provide a corresponding mock data seeder to the `Cadmus.Seed.PRJ.Parts` project. This is extremely useful to let developers and users play with the editor.
