@@ -33,99 +33,98 @@ using Fusi.Tools.Configuration;
 using Cadmus.Core.Layers;
 using Cadmus.Core;
 
-namespace Cadmus.__PRJ__.Parts
+namespace Cadmus.__PRJ__.Parts;
+
+/// <summary>
+/// TODO fragment.
+/// Tag: <c>fr.it.vedph.__PRJ__.__NAME__</c>.
+/// </summary>
+/// <seealso cref="ITextLayerFragment" />
+[Tag("fr.it.vedph.__PRJ__.__NAME__")]
+public sealed class __NAME__LayerFragment : ITextLayerFragment
 {
     /// <summary>
-    /// TODO fragment.
-    /// Tag: <c>fr.it.vedph.__PRJ__.__NAME__</c>.
+    /// Gets or sets the location of this fragment.
     /// </summary>
-    /// <seealso cref="ITextLayerFragment" />
-    [Tag("fr.it.vedph.__PRJ__.__NAME__")]
-    public sealed class __NAME__LayerFragment : ITextLayerFragment
+    /// <remarks>
+    /// The location can be expressed in different ways according to the
+    /// text coordinates system being adopted. For instance, it might be a
+    /// simple token-based coordinates system (e.g. 1.2=second token of
+    /// first block), or a more complex system like an XPath expression.
+    /// </remarks>
+    public string Location { get; set; }
+
+    // TODO: add properties
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="__NAME__LayerFragment">
+    /// class.
+    /// </summary>
+    public __NAME__LayerFragment()
     {
-        /// <summary>
-        /// Gets or sets the location of this fragment.
-        /// </summary>
-        /// <remarks>
-        /// The location can be expressed in different ways according to the
-        /// text coordinates system being adopted. For instance, it might be a
-        /// simple token-based coordinates system (e.g. 1.2=second token of
-        /// first block), or a more complex system like an XPath expression.
-        /// </remarks>
-        public string Location { get; set; }
+        Location = "";
+    }
 
-        // TODO: add properties
+    /// <summary>
+    /// Get all the key=value pairs exposed by the implementor.
+    /// </summary>
+    /// <param name="item">The optional item. The item with its parts
+    /// can optionally be passed to this method for those parts requiring
+    /// to access further data.</param>
+    /// <returns>The pins: <c>fr.tag</c>=tag if any.</returns>
+    public IEnumerable<DataPin> GetDataPins(IItem? item = null)
+    {
+        // TODO: build pins, eventually using DataPinBuilder like this:
+        //DataPinBuilder builder = new DataPinBuilder(
+        //    new StandardDataPinTextFilter());
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="__NAME__LayerFragment">
-        /// class.
-        /// </summary>
-        public __NAME__LayerFragment()
+        //// fr-tot-count
+        //builder.Set(PartBase.FR_PREFIX + "tot", Entries?.Count ?? 0, false);
+
+        //return builder.Build(null);
+
+        // ...or just use a simpler logic, like:
+        // sample:
+        // return Tag != null
+        //    ? new[]
+        //    {
+        //        CreateDataPin("tag", Tag)
+        //    }
+        //    : Enumerable.Empty<DataPin>();
+
+        throw new NotImplementedException();
+    }
+
+    /// <summary>
+    /// Gets the definitions of data pins used by the implementor.
+    /// </summary>
+    /// <returns>Data pins definitions.</returns>
+    public IList<DataPinDefinition> GetDataPinDefinitions()
+    {
+        return new List<DataPinDefinition>(new[]
         {
-            Location = "";
-        }
+            // TODO: replace this with your pins definitions
+            new DataPinDefinition(DataPinValueType.String,
+                PartBase.FR_PREFIX + "some-pin-name",
+                "The pin description.")
+        });
+    }
 
-        /// <summary>
-        /// Get all the key=value pairs exposed by the implementor.
-        /// </summary>
-        /// <param name="item">The optional item. The item with its parts
-        /// can optionally be passed to this method for those parts requiring
-        /// to access further data.</param>
-        /// <returns>The pins: <c>fr.tag</c>=tag if any.</returns>
-        public IEnumerable<DataPin> GetDataPins(IItem? item = null)
-        {
-            // TODO: build pins, eventually using DataPinBuilder like this:
-            //DataPinBuilder builder = new DataPinBuilder(
-            //    new StandardDataPinTextFilter());
+    /// <summary>
+    /// Returns a <see cref="string" /> that represents this instance.
+    /// </summary>
+    /// <returns>
+    /// A <see cref="string" /> that represents this instance.
+    /// </returns>
+    public override string ToString()
+    {
+        StringBuilder sb = new();
 
-            //// fr-tot-count
-            //builder.Set(PartBase.FR_PREFIX + "tot", Entries?.Count ?? 0, false);
+        sb.Append("[__NAME__]");
 
-            //return builder.Build(null);
+        // TODO: append summary data...
 
-            // ...or just use a simpler logic, like:
-            // sample:
-            // return Tag != null
-            //    ? new[]
-            //    {
-            //        CreateDataPin("tag", Tag)
-            //    }
-            //    : Enumerable.Empty<DataPin>();
-
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the definitions of data pins used by the implementor.
-        /// </summary>
-        /// <returns>Data pins definitions.</returns>
-        public IList<DataPinDefinition> GetDataPinDefinitions()
-        {
-            return new List<DataPinDefinition>(new[]
-            {
-                // TODO: replace this with your pins definitions
-                new DataPinDefinition(DataPinValueType.String,
-                    PartBase.FR_PREFIX + "some-pin-name",
-                    "The pin description.")
-            });
-        }
-
-        /// <summary>
-        /// Returns a <see cref="string" /> that represents this instance.
-        /// </summary>
-        /// <returns>
-        /// A <see cref="string" /> that represents this instance.
-        /// </returns>
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            sb.Append("[__NAME__]");
-
-            // TODO: append summary data...
-
-            return sb.ToString();
-        }
+        return sb.ToString();
     }
 }
 ```
@@ -144,7 +143,7 @@ using System.Reflection;
 using System.Text;
 using Xunit;
 
-// ...
+namespace Cadmus.__PRJ__.Parts.Test;
 
 public sealed class __NAME__LayerFragmentTest
 {
@@ -220,56 +219,55 @@ using System;
 using System.Text.Json;
 using Xunit;
 
-namespace Cadmus.__PRJ__.Parts.Test
+namespace Cadmus.__PRJ__.Parts.Test;
+
+internal sealed class TestHelper
 {
-    internal sealed class TestHelper
+    private static readonly JsonSerializerOptions _options =
+        new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+
+    public static string SerializePart(IPart part)
     {
-        private static readonly JsonSerializerOptions _options =
-            new JsonSerializerOptions
-            {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-            };
+        if (part == null)
+            throw new ArgumentNullException(nameof(part));
 
-        public static string SerializePart(IPart part)
-        {
-            if (part == null)
-                throw new ArgumentNullException(nameof(part));
+        return JsonSerializer.Serialize(part, part.GetType(), _options);
+    }
 
-            return JsonSerializer.Serialize(part, part.GetType(), _options);
-        }
+    public static T DeserializePart<T>(string json)
+        where T : class, IPart, new()
+    {
+        if (json == null)
+            throw new ArgumentNullException(nameof(json));
 
-        public static T DeserializePart<T>(string json)
-            where T : class, IPart, new()
-        {
-            if (json == null)
-                throw new ArgumentNullException(nameof(json));
+        return JsonSerializer.Deserialize<T>(json, _options);
+    }
 
-            return JsonSerializer.Deserialize<T>(json, _options);
-        }
+    public static string SerializeFragment(ITextLayerFragment fr)
+    {
+        if (fr == null)
+            throw new ArgumentNullException(nameof(fr));
 
-        public static string SerializeFragment(ITextLayerFragment fr)
-        {
-            if (fr == null)
-                throw new ArgumentNullException(nameof(fr));
+        return JsonSerializer.Serialize(fr, fr.GetType(), _options);
+    }
 
-            return JsonSerializer.Serialize(fr, fr.GetType(), _options);
-        }
+    public static T DeserializeFragment<T>(string json)
+        where T : class, ITextLayerFragment, new()
+    {
+        if (json == null)
+            throw new ArgumentNullException(nameof(json));
 
-        public static T DeserializeFragment<T>(string json)
-            where T : class, ITextLayerFragment, new()
-        {
-            if (json == null)
-                throw new ArgumentNullException(nameof(json));
+        return JsonSerializer.Deserialize<T>(json, _options);
+    }
 
-            return JsonSerializer.Deserialize<T>(json, _options);
-        }
-
-        public static void AssertPinIds(IPart part, DataPin pin)
-        {
-            Assert.Equal(part.ItemId, pin.ItemId);
-            Assert.Equal(part.Id, pin.PartId);
-            Assert.Equal(part.RoleId, pin.RoleId);
-        }
+    public static void AssertPinIds(IPart part, DataPin pin)
+    {
+        Assert.Equal(part.ItemId, pin.ItemId);
+        Assert.Equal(part.Id, pin.PartId);
+        Assert.Equal(part.RoleId, pin.RoleId);
     }
 }
 ```
