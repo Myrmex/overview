@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Creating Thesauri
+title: Thesauri
 subtitle: "Cadmus Development"
 ---
 
