@@ -4,6 +4,7 @@ title: Cadmus Development
 subtitle: Summary
 ---
 
+- [Models](#models)
 - [Backend](#backend)
 - [Frontend](#frontend)
 - [Concepts](#concepts)
@@ -17,6 +18,10 @@ You start with creating backend core libraries, eventually adding your own parts
 Then, you create an Angular workspace for your frontend app, eventually adding the editors corresponding to your own parts and fragments. Apart from this, the app is built by just assembling pieces from the Cadmus infrastructure.
 
 👉 Setup a Cadmus [development environment](devenv.md) and [Docker](../docker-setup.md).
+
+## Models
+
+- [general models](models.md)
 
 ## Backend
 
