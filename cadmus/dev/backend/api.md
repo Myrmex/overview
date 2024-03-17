@@ -26,7 +26,7 @@ subtitle: "Cadmus Backend Development"
 
 The [reference API backend project](https://github.com/vedph/cadmus_api) is the model for this section.
 
-(1) create a new ASP.NET Core 7.0 web API project (no authentication) named `Cadmus<PRJ>Api`: select `None` for `Authentication type`, ensure that `Enable Docker` and `Use HTTPS` is disabled (we'll provide our own Docker files), ensure that `Use controllers`, `Enable OpenAPI support`, and `Do not use top-level statements` are checked.
+(1) create a new ASP.NET Core web API project (no authentication) named `Cadmus<PRJ>Api`: select `None` for `Authentication type`, ensure that `Enable Docker` and `Use HTTPS` is disabled (we'll provide our own Docker files), ensure that `Use controllers`, `Enable OpenAPI support`, and `Do not use top-level statements` are checked.
 
 >Remember to disable HTTPS. In most API configurations HTTPS is managed by a reverse proxy, and this option is not required here in development.
 
@@ -81,6 +81,9 @@ install-package Swashbuckle.AspNetCore
 
 Add these settings to `appsettings.json` (replace `__PRJ__` with your project's name). Feel free to customize them as required. Please notice that all the sensitive data like users and passwords are there only for illustration purposes, and they will be overwritten by environment variables set in the hosting server.
 
+<details>
+<summary>appsetting.json</summary>
+
 ```json
 {
   "Logging": {
@@ -93,7 +96,8 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
   "ConnectionStrings": {
     "Default": "mongodb://localhost:27017/{0}",
     "Index": "Server=localhost;Database={0};Uid=root;Pwd=mysql;",
-    "Log": "mongodb://localhost:27017/cadmus-__PRJ__-log",
+    "MongoLog": "mongodb://localhost:27017/cadmus-__PRJ__-log",
+    "PostgresLog": "Server=localhost;Database=cadmus-__PRJ__-log;User Id=postgres;Password=postgres;Include Error Detail=True"
   },
   "DatabaseNames": {
     "Auth": "cadmus-__PRJ__-auth",
@@ -108,7 +112,13 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
         "Microsoft": "Information",
         "System": "Warning"
       }
-    }
+    },
+    "Using": [
+      "Serilog.Sinks.Console",
+      "Serilog.Sinks.File",
+      "Serilog.Sinks.MongoDB",
+      "Serilog.Sinks.Postgresql.Alternative"
+    ],
   },
   "AllowedOrigins": [
     "http://localhost:4200",
@@ -154,6 +164,12 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
   "Preview": {
     "IsEnabled": true
   },
+  "Auditing": {
+    "File": true,
+    "Mongo": true,
+    "Postgres": false,
+    "Console": true
+  },
   "Mailer": {
     "IsEnabled": false,
     "SenderEmail": "webmaster@fusisoft.net",
@@ -167,11 +183,16 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
 }
 ```
 
+</details>
+
 >⚠️ before API v8, which followed [RDBMS refactoring](../history/b-rdbms.md), the index connection string targeted a MySql database: `"Index": "Server=localhost;Database={0};Uid=root;Pwd=mysql;"`. Now it targets a PostgreSQL database, though you can change it to MySql if you prefer, adjusting the code accordingly.
 
 ## Program
 
 Use this template to replace the code in `Program.cs` (replace `__PRJ__` with your project's name):
+
+<details>
+<summary>Program.cs</summary>
 
 ```cs
 using System;
@@ -365,9 +386,14 @@ public static class Program
 }
 ```
 
+</details>
+
 ## Startup
 
 Use this template for `Startup.cs` (replace `__PRJ__` with your project's name; in ASP.NET 6+ web projects you will need to add this file). The project specific [services](services.md) required in this template either come from an external library or are directly placed in a `Services` folder in this project. The usual convention is placing them in an ad-hoc library when your project has its own specific parts. Otherwise, if you are just assembling parts from other libraries, just create the services in this project.
+
+<details>
+<summary>Startup.cs</summary>
 
 ```cs
 using System.Text;
@@ -808,7 +834,12 @@ public sealed class Startup
 }
 ```
 
+</details>
+
 >⚠️ Before API v8, the `ConfigureIndexServices` method was used for both index and graph:
+
+<details>
+<summary>legacy</summary>
 
 ```cs
 private void ConfigureIndexServices(IServiceCollection services)
@@ -849,6 +880,8 @@ private void ConfigureIndexServices(IServiceCollection services)
 }
 ```
 
+</details>
+
 ## Assets
 
 Copy the whole `wwwroot` from [CadmusApi](https://github.com/vedph/cadmus_api), and customize its contents (the Cadmus profile, and if needed the messages template text).
@@ -867,6 +900,9 @@ Inside the `messages` folder you can customize the message templates as you pref
 ## Docker
 
 (1) In the project's root (where the `.sln` file is located), add a `Dockerfile` to build the Docker image (replace `__PRJ__` with your project's name):
+
+<details open>
+<summary>Dockerfile</summary>
 
 ```yml
 # Stage 1: base
@@ -896,6 +932,8 @@ WORKDIR /app
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Cadmus__PRJ__Api.dll"]
 ```
+
+</details>
 
 (2) add a `docker-compose.yml` file to allow you using the API in a composer stack (replace `PRJ` with your project name; of course, you can change your image name as required to fit your organization).
 
@@ -937,7 +975,7 @@ services:
     image: vedph2020/cadmus_biblio_api:5.0.0
     container_name: cadmus-biblio-api
     ports:
-      - 61691:80
+      - 61691:8080
     depends_on:
       - cadmus-PRJ-mongo
       - cadmus-PRJ-pgsql
@@ -955,7 +993,7 @@ services:
     image: vedph2020/cadmus-PRJ-api:6.0.0
     container_name: cadmus-PRJ-api
     ports:
-      - 5052:80
+      - 5052:8080
     depends_on:
       - cadmus-PRJ-mongo
       - cadmus-PRJ-pgsql
@@ -977,6 +1015,9 @@ networks:
 ```
 
 >API before v8 used MySql:
+
+<details>
+<summary>legacy</summary>
 
 ```yml
   # MySql
@@ -1004,7 +1045,12 @@ networks:
       - cadmus-PRJ-network
 ```
 
+</details>
+
 (3) add a `.dockerignore` file with this content:
+
+<details>
+<summary>.dockerignore</summary>
 
 ```txt
 **/.classpath
@@ -1034,6 +1080,8 @@ LICENSE
 README.md
 ```
 
+</details>
+
 To build a Docker image (replace `PRJ` with your project's name):
 
 ```ps1
@@ -1042,7 +1090,10 @@ docker build . -t vedph2020/cadmus-__PRJ__-api:1.0.0 -t vedph2020/cadmus-__PRJ__
 
 ## Readme
 
-Add a Readme like this:
+Add a readme like this:
+
+<details open>
+<summary>README.md</summary>
 
 ```txt
 # Cadmus PRJ API
@@ -1055,5 +1106,7 @@ Quick Docker image build:
 
 This is a Cadmus API layer customized for the PRJ project. Most of its code is derived from shared Cadmus libraries.
 ```
+
+</details>
 
 🏠 [developer's home](../toc.md)
