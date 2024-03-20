@@ -81,6 +81,7 @@ public sealed class __PRJ__RepositoryProvider : IRepositoryProvider
             typeof(NotePart).GetTypeInfo().Assembly,
             // Cadmus.Philology.Parts
             typeof(ApparatusLayerFragment).GetTypeInfo().Assembly,
+            // TODO: include all the assemblies required by your project
             // Cadmus.__PRJ__.Parts
             // typeof(MYPART).GetTypeInfo().Assembly,
         ]);
@@ -123,7 +124,7 @@ public sealed class __PRJ__RepositoryProvider : IRepositoryProvider
 
 Add a `<PRJ>PartSeederFactoryProvider` class.
 
-The **current** template after the [component factory update](../history.md#2023-02-01---backend-infrastructure-upgrade) is:
+The current template after the [component factory update](../history.md#2023-02-01---backend-infrastructure-upgrade) is:
 
 ```cs
 using Cadmus.Core.Config;
@@ -148,16 +149,16 @@ public sealed class __PRJ__PartSeederFactoryProvider :
     private static IHost GetHost(string config)
     {
         // build the tags to types map for parts/fragments
-        Assembly[] seedAssemblies = new[]
-        {
-            // TODO: include all the assemblies required by your project
+        Assembly[] seedAssemblies =
+        [
             // Cadmus.Seed.General.Parts
             typeof(NotePartSeeder).Assembly,
             // Cadmus.Seed.Philology.Parts
             typeof(ApparatusLayerFragmentSeeder).Assembly,
+            // TODO: include all the assemblies required by your project
             // Cadmus.Seed.__PRJ__.Parts
             // typeof(MYSEEDER).GetTypeInfo().Assembly,
-        };
+        ];
         TagAttributeToTypeMap map = new();
         map.Add(seedAssemblies);
 
@@ -181,7 +182,7 @@ public sealed class __PRJ__PartSeederFactoryProvider :
     /// <exception cref="ArgumentNullException">profile</exception>
     public PartSeederFactory GetFactory(string profile)
     {
-        if (profile == null) throw new ArgumentNullException(nameof(profile));
+        ArgumentNullException.ThrowIfNull(profile);
 
         return new PartSeederFactory(GetHost(profile));
     }
