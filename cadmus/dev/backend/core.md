@@ -5,12 +5,13 @@ subtitle: "Cadmus Backend Development"
 ---
 
 - [Creating Solution](#creating-solution)
-- [Adding Parts or Fragments](#adding-parts-or-fragments)
-- [Adding Part or Fragment Seeders](#adding-part-or-fragment-seeders)
+- [Adding Parts/Fragments](#adding-partsfragments)
+  - [Adding Parts or Fragments](#adding-parts-or-fragments)
+  - [Adding Part or Fragment Seeders](#adding-part-or-fragment-seeders)
 - [Adding Services](#adding-services)
 - [Publishing Packages](#publishing-packages)
 
-📌 Create a set of backend custom Cadmus models (parts/fragments) with their unit tests and mock data seeders.
+📌 Create a set of backend custom Cadmus models (parts/fragments) with their unit tests, mock data seeders and services.
 
 1. **core**
 2. [parts](parts.md)
@@ -20,12 +21,15 @@ subtitle: "Cadmus Backend Development"
 6. [services](services.md)
 7. [API](api.md)
 
-The backend is a set of C# libraries, built with VS. This step is required only if you have new data models (parts or fragments) specific to your project.
+The backend is a set of C# libraries, built with VS.
 
 The following procedure will:
 
 - create a new Visual Studio solution for the backend components (business layer).
-- add to it a library for parts/fragments (if required), another library for their mock data seeders, and a third library for API services. Also, each model-related library will have its unit tests library.
+- add to it these libraries:
+  - library for parts/fragments (if required), plus a test library.
+  - library for parts/fragments mock data seeders, plus a test library.
+  - library for API services.
 
 In what follows, `PRJ` represents the short name you chose for your project.
 
@@ -37,7 +41,11 @@ In what follows, `PRJ` represents the short name you chose for your project.
 dotnet new sln -n CadmusPRJ
 ```
 
-(2) add to this solution a _C# .NET 7 class library_, named `Cadmus.PRJ.Parts`:
+## Adding Parts/Fragments
+
+If you have project-specific parts or fragments, follow the steps in this section. Otherwise, just go to the [next section](#adding-services).
+
+(2) add to this solution a _C# .NET class library_, named `Cadmus.PRJ.Parts`:
 
 ```bash
 dotnet new classlib -n Cadmus.PRJ.Parts
@@ -111,7 +119,7 @@ Alternatively, just edit the `csproj` XML file and add a line in an `ItemGroup` 
 </ItemGroup>
 ```
 
-## Adding Parts or Fragments
+### Adding Parts or Fragments
 
 You can now add as many parts and fragments as required to the `Cadmus.PRJ.Parts` project.
 
@@ -158,7 +166,7 @@ static internal class DataPinHelper
 }
 ```
 
-## Adding Part or Fragment Seeders
+### Adding Part or Fragment Seeders
 
 For each part or fragment you should provide a corresponding mock data seeder to the `Cadmus.Seed.PRJ.Parts` project. This is extremely useful to let developers and users play with the editor.
 
@@ -196,7 +204,7 @@ Every Cadmus backend project using its own data models requires a couple of serv
 - **repository provider**: this provides a Cadmus repository, used to edit the database, including all the models required for your project.
 - **part seeder factory provider**: this provides a parts seeder factory, which provides the factory for generating part seeders. A part seeder is used to generate mock data to play with when developing the UI.
 
-Please refer to [this page](./backend-core-svc.md) about adding those services.
+Please refer to [this page](services.md) about adding those services.
 
 ## Publishing Packages
 
