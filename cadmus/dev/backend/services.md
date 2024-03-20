@@ -14,28 +14,32 @@ subtitle: "Cadmus Backend Development"
 6. **services**
 7. [API](api.md)
 
-## Creating Services
+## Create Services Project
 
 If the models you created are part of a specific project, you will typically require to collect all the required models together using a couple of services. These services will then be consumed by the [API layer](api.md).
 
 >If instead you are just creating models to be consumed by several different projects, you will not need such services, as every project will have its own services collecting the parts/fragments it requires.
 
-Add these packages to the services project (updating version numbers as required):
+(1) create a `Cadmus.PRJ.Services` .NET class library in your [core backend solution](core.md).
+
+(2) add these packages to the services project (updating version numbers as required, and adding any other required parts package):
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Cadmus.Core" Version="6.0.2" />
-  <PackageReference Include="Cadmus.General.Parts" Version="4.2.0" />
-  <PackageReference Include="Cadmus.Index.Sql" Version="6.0.2" />
-  <PackageReference Include="Cadmus.Mongo" Version="6.0.2" />
-  <PackageReference Include="Cadmus.Philology.Parts" Version="6.0.1" />
-  <PackageReference Include="Cadmus.Seed.General.Parts" Version="4.2.0" />
-  <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="6.0.1" />
-  <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
+    <PackageReference Include="Cadmus.Core" Version="7.0.2" />
+    <PackageReference Include="Cadmus.General.Parts" Version="6.1.0" />
+    <PackageReference Include="Cadmus.Index.Sql" Version="7.0.2" />
+    <PackageReference Include="Cadmus.Mongo" Version="7.0.2" />
+    <PackageReference Include="Cadmus.Philology.Parts" Version="8.2.0" />
+    <PackageReference Include="Cadmus.Seed.General.Parts" Version="6.1.0" />
+    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="8.2.0" />
+    <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
 </ItemGroup>
 ```
 
-## Repository Provider
+>In this list I've included the general and philologic parts, which are used in most projects. If you do not use them, just remove them from the list.
+
+### Repository Provider
 
 Add a `<PRJ>RepositoryProvider` class, using this template (the only part which requires customization is the constructor):
 
@@ -71,15 +75,15 @@ public sealed class __PRJ__RepositoryProvider : IRepositoryProvider
     {
         ConnectionString = "";
         TagAttributeToTypeMap map = new();
-        map.Add(new[]
-        {
+        map.Add(
+        [
             // Cadmus.General.Parts
             typeof(NotePart).GetTypeInfo().Assembly,
             // Cadmus.Philology.Parts
             typeof(ApparatusLayerFragment).GetTypeInfo().Assembly,
             // Cadmus.__PRJ__.Parts
             // typeof(MYPART).GetTypeInfo().Assembly,
-        });
+        ]);
 
         _partTypeProvider = new StandardPartTypeProvider(map);
     }
@@ -115,7 +119,7 @@ public sealed class __PRJ__RepositoryProvider : IRepositoryProvider
 }
 ```
 
-## Part Seeder Factory Provider
+### Part Seeder Factory Provider
 
 Add a `<PRJ>PartSeederFactoryProvider` class.
 
