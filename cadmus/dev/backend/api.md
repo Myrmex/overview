@@ -32,54 +32,46 @@ The [reference API backend project](https://github.com/vedph/cadmus_api) is the 
 
 (2) remove the mock `WeatherForecast.cs` class and its corresponding `WeatherForecastController.cs` class from the `Controllers` folder.
 
-(3) add these NuGet packages:
+(3) add NuGet packages: just paste this code in the project file and then use NuGet package manager to update all the packages (replace `__PRJ__` with your project name, removing project's parts if they are not present):
 
-- `AspNetCore.Identity.Mongo`
-- `Cadmus.Api.Controllers`
-- `Cadmus.Api.Models`
-- `Cadmus.Api.Services`
-- `Microsoft.AspNetCore.Authentication.JwtBearer`
-- `Microsoft.AspNetCore.Mvc.NewtonsoftJson`
-- `Microsoft.Extensions.Configuration`
-- `Newtonsoft.Json`
-- `Polly`
-- `Serilog`
-- `Serilog.AspNetCore`
-- `Serilog.Exceptions`
-- `Serilog.Extensions.Hosting`
-- `Serilog.Sinks.Console`
-- `Serilog.Sinks.File`
-- `Serilog.Sinks.MongoDB`
-- `Swashbuckle.AspNetCore`
-- your Cadmus part and seeders packages, e.g.:
-  - `Cadmus.Seed.<PRJ>.Parts`
-  - `Cadmus.<PRJ>.Services`
-
-From inside Visual Studio, you can open the Package Manager Console and enter commands like:
-
-```bash
-install-package AspNetCore.Identity.Mongo
-install-package Cadmus.Api.Controllers
-install-package Cadmus.Api.Models
-install-package Cadmus.Api.Services
-install-package Microsoft.AspNetCore.Authentication.JwtBearer
-install-package Microsoft.AspNetCore.Mvc.NewtonsoftJson
-install-package Microsoft.Extensions.Configuration
-install-package Newtonsoft.Json
-install-package Polly
-install-package Serilog
-install-package Serilog.AspNetCore
-install-package Serilog.Exceptions
-install-package Serilog.Extensions.Hosting
-install-package Serilog.Sinks.Console
-install-package Serilog.Sinks.File
-install-package Serilog.Sinks.MongoDB
-install-package Swashbuckle.AspNetCore
+```xml
+<ItemGroup>
+    <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
+    <PackageReference Include="Cadmus.Api.Controllers" Version="9.0.2" />
+    <PackageReference Include="Cadmus.Api.Controllers.Import" Version="9.0.2" />
+    <PackageReference Include="Cadmus.Api.Models" Version="9.0.2" />
+    <PackageReference Include="Cadmus.Api.Services" Version="9.0.2" />
+    <PackageReference Include="Cadmus.Graph" Version="7.0.2" />
+    <PackageReference Include="Cadmus.Graph.Ef.PgSql" Version="7.0.2" />
+    <PackageReference Include="Cadmus.Graph.Extras" Version="7.0.2" />
+    <PackageReference Include="Cadmus.Febo.Services" Version="0.0.1" />
+    <PackageReference Include="Cadmus.Seed.Codicology.Parts" Version="6.0.2" />
+    <PackageReference Include="Cadmus.Seed.General.Parts" Version="6.1.0" />
+    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="8.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Polly" Version="8.3.1" />
+    <PackageReference Include="Serilog" Version="3.1.1" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+    <PackageReference Include="Serilog.Sinks.MongoDB" Version="5.4.1" />
+    <PackageReference Include="Serilog.Sinks.Postgresql.Alternative" Version="4.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+</ItemGroup>
 ```
+
+>You can remove the Serilog sinks you are not going to use, like e.g. the PostgreSQL one.
 
 ## Settings
 
-Add these settings to `appsettings.json` (replace `__PRJ__` with your project's name). Feel free to customize them as required. Please notice that all the sensitive data like users and passwords are there only for illustration purposes, and they will be overwritten by environment variables set in the hosting server.
+Add these settings to `appsettings.json` (replace `__PRJ__` with your project's name). Feel free to customize them as required.
+
+>Please notice that all the sensitive data like users and passwords are there only for illustration purposes, and they will be overwritten by environment variables set in the [host server](../deploy.md).
 
 ```json
 {
@@ -187,19 +179,12 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
 Use this template to replace the code in `Program.cs` (replace `__PRJ__` with your project's name):
 
 ```cs
-using System;
-using System.Linq;
 using System.Collections;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Hosting;
 using Serilog;
 using System.Diagnostics;
-using Microsoft.Extensions.Hosting;
 using Cadmus.Api.Services.Seeding;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-// you can remove PostgreSQL related imports if you do not want PostgreSQL logging
 using NpgsqlTypes;
+// remove the PostgreSQL sink imports if not using it
 using Serilog.Sinks.PostgreSQL.ColumnWriters;
 using Serilog.Sinks.PostgreSQL;
 using Fusi.DbManager.PgSql;
@@ -403,11 +388,9 @@ using Cadmus.Api.Services.Auth;
 using Cadmus.Api.Services.Messaging;
 using Cadmus.Api.Services;
 using Microsoft.AspNetCore.HttpOverrides;
-using Cadmus.Index.Sql;
 using Cadmus.__PRJ__.Services;
 using Cadmus.Core.Storage;
 using Cadmus.Export.Preview;
-using Cadmus.Graph.MySql;
 using Cadmus.Graph;
 
 namespace Cadmus__PRJ__Api;
