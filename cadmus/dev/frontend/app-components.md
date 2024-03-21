@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Frontend App - Components (Modules)
+title: Frontend App - Components (Standalone)
 subtitle: "Cadmus Frontend Development"
 ---
 

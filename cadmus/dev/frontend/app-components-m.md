@@ -8,7 +8,7 @@ subtitle: "Cadmus Frontend Development"
 - [App Routes](#app-routes)
 - [App Component](#app-component)
 
-📌 Task: add components to a Cadmus frontend web app. ⚠️ This page refers to the legacy, module-based templates. Please refer to [this page](app-components.md) if you want to use module-less, standalone components.
+📌 Task: add components to a Cadmus frontend web app. ⚠️ This page refers to the legacy, module-based templates. Please refer to [this page](app-components.md) if you want to use module-less, standalone components. The standalone approach is suggested for more streamlined and up to date code.
 
 ## App Module
 
