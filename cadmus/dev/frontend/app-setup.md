@@ -368,10 +368,147 @@ import { AuthJwtAccountService, AuthJwtAdminModule } from '@myrmidon/auth-jwt-ad
 
 You can add Docker support to create an image of your frontend app. Use as templates the files in the reference shell app:
 
-- `Dockerfile`
-- `nginx.conf`: the NGINX configuration for serving the web app from the Docker container.
-- `docker-compose.yml`: _customize this_ for the image names and versions.
-- `dockerignore`
+- `Dockerfile` using NGINX to serve the Angular app:
+
+```dockerfile
+FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/nginx.conf
+RUN rm /etc/nginx/conf.d/default.conf
+
+WORKDIR /usr/share/nginx/html
+COPY dist/browser/cadmus-__PRJ__-app/ .
+
+EXPOSE 80
+```
+
+- `nginx.conf`: the NGINX configuration for serving the web app from the Docker container:
+
+```conf
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log warn;
+pid /var/run/nginx.pid;
+
+events {
+  worker_connections 1024;
+}
+
+http {
+  include /etc/nginx/mime.types;
+  default_type application/octet-stream;
+
+  log_format main '$remote_addr - $remote_user [$time_local] "$request" '
+  '$status $body_bytes_sent "$http_referer" '
+  '"$http_user_agent" "$http_x_forwarded_for"';
+
+  access_log /var/log/nginx/access.log main;
+
+  sendfile on;
+
+  keepalive_timeout 65;
+
+  server {
+    listen 80;
+    listen [::]:80;
+    server_name localhost;
+
+    gzip on;
+    gzip_min_length 1000;
+    gzip_proxied expired no-cache no-store private auth;
+    gzip_types text/plain text/css application/json application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+    location / {
+      root /usr/share/nginx/html;
+      index index.html index.htm;
+      try_files $uri $uri/ /index.html;
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+      root /usr/share/nginx/html;
+    }
+  }
+}
+```
+
+- `docker-compose.yml`: _customize this_ for the image names and versions:
+
+```yml
+version: "3.7"
+
+services:
+  # MongoDB
+  cadmus-__PRJ__-mongo:
+    image: mongo
+    container_name: cadmus-__PRJ__-mongo
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    command: mongod --logpath=/dev/null
+    ports:
+      - 27017:27017
+    networks:
+      - cadmus-__PRJ__-network
+
+ # PostgreSQL
+  cadmus-__PRJ__-pgsql:
+    image: postgres
+    container_name: cadmus-__PRJ__-pgsql
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - 5432:5432
+    networks:
+      - cadmus-__PRJ__-network
+
+  # Cadmus __PRJ__ API
+  cadmus-__PRJ__-api:
+    image: vedph2020/cadmus-__PRJ__-api:0.0.1
+    container_name: cadmus-__PRJ__-api
+    ports:
+      # TODO: change 5080 with your API port in the host
+      - 5080:80
+    depends_on:
+      - cadmus-__PRJ__-mongo
+      - cadmus-__PRJ__-pgsql
+    environment:
+      - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-__PRJ__-mongo:27017/{0}
+      - CONNECTIONSTRINGS__INDEX=Server=cadmus-__PRJ__-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
+      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-__PRJ__-mongo:27017/{0}-log
+      - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
+      - SEED__INDEXDELAY=25
+      - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
+      - MESSAGING__APPROOTURL=http://cadmusapi.com/
+      - MESSAGING__SUPPORTEMAIL=support@cadmus.com
+    networks:
+      - cadmus-__PRJ__-network
+
+  # Cadmus __PRJ__ App
+  cadmus-app:
+    image: vedph2020/cadmus-__PRJ__-app:0.0.1
+    container_name: cadmus-__PRJ__-app
+    ports:
+      - 4200:80
+    depends_on:
+      - cadmus-__PRJ__-api
+    networks:
+      - cadmus-__PRJ__-network
+
+networks:
+  cadmus-__PRJ__-network:
+    driver: bridge
+```
+
+- `dockerignore`:
+
+```txt
+e2e
+node_modules
+src
+```
 
 ## Add Readme
 

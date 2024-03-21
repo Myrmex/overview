@@ -183,7 +183,6 @@ import { CadmusThesaurusUiModule } from '@myrmidon/cadmus-thesaurus-ui';
 import { CadmusUiFlagsPickerModule } from '@myrmidon/cadmus-ui-flags-picker';
 
 import { MonacoWrapperModule } from './monaco-wrapper.module';
-import { MarkdownWrapperModule } from './markdown-wrapper.module';
 
 @Component({
   selector: 'app-root',
