@@ -9,6 +9,7 @@ subtitle: "Directory"
 - [Code Repositories](#code-repositories)
   - [General Modules](#general-modules)
   - [CHICGC](#chicgc)
+  - [FeBo](#febo)
   - [Itinera](#itinera)
   - [MapAeg](#mapaeg)
   - [Musisque Deoque](#musisque-deoque)
@@ -102,6 +103,14 @@ The top row lists the projects, while the columns list the parts and fragments. 
 - [models](https://github.com/vedph/cadmus-chgc)
 - [API](https://github.com/vedph/cadmus-chgc-api)
 - [app](https://github.com/vedph/cadmus-chgc-app)
+
+### FeBo
+
+FeBo [Federalism and Border Management in Greek Antiquity](https://webmagazine.unitn.it/ciclo/lettere/115704/febo-federalism-and-border-management-in-greek-antiquity) (prof. E. Franchi, Università di Trento)
+
+- [models](https://github.com/vedph/cadmus-febo)
+- [API](https://github.com/vedph/cadmus-febo-api)
+- [app](https://github.com/vedph/cadmus-febo-app)
 
 ### Itinera
 
