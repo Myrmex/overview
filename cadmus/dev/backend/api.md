@@ -84,7 +84,7 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
   "AllowedHosts": "*",
   "ConnectionStrings": {
     "Default": "mongodb://localhost:27017/{0}",
-    "Index": "Server=localhost;Database={0};Uid=root;Pwd=mysql;",
+    "Index": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True",
     "MongoLog": "mongodb://localhost:27017/cadmus-__PRJ__-log",
     "PostgresLog": "Server=localhost;Database=cadmus-__PRJ__-log;User Id=postgres;Password=postgres;Include Error Detail=True"
   },
