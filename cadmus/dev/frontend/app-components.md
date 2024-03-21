@@ -451,6 +451,7 @@ import { Routes } from '@angular/router';
 import { AuthJwtGuardService, AuthJwtAdminGuardService } from '@myrmidon/auth-jwt-login';
 import { EditorGuardService } from '@myrmidon/cadmus-api';
 import { PendingChangesGuard } from '@myrmidon/cadmus-core';
+
 import { HomeComponent } from './home/home.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { ManageUsersPageComponent } from './manage-users-page/manage-users-page.component';
