@@ -371,13 +371,13 @@ The corresponding HTML template:
       </button> -->
 
       <!-- user menu -->
-      <button mat-button [matMenuTriggerFor]="userMenu">User</button>
+      <button type="button" mat-button [matMenuTriggerFor]="userMenu">User</button>
       <mat-menu #userMenu>
         <a mat-menu-item routerLink="/reset-password">Reset password</a>
       </mat-menu>
 
       <!-- admin menu -->
-      <button
+      <button type="button"
         *ngIf="user && user.roles.includes('admin')"
         mat-button
         [matMenuTriggerFor]="adminMenu"
