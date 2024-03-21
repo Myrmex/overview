@@ -30,8 +30,8 @@ Then, you create an Angular workspace for your frontend app, eventually adding t
 
 1. [app](frontend/app-setup.md)
 2. [libraries](frontend/libs.md)
-3. [parts](frontend/parts.md) (optional)
-4. [fragments](frontend/fragments.md) (optional)
+3. [parts](frontend/parts.md): only if you need to add your own custom parts.
+4. [fragments](frontend/fragments.md): only if you need to add your own custom fragments.
 
 ## Concepts
 
@@ -39,6 +39,7 @@ Then, you create an Angular workspace for your frontend app, eventually adding t
 - [dynamic data lookup strategies](concepts/lookup.md)
 - [semantic graph](concepts/graph.md)
 - [layers reconciliation](concepts/layer-reconciliation.md)
+- [data migration](https://github.com/vedph/cadmus-migration/blob/master/docs/index.md): importing and exporting Cadmus data.
 
 ## Deployment
 
