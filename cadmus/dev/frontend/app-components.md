@@ -35,8 +35,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
+    provideHttpClient(),
     EnvServiceProvider,
-    importProvidersFrom(HttpClientModule),
     importProvidersFrom(CadmusApiModule),
     // parts and fragments type IDs to editor group keys mappings
     // https://github.com/nrwl/nx/issues/208#issuecomment-384102058
@@ -87,7 +87,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 export class MonacoWrapperModule {}
 ```
 
-***Markdown***:
+***Markdown***: this module is no more needed since now this library provides a `provideMarkdown` function.
 
 ```ts
 import { NgModule } from '@angular/core';
@@ -99,6 +99,19 @@ import { MarkdownModule } from 'ngx-markdown';
   imports: [CommonModule, MarkdownModule.forRoot()],
 })
 export class MarkdownWrapperModule {}
+```
+
+Using the `provideMarkdown` function in your `app.config.ts`:
+
+```ts
+import { provideMarkdown } from 'ngx-markdown';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // ... other providers ...
+    provideMarkdown(),
+  ],
+};
 ```
 
 **MapGL**:
