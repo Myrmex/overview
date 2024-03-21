@@ -25,6 +25,8 @@ import { AuthJwtInterceptor } from '@myrmidon/auth-jwt-login';
 import { EnvServiceProvider } from '@myrmidon/ng-tools';
 import { CadmusApiModule } from '@myrmidon/cadmus-api';
 
+import { provideMarkdown } from 'ngx-markdown';
+
 import { routes } from './app.routes';
 
 import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
@@ -36,6 +38,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(),
+    provideMarkdown(),
     EnvServiceProvider,
     importProvidersFrom(CadmusApiModule),
     // parts and fragments type IDs to editor group keys mappings
