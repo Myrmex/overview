@@ -4,13 +4,6 @@ title: Cadmus Development
 subtitle: Summary
 ---
 
-- [Models](#models)
-- [Backend](#backend)
-- [Frontend](#frontend)
-- [Concepts](#concepts)
-- [Deployment](#deployment)
-- [History](#history)
-
 To create a Cadmus editor for your project, you need a backend and a frontend. For the most part, you will end up just customizing the provided code templates, so you do not need advanced programming skills to setup an editor. Of course, a minimal familiarity with the languages and technologies involved is required.
 
 You start with creating backend core libraries, eventually adding your own parts and fragments, with their seeders and tests. Then, you add a couple of services which put all the pieces together, and are consumed by the API layer. Once done, you create the backend API by just assembling the pieces you created with those coming from Cadmus infrastructure.
@@ -25,17 +18,17 @@ Then, you create an Angular workspace for your frontend app, eventually adding t
 
 ## Backend
 
-1. [core](backend/core.md)
-2. [parts](backend/parts.md)
-3. [part seeders](backend/part-seeders.md)
-4. [fragments](backend/fragments.md)
-5. [fragment seeders](backend/fragment-seeders.md)
+1. [core](backend/core.md): core backend solution. At a minimum, this typically includes the [core services](backend/services.md), even when you are just using existing parts/fragments, unless you prefer to place them directly inside your API.
+2. [parts](backend/parts.md): only if you need to add your own custom parts.
+3. [part seeders](backend/part-seeders.md): only if you need to add your own custom parts.
+4. [fragments](backend/fragments.md): only if you need to add your own custom fragments.
+5. [fragment seeders](backend/fragment-seeders.md): only if you need to add your own custom fragments.
 6. [services](backend/services.md)
 7. [API](backend/api.md)
 
 ## Frontend
 
-1. [app](frontend/app.md)
+1. [app](frontend/app-setup.md)
 2. [libraries](frontend/libs.md)
 3. [parts](frontend/parts.md) (optional)
 4. [fragments](frontend/fragments.md) (optional)
