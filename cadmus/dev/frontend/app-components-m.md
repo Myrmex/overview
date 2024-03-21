@@ -1,222 +1,14 @@
 ---
 layout: page
-title: Frontend App
+title: Frontend App - Components (Modules)
 subtitle: "Cadmus Frontend Development"
 ---
 
-- [Requirements](#requirements)
-- [Create Angular App](#create-angular-app)
-- [Setting Environment Variables](#setting-environment-variables)
-- [Tuning Angular Settings](#tuning-angular-settings)
-- [Assets](#assets)
-- [Cadmus Infrastructure](#cadmus-infrastructure)
 - [App Module](#app-module)
 - [App Routes](#app-routes)
 - [App Component](#app-component)
-- [Adding Docker Support](#adding-docker-support)
-- [Readme Template](#readme-template)
 
-📌 Task: create a Cadmus frontend web app in a new Angular workspace.
-
-1. **app**
-2. [libraries](libs.md)
-3. [parts](parts.md) (optional)
-4. [fragments](fragments.md) (optional)
-
-The typical steps for developing a Cadmus frontend (as based on the [reference shell](https://github.com/vedph/cadmus-shell-2)) are:
-
-1. create an Angular app.
-2. install NPM packages.
-3. adding and customizing template code.
-4. optionally (if you are using your own models) [add parts](frontend-part.md) and/or fragments.
-
-## Requirements
-
-- [NodeJS](https://nodejs.org/en/download/)
-- Angular CLI
-- a code editor like [VSCode](https://code.visualstudio.com/)
-- familiarity with HTML, CSS, Typescript and Angular
-
-## Create Angular App
-
-(1) create a **new Angular app**: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use CSS (you may use SCSS if you prefer, or if you want to customize your theme).
-
->If you are creating an app for the only purpose of developing component libraries in it, our convention is naming it as `-shell` rather than `-app`.
-
-(2) enter the newly created directory and **add Angular Material** (choose the Indigo/Pink theme - or whatever you prefer -, setup typography styles=yes, include and enable animations=yes) and **Angular localization package**:
-
-```bash
-ng add @angular/material
-ng add @angular/localize
-```
-
->The localization package is a development package which is required by some localization-ready components such as the authentication libraries (`@myrmidon/auth-jwt-*`). You can also just add the NPM package via `npm -i --save-dev @angular/localize`.
-
-(3) install the typical Cadmus packages via NPM:
-
-```bash
-npm i @auth0/angular-jwt @myrmidon/auth-jwt-admin @myrmidon/auth-jwt-login
-npm i @myrmidon/cadmus-api @myrmidon/cadmus-core @myrmidon/cadmus-graph-ui @myrmidon/cadmus-graph-pg
-npm i @myrmidon/cadmus-item-editor @myrmidon/cadmus-item-list @myrmidon/cadmus-item-search
-npm i @myrmidon/cadmus-part-general-pg @myrmidon/cadmus-part-general-ui
-npm i @myrmidon/cadmus-part-philology-pg @myrmidon/cadmus-part-philology-ui
-npm i @myrmidon/cadmus-preview-pg @myrmidon/cadmus-preview-ui @myrmidon/cadmus-profile-core
-npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/paged-data-browsers @myrmidon/ngx-dirty-check @types/diff-match-patch diff-match-patch gravatar
-npm i ngx-markdown ngx-monaco-editor rangy --force
-```
-
-The above packages are fairly typical, but you might well omit those you are not interested in, e.g. general parts or philology parts, or some of the bricks. Some of the legacy third party libraries like rangy may require `--force`.
-
-Typically you will also need:
-
-- [ngx-markdown](https://github.com/jfcere/ngx-markdown) if you have components _displaying_ Markdown.
-- [ngx-monaco-editor](https://github.com/atularen/ngx-monaco-editor) if you components _using_ Markdown or other languages in a Monaco-based editor.
-
-Please be sure to follow the directions provided by each library when installing it. For instance, [ngx-markdown](https://github.com/jfcere/ngx-markdown) requires these packages:
-
-```bash
-npm install ngx-markdown marked --force
-npm install @types/marked --save-dev --force
-```
-
-Additionally, as the library is using Marked parser you will need to add `node_modules/marked/marked.min.js` to your application. If you are using Angular CLI you can add to `scripts`:
-
-```json
-"scripts": [
- "node_modules/marked/marked.min.js"
-]
-```
-
-Also, you must be sure to import `MarkdownModule.forRoot()` in your app module, as `forRoot` injects the required `MarkdownService`.
-
-## Setting Environment Variables
-
-This is essential to let the frontend find the server, while allowing us to manually edit this URI after building a distribution, and before creating a Docker image.
-
-(1) under `src` add an `env.js` file for project-dependent environment variables, with this content (replace the port number, in this sample 60849, with your backend API port number):
-
-```js
-// https://www.jvandemo.com/how-to-use-environment-variables-to-configure-your-angular-application-without-a-rebuild/
-(function (window) {
-  window.__env = window.__env || {};
-
-  // environment-dependent settings
-  window.__env.apiUrl = "http://localhost:60849/api/";
-  window.__env.version = "0.0.1";
-  // enable thesaurus import in thesaurus list for admins
-  window.__env.thesImportEnabled = true;
-})(this);
-```
-
->💡 You might need additional settings here, like e.g. a Mapbox GL API token if using geographic components.
-
-If you are going to use the [external bibliography API](https://github.com/vedph/cadmus_biblioapi), also add its URL here, e.g.:
-
-```js
-window.__env.biblioApiUrl = 'http://localhost:61691/api/';
-```
-
-In this case typically you will also need to install `@myrmidon/cadmus-biblio-core @myrmidon/cadmus-biblio-api @myrmidon/cadmus-biblio-ui @myrmidon/cadmus-part-biblio-ui`, which provide the corresponding frontend. Later, in your app's `part-editor-keys.ts`, remember to setup the route to the bibliography part editor like:
-
-```ts
-import { EXT_BIBLIOGRAPHY_PART_TYPEID } from '@myrmidon/cadmus-part-biblio-ui';
-
-// ...
-
-export const PART_EDITOR_KEYS: PartEditorKeys = {
-  [EXT_BIBLIOGRAPHY_PART_TYPEID]: {
-    part: BIBLIO,
-  },
-  // ... etc.
-};
-```
-
-(2) in `angular.json`, under `projects/APPNAME/architect/build/options/assets`:
-
-- add `"src/env.js"`.
-- if you are using the Monaco editor, add a glob for it. The result would be something like this (see <https://www.npmjs.com/package/ngx-monaco-editor>):
-
-```json
-"assets": [
-  "src/favicon.ico",
-  "src/assets",
-  "src/env.js",
-  {
-    "glob": "**/*",
-    "input": "node_modules/ngx-monaco-editor/assets/monaco",
-    "output": "/assets/monaco"
-  }
-],
-```
-
-(3) in `src/index.html` add an import for `env.js` to your `head` element:
-
-```html
-<head>
-  ...
-  <script src="env.js"></script>
-</head>
-```
-
-Also, you can change the web app's `title` in `head` to a more human friendly name.
-
-## Tuning Angular Settings
-
-This is suggested to enable source maps in production and avoid nasty warnings after compilation.
-
-(1) in `angular.json`: following the suggestions in <https://stackoverflow.com/questions/54891679/how-do-i-get-source-map-working-for-npm-linked-angular-library>, and the [Angular docs](https://angular.io/guide/workspace-config#optimization-and-source-map-configuration), explicitly opt for the source maps (under `projects/app/architect/build/options`):
-
-```json
-"sourceMap": {
-  "scripts": true,
-  "hidden": false,
-  "vendor": true
-},
-```
-
-(2) in the same file, you will typically have to raise the warning limits for your `budget` size if getting a warning after building.
-
-## Assets
-
-This is optional and depends on your visuals.
-
-For a quick setup, just ensure you have the required icons and images in `assets` (see `cadmus-shell/assets`): usually they are `logo-white-40.png` for the top bar logo (you can use your own), and a couple of banner images for the homepage (`banner-512.jpg`, `banner-1024.jpg`).
-
-The logo is used in the `app.component`'s template for the main toolbar, while banner images are used in the default homepage placeholder.
-
-## Cadmus Infrastructure
-
-(1) add some extension points, eventually adding new entries for your new parts (see [dynamic lookup](https://github.com/vedph/cadmus_doc/blob/master/core/dynamic-lookup.md)):
-
-- `src/app/index-lookup-definitions.ts` with this content:
-
-```ts
-import { IndexLookupDefinitions } from '@myrmidon/cadmus-core';
-
-export const INDEX_LOOKUP_DEFINITIONS : IndexLookupDefinitions = {}
-```
-
-- `src/app/item-browser-keys.ts` with this content:
-
-```ts
-/**
- * Mapping between item browser keys and their routes, used to avoid
- * long and complex names in the route by replacing the ID with an alias.
- */
-export const ITEM_BROWSER_KEYS = {
-// e.g. ['it.vedph.item-browser.mongo.hierarchy']: 'hierarchy'
-};
-```
-
-- `src/app/part-editor-keys.ts`: this is the only file with a real content, the others being just extension points. You must specify here the connection of each part or fragment ID with its hosting library in constant `PART_EDITOR_KEYS`. This object has a property named after each part/fragment type ID, with a value equal to an object with `part` equal to the library ID, and optionally `fragments` (when the part is a layer part). This property is an object with a property for each fragment type for the layer part, named after the fragment type ID, with a value equal to the library ID.
-
-(2) copy these folders (each corresponding to an app's page component) into your app's src folder from the [reference project](https://github.com/vedph/cadmus-shell-2):
-
-- `home` (adjust the homepage contents according to your project)
-- `login-page`
-- `manage-users-page`
-- `register-user-page`
-- `reset-password`
+📌 Task: add components to a Cadmus frontend web app. ⚠️ This page refers to the legacy, module-based templates. Please refer to [this page](app-components.md) if you want to use module-less, standalone components.
 
 ## App Module
 
@@ -237,7 +29,7 @@ Edit the `app.module.ts` file of your app as follows:
   ],
 ```
 
-(2) add all the required modules in the `imports` array, which depend on the packages you installed; and add in the `providers` array Cadmus and ELF development tools providers. Here a typical example follows, adjust it as required:
+(2) (for apps using modules): add all the required modules in the `imports` array, which depend on the packages you installed; and add in the `providers` array the Cadmus providers. Here a typical example follows, adjust it as required:
 
 ```ts
 import { NgModule } from '@angular/core';
@@ -679,7 +471,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
 ```html
 <header>
-  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="start center">
+  <mat-toolbar color="primary">
     <span id="logo"
       ><img src="./assets/img/logo-white-40.png" alt="Fusisoft"
     /></span>
@@ -838,33 +630,7 @@ footer {
 }
 ```
 
-## Adding Docker Support
-
-Finally, you can add Docker support to create an image of your frontend app. Use as templates the files in the reference shell app:
-
-- `Dockerfile`
-- `nginx.conf`: the NGINX configuration for serving the web app from the Docker container.
-- `docker-compose.yml`: _customize this_ for the image names and versions.
-- `docker-compose_linux-vol.yml`: a variation of the preceding, using Linux-hosted volumes for persistent data storage. _Customize this_ in the same way as the preceding one.
-- `dockerignore`
-
-## Readme Template
-
-Finally you can use a README template like this:
-
-```md
-- [models](https://github.com/vedph/cadmus-__PRJ__)
-- [API](https://github.com/vedph/cadmus-__PRJ__-api)
-
-## Docker
-
-Quick Docker image build:
-
-1. `npm run build-lib`
-2. update version in `env.js` and `ng build`
-3. `docker build . -t vedph2020/cadmus-__PRJ__-app:0.0.1 -t vedph2020/cadmus-__PRJ__-app:latest` (replace with the current version).
-```
-
 🏠 [developer's home](../toc.md)
 
+◀️ previous: [app setup](app-setup.md)
 ▶️ next: [libraries](libs.md)
