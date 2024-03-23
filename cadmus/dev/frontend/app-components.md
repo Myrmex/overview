@@ -5,7 +5,6 @@ subtitle: "Cadmus Frontend Development"
 ---
 
 - [Add Global Providers](#add-global-providers)
-- [Add Wrapper Modules](#add-wrapper-modules)
 - [Root Component](#root-component)
 - [Add Routes](#add-routes)
 
@@ -39,6 +38,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     provideHttpClient(),
     provideMarkdown(),
+    importProvidersFrom(MonacoEditorModule.forRoot()),
     EnvServiceProvider,
     importProvidersFrom(CadmusApiModule),
     // parts and fragments type IDs to editor group keys mappings
@@ -70,54 +70,12 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## Add Wrapper Modules
+If you are using modules requiring a configuration when importing them, like Monaco Editor, Markdown, or MapGL, in most cases you should be able to import them from `app.config.ts`, as shown above:
 
-If you are using modules requiring a configuration when importing them, like Monaco Editor, Markdown, or MapGL, do this configuration in a wrapper module, and then import this module in your root `AppComponent`.
+- Markdown: `provideMarkdown()`
+- Monaco: `importProvidersFrom(MonacoEditorModule.forRoot())`
 
-Here are some typical wrappers:
-
-**Monaco**:
-
-```ts
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
-
-@NgModule({
-  declarations: [],
-  imports: [CommonModule, MonacoEditorModule.forRoot()],
-})
-export class MonacoWrapperModule {}
-```
-
-***Markdown***: this module is no more needed since now this library provides a `provideMarkdown` function.
-
-```ts
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { MarkdownModule } from 'ngx-markdown';
-
-@NgModule({
-  declarations: [],
-  imports: [CommonModule, MarkdownModule.forRoot()],
-})
-export class MarkdownWrapperModule {}
-```
-
-Using the `provideMarkdown` function in your `app.config.ts`:
-
-```ts
-import { provideMarkdown } from 'ngx-markdown';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    // ... other providers ...
-    provideMarkdown(),
-  ],
-};
-```
-
-**MapGL**:
+Should you not be able to import in this way (but this is hardly the case), an alternative approach is creating a wrapper module and then import it in the root `AppComponent` module, like e.g.:
 
 ```ts
 import { NgModule } from '@angular/core';
