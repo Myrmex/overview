@@ -16,7 +16,9 @@ I often happened to design software solutions for a number of such scenarios, of
 
 A number of relevant real-world usages came out from its application, and I'm sketching some of them here not only as a quick overview for my customers, but also as a proposal for more academic oriented use cases.
 
-Apart from big legacy resources like dictionaries, a more specialized field of application was converting academic texts: often books or papers, but even legacy digital corpora, or paper critical editions.
+Apart from big legacy resources like dictionaries, a more specialized field of application was converting academic texts: often books or papers, but even legacy digital corpora, or paper critical editions. For instance, this has been the case for [MapAeg](https://mapaeg.websoupcloud.it), recovering data from Word documents; or from a set of four distinct [documental archives from Piero Calamandrei](https://archiviocalamandrei.it), refactored and merged into one using this system.
+
+Other scenarios might even involve converting the text encoding itself.
 
 For instance, many readers versed in classics might probably recall the outgrowth of polytonic Greek fonts in the pre-Unicode era. In this case, a presentational device like a font was misused as a true, proprietary character encoding, allowing word-processor users to type on their Latin-based keyboards and magically get what seemed a Greek text. Of course, simply switching to another font, or to a machine without that specific font resource, caused the loss of this appearance, resulting in a sort of “garbage text”. Further, for any machine-based treatment this was just Latin text, whatever its appearance.
 
