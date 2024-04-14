@@ -132,12 +132,12 @@ General shells:
 - [API](https://github.com/vedph/cadmus_itinera_api)
 - [app](https://github.com/vedph/cadmus_itinera_app)
 
-👉 MapAeg:
+👉 [MapAeg](https://mapaeg.websoupcloud.it):
 
 - [API](https://github.com/vedph/cadmus_bdm_api)
 - [app](https://github.com/vedph/cadmus-bdm-app)
 
-👉 Musisque Deoque:
+👉 [Musisque Deoque](https://mizar.unive.it/mqdq/public):
 
 - [Musisque Deoque API](https://github.com/vedph/cadmus_mqdq_api)
 - [Musisque Deoque app](https://github.com/vedph/cadmus_mqdq_app)
