@@ -22,7 +22,7 @@ All the generic models designed for Cadmus projects are listed here. Project-spe
   - [metadata](https://github.com/vedph/cadmus-general/blob/master/docs/metadata.md)
   - [names](https://github.com/vedph/cadmus-general/blob/master/docs/names.md)
   - [note](https://github.com/vedph/cadmus-general/blob/master/docs/note.md)
-  - [pin-links](https://github.com/vedph/cadmus-general/blob/master/docs/pin-links.md)
+  - [pin-links](https://github.com/vedph/cadmus-general/blob/master/docs/fr.pin-links.md)
   - [tiled text](https://github.com/vedph/cadmus-general/blob/master/docs/tiled-text.md)
   - [tiled text layer](https://github.com/vedph/cadmus-general/blob/master/docs/tiled-text-layer.md)
   - [token text](https://github.com/vedph/cadmus-general/blob/master/docs/token-text.md)
