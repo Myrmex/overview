@@ -44,10 +44,10 @@ The top row lists the projects, while the columns list the parts and fragments. 
   - [editor](https://renovella.unisi.it:8443/#/home)
   - [API](https://renovella.unisi.it:40393/swagger/index.html)
 - [Sidon](https://cadmus-sidon.fusi-soft.com/)
-- [Sidon API](https://cadmus-sidon-api.fusi-soft.com/)
+  - [API](https://cadmus-sidon-api.fusi-soft.com/)
 - [Inquisition Graffiti](https://cadmus-ingra.fusi-soft.com/)
-- [Inquisition Graffiti API](https://cadmus-ingra-api.fusi-soft.com/)
-- [Inquisition Graffiti bibliographic API](https://cadmus-ingra-biblioapi.fusi-soft.com/)
+  - [API](https://cadmus-ingra-api.fusi-soft.com/)
+  - [bibliographic API](https://cadmus-ingra-biblioapi.fusi-soft.com/)
 
 ## Demos
 
