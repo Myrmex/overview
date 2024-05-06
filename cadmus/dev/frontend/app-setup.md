@@ -58,16 +58,18 @@ npm i @myrmidon/cadmus-part-philology-pg @myrmidon/cadmus-part-philology-ui
 npm i @myrmidon/cadmus-preview-pg @myrmidon/cadmus-preview-ui @myrmidon/cadmus-profile-core
 
 npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-flags-pg @myrmidon/cadmus-flags-ui @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-mat-physical-size @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-flags-picker @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/paged-data-browsers @myrmidon/ngx-dirty-check @types/diff-match-patch diff-match-patch gravatar
+
+npm i @myrmidon/cadmus-text-ed @myrmidon/cadmus-text-ed-md
 ```
 
-The above packages are fairly typical, but you might well omit those you are not interested in, e.g. general parts or philology parts, or some of the bricks. Some of the legacy third party libraries may require `--force`.
+The above packages are fairly typical, but you might well omit those you are not interested in, e.g. general parts or philology parts, or some [bricks](https://github.com/vedph/cadmus-bricks-shell-v2). Some of the legacy third party libraries may require `--force`.
 
 Typically you will also need **Monaco editor** and **Markdown**:
 
-- [ngx-markdown](https://github.com/jfcere/ngx-markdown) if you have components _displaying_ Markdown.
-- [ngx-monaco-editor](https://github.com/atularen/ngx-monaco-editor) or [this more recent version](https://github.com/miki995/ngx-monaco-editor-v2) if you components _using_ Markdown (like e.g. the general note part) or other languages in a Monaco-based editor.
+- [NG essentials](https://github.com/cisstech/nge): `npm i @cisstech/nge monaco-editor`.
+- [ngx-markdown](https://github.com/jfcere/ngx-markdown) if you have components _displaying_ Markdown: `npm i ngx-markdown marked@^12.0.0`.
 
-Please be sure to _follow the directions provided by each library_ when installing it.
+>Even though you usually all what you have to do is installing the listed packages, be sure to _follow the directions provided by each library_ when installing it.
 
 ## Set Environment Variables
 
@@ -90,13 +92,19 @@ This is essential to let the frontend find the server, while allowing us to manu
 
 >💡 You might need additional settings here, like e.g. a Mapbox GL API token if using geographic components.
 
-If you are going to use the [external bibliography API](https://github.com/vedph/cadmus_biblioapi), also add its URL here, e.g.:
+📖 If you are going to use the [external bibliography API](https://github.com/vedph/cadmus_biblioapi), also add its URL here, e.g.:
 
 ```js
 window.__env.biblioApiUrl = 'http://localhost:61691/api/';
 ```
 
-In this case typically you will also need to install `@myrmidon/cadmus-biblio-core @myrmidon/cadmus-biblio-api @myrmidon/cadmus-biblio-ui @myrmidon/cadmus-part-biblio-ui`, which provide the corresponding frontend. Later, in your app's `part-editor-keys.ts`, remember to setup the route to the bibliography part editor like:
+In this case typically you will also need to install the bibliography packages:
+
+```bash
+npm i @myrmidon/cadmus-biblio-core @myrmidon/cadmus-biblio-api @myrmidon/cadmus-biblio-ui @myrmidon/cadmus-part-biblio-ui
+```
+
+Later, in your app's `part-editor-keys.ts`, remember to _setup the route to the bibliography part editor_ like:
 
 ```ts
 import { EXT_BIBLIOGRAPHY_PART_TYPEID } from '@myrmidon/cadmus-part-biblio-ui';
@@ -113,21 +121,17 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
 
 (2) in `angular.json`, under `projects/APPNAME/architect/build/options/assets`:
 
-- add `"src/env.js"`.
-- if you are using the Monaco editor, add a glob for it. The result would be something like this (see <https://www.npmjs.com/package/ngx-monaco-editor>):
+- add `"src/env.js"`:
 
 ```json
 "assets": [
   "src/favicon.ico",
   "src/assets",
-  "src/env.js",
-  {
-    "glob": "**/*",
-    "input": "node_modules/monaco-editor",
-    "output": "/assets/monaco/"
-  }
+  "src/env.js"
 ],
 ```
+
+>The glob for Monaco editor is no longer needed when using NG essentials as a Monaco wrapper.
 
 (3) in `src/index.html` add an import for `env.js` to your `head` element:
 
@@ -138,7 +142,7 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
 </head>
 ```
 
-Also, you can change the web app's `title` in `head` to a more human friendly name.
+Also, you can change the web app's `title` in `head` to a more human-friendly name.
 
 ## Fine-Tune Angular Settings
 
@@ -165,6 +169,8 @@ For a quick setup, just ensure you have the required icons and images in `assets
 
 The logo is used in the `app.component`'s template for the main toolbar, while banner images are used in the default homepage placeholder.
 
+>💡 If using [lookup sets](https://github.com/vedph/cadmus-bricks-shell-v2/blob/master/projects/myrmidon/cadmus-refs-lookup/README.md#lookup-set), typically you will also need an icon for each lookup source, e.g. VIAF, GeoNames, etc. You can find some of these icons in the image folder of the [Cadmus shell app](https://github.com/vedph/cadmus-shell-v3/tree/master/src/assets/img).
+
 ## Add Cadmus Infrastructure
 
 (1) add some extension points, eventually adding new entries for your new parts (see [dynamic lookup](https://github.com/vedph/cadmus_doc/blob/master/core/dynamic-lookup.md)):
@@ -190,6 +196,8 @@ export const ITEM_BROWSER_KEYS = {
 ```
 
 - `src/app/part-editor-keys.ts`: this is the only file with a real content, the others being just extension points. You must specify here the connection of each part or fragment ID with its hosting library in constant `PART_EDITOR_KEYS`. This object has a property named after each part/fragment type ID, with a value equal to an object with `part` equal to the library ID, and optionally `fragments` (when the part is a layer part). This property is an object with a property for each fragment type for the layer part, named after the fragment type ID, with a value equal to the library ID.
+
+>⚠️ If using external bibliography, remember to [add the route](#set-environment-variables) for its editor.
 
 (2) copy these folders (each corresponding to an app's page component) into your app's `src/app` folder from the [reference project](https://github.com/vedph/cadmus-shell-2):
 
