@@ -136,7 +136,7 @@ dotnet add package Cadmus.Core
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Cadmus.Core" Version="6.0.2" />
+  <PackageReference Include="Cadmus.Core" Version="7.0.2" />
 </ItemGroup>
 ```
 
@@ -185,9 +185,9 @@ dotnet add package Cadmus.Seed
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Bogus" Version="34.0.2" />
-  <PackageReference Include="Cadmus.Core" Version="6.0.2" />
-  <PackageReference Include="Cadmus.Seed" Version="6.0.2" />
+  <PackageReference Include="Bogus" Version="35.5.1" />
+  <PackageReference Include="Cadmus.Core" Version="7.0.2" />
+  <PackageReference Include="Cadmus.Seed" Version="7.0.2" />
 </ItemGroup>
 ```
 
