@@ -16,7 +16,7 @@ Add to `app.config.ts` global providers as in this code:
 
 ```ts
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, withInterceptorsFromDi } from '@angular/common/http';
 import { provideRouter } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
@@ -36,7 +36,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(),
+    // also add withJsonp() if required (e.g. by VIAF lookup)
+    provideHttpClient(withInterceptorsFromDi()),
     provideMarkdown(),
     importProvidersFrom(MonacoEditorModule.forRoot()),
     EnvServiceProvider,
