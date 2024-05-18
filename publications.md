@@ -5,7 +5,7 @@ layout: page
 ## Publications
 
 - (in print) D. Fusi, _New approaches to processing and modeling judicial corpora_, in AA. VV., _The Language of defense_.
-- 2024 B. Bessi, D. Fusi, _Modelling the Archipelago: Corfu as a Case Study for a Digital Edition of Cristoforo Buondelmonti’s Liber Insularum_, [Open Research Europe](https://open-research-europe.ec.europa.eu/articles/4-11/v1) (awaiting peer review).
+- 2024 B. Bessi, D. Fusi, _Modelling the Archipelago: Corfu as a Case Study for a Digital Edition of Cristoforo Buondelmonti’s Liber Insularum_, [Open Research Europe](https://open-research-europe.ec.europa.eu/articles/4-11/v1).
 - 2024 D. Fusi, _Il corpus digitale AttiChiari: costruzione, analisi, strumenti di ricerca_, in M.V. Dell'Anna (ed.), _La lingua e la scrittura forense: storia, temi, prospettive_, Torino 2024 (ISBN 979-12-211-0513-1), 157-174.
 - 2023 L. Clemenzi, F. Fusco, D. Fusi, G. Lombardi, _Testi in maschera: nuovi strumenti per la sicurezza e l’analisi linguistica di corpora giuridici_, «Umanistica Digitale», 7 (16) (2023) 1–32: <https://doi.org/10.6092/issn.2532-8816/15608>
 - 2023 D. Fusi, _EpiSearch. Digitally coalescing Ancient Inscriptions and Epigraphic Manuscripts_. Journal of Data Mining and Digital Humanities, Proceedings of the International Conference _On the Way to the Future of Digital Manuscript Studies_ (Radboud University Nijmegen, October 27th-29th 2021).
