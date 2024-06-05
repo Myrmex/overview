@@ -282,9 +282,11 @@ public sealed class __NAME__Part : PartBase
 
 ### Part Test Templates
 
+Testing requires a bit of [infrastructure](#part-test-helper), usually encapsulated in a `TestHelper` class.
+
 #### Part Test - Single Entity
 
-This requires a bit of [infrastructure](#part-test-helper).
+This template refers to the [single-entity part template](#part---single-entity):
 
 ```cs
 using System;
@@ -292,6 +294,8 @@ using Xunit;
 using Cadmus.Core;
 using System.Collections.Generic;
 using System.Linq;
+
+namespace Cadmus.__PRJ__.Parts.Test;
 
 public sealed class __NAME__PartTest
 {
@@ -367,6 +371,8 @@ public sealed class __NAME__PartTest
 ```
 
 #### Part Test - Multiple Entities
+
+This template refers to [multiple-entities container parts](#part---multiple-entities):
 
 ```cs
 using Cadmus.Core;
@@ -470,17 +476,18 @@ public sealed class __NAME__PartTest
 
 #### Part Test Helper
 
+This helper class provides the methods used to ease testing:
+
 ```cs
 using Cadmus.Core;
 using Cadmus.Core.Layers;
-using Fusi.Antiquity.Chronology;
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Xunit;
 
-// ...
+namespace Cadmus.__PRJ__.Parts.Test;
 
 internal static class TestHelper
 {
@@ -492,35 +499,27 @@ internal static class TestHelper
 
     public static string SerializePart(IPart part)
     {
-        if (part == null)
-            throw new ArgumentNullException(nameof(part));
-
+        ArgumentNullException.ThrowIfNull(part);
         return JsonSerializer.Serialize(part, part.GetType(), _options);
     }
 
     public static T? DeserializePart<T>(string json)
         where T : class, IPart, new()
     {
-        if (json == null)
-            throw new ArgumentNullException(nameof(json));
-
+        ArgumentNullException.ThrowIfNull(json);
         return JsonSerializer.Deserialize<T>(json, _options);
     }
 
     public static string SerializeFragment(ITextLayerFragment fr)
     {
-        if (fr == null)
-            throw new ArgumentNullException(nameof(fr));
-
+        ArgumentNullException.ThrowIfNull(fr);
         return JsonSerializer.Serialize(fr, fr.GetType(), _options);
     }
 
     public static T? DeserializeFragment<T>(string json)
         where T : class, ITextLayerFragment, new()
     {
-        if (json == null)
-            throw new ArgumentNullException(nameof(json));
-
+        ArgumentNullException.ThrowIfNull(json);
         return JsonSerializer.Deserialize<T>(json, _options);
     }
 

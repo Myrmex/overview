@@ -22,9 +22,7 @@ subtitle: "Cadmus Backend Development"
 
 ## Packages
 
-The part seeder project requires at least these packages:
-
-- `Cadmus.Seed`
+The part seeder project requires at the `Cadmus.Seed` package. Typically you add a seeder for each part or fragment.
 
 ## Part Seeder Templates
 
@@ -40,13 +38,13 @@ using Cadmus.Core;
 using Fusi.Tools.Configuration;
 using System;
 
-// ...
+namespace Cadmus.Seed.__PRJ__.Parts;
 
 /// <summary>
-/// Seeder for __NAME__ part.
+/// Seeder for <see cref="__NAME__Part"/>.
 /// Tag: <c>seed.it.vedph.__PRJ__.__NAME__</c>.
 /// </summary>
-/// <seealso cref="Cadmus.Seed.PartSeederBase" />
+/// <seealso cref="PartSeederBase" />
 [Tag("seed.it.vedph.__PRJ__.__NAME__")]
 public sealed class __NAME__PartSeeder : PartSeederBase,
     IConfigurable<__NAME__PartSeederOptions>
@@ -74,7 +72,7 @@ public sealed class __NAME__PartSeeder : PartSeederBase,
     public override IPart? GetPart(IItem item, string? roleId,
         PartSeederFactory? factory)
     {
-        if (item == null) throw new ArgumentNullException(nameof(item));
+        ArgumentNullException.ThrowIfNull(item);
         // for layer parts only:
         // if (factory == null)
         //    throw new ArgumentNullException(nameof(factory));
@@ -85,14 +83,14 @@ public sealed class __NAME__PartSeeder : PartSeederBase,
             return null;
         }
 
-        __NAME__Part part = new __NAME__Part();
-        // or with Bogus:
+        __NAME__Part part = new();
+        // or with Bogus, which usually is easier:
         // __NAME__Part part = new Faker<__NAME__Part>()
         //    .RuleFor(p => p.X, f => TODO)
         //    .Generate();
         SetPartMetadata(part, roleId, item);
 
-        // TODO: add seed code here...
+        // TODO: add seed code here if not using Bogus...
 
         return part;
     }
