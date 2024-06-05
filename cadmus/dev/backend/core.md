@@ -52,11 +52,30 @@ dotnet new classlib -n Cadmus.PRJ.Parts
 dotnet sln CadmusPRJ.sln add Cadmus.PRJ.Parts/Cadmus.PRJ.Parts.csproj
 ```
 
- This will hold parts and fragments specific to your projects. Usually a single library is enough, but you are free to distribute components across several libraries should you need more granularity for their reuse. Once created, delete the empty `Class1.cs` file from it.
+This will hold parts and fragments specific to your projects. Usually a single library is enough, but you are free to distribute components across several libraries should you need more granularity for their reuse. Once created, delete the empty `Class1.cs` file from it.
 
 ![adding new project](../../../img/cadmus/a01_add-new-project.png)
 
 ![adding new project](../../../img/cadmus/a02_add-new-project.png)
+
+>Whenever you add a library which is meant to be published as a package, be sure to add metadata for it, e.g. for NuGet:
+
+```xml
+<!-- inside the "main" PropertyGroup: -->
+<IncludeSymbols>true</IncludeSymbols>
+<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+<Authors>Daniele Fusi</Authors>
+<Company>Fusi</Company>
+<Product>Cadmus</Product>
+<Description>Parts for Cadmus __PRJ__.</Description>
+<Copyright>by Daniele Fusi 2024</Copyright>
+<NeutralLanguage>en-US</NeutralLanguage>
+<PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
+<PackageTags>Cadmus;parts</PackageTags>
+<Version>0.0.1</Version>
+<FileVersion>0.0.1</FileVersion>
+<AssemblyVersion>0.0.1</AssemblyVersion>
+```
 
 (3) add another _C# .NET 8 class library_ named `Cadmus.Seed.PRJ.Parts` to provide the mock data seeders for your components. This is not strictly a requirement, but it's suggested to let you play with the editor while building it. Once created, delete the empty `Class1.cs` file from it.
 
