@@ -58,14 +58,14 @@ dotnet sln CadmusPRJ.sln add Cadmus.PRJ.Parts/Cadmus.PRJ.Parts.csproj
 
 ![adding new project](../../../img/cadmus/a02_add-new-project.png)
 
-(3) add another _C# .NET 7 class library_ named `Cadmus.Seed.PRJ.Parts` to provide the mock data seeders for your components. This is not strictly a requirement, but it's suggested to let you play with the editor while building it. Once created, delete the empty `Class1.cs` file from it.
+(3) add another _C# .NET 8 class library_ named `Cadmus.Seed.PRJ.Parts` to provide the mock data seeders for your components. This is not strictly a requirement, but it's suggested to let you play with the editor while building it. Once created, delete the empty `Class1.cs` file from it.
 
 ```bash
 dotnet new classlib -n Cadmus.Seed.PRJ.Parts
 dotnet sln CadmusPRJ.sln add Cadmus.Seed.PRJ.Parts/Cadmus.Seed.PRJ.Parts.csproj
 ```
 
-(4) add another _C# .NET 7 class library_ named `Cadmus.PRJ.Services` to provide some API services to plug into your API. Once created, delete the empty `Class1.cs` file from it.
+(4) add another _C# .NET 8 class library_ named `Cadmus.PRJ.Services` to provide some API services to plug into your API. Once created, delete the empty `Class1.cs` file from it.
 
 ```bash
 dotnet new classlib -n Cadmus.PRJ.Services
@@ -136,7 +136,7 @@ dotnet add package Cadmus.Core
 
 ```xml
 <ItemGroup>
-  <PackageReference Include="Cadmus.Core" Version="7.0.2" />
+  <PackageReference Include="Cadmus.Core" Version="7.0.3" />
 </ItemGroup>
 ```
 
@@ -186,7 +186,7 @@ dotnet add package Cadmus.Seed
 ```xml
 <ItemGroup>
   <PackageReference Include="Bogus" Version="35.5.1" />
-  <PackageReference Include="Cadmus.Core" Version="7.0.2" />
+  <PackageReference Include="Cadmus.Core" Version="7.0.3" />
   <PackageReference Include="Cadmus.Seed" Version="7.0.2" />
 </ItemGroup>
 ```

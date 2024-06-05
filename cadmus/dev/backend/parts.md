@@ -92,7 +92,7 @@ using System.Text;
 using Cadmus.Core;
 using Fusi.Tools.Configuration;
 
-// ...
+namespace Cadmus.__PRJ__.Parts;
 
 /// <summary>
 /// TODO: add summary
@@ -112,7 +112,8 @@ public sealed class __NAME__Part : PartBase
     /// <returns>The pins.</returns>
     public override IEnumerable<DataPin> GetDataPins(IItem? item = null)
     {
-        // TODO: build pins, eventually using DataPinBuilder like this:
+        // TODO: build pins, eventually using DataPinBuilder like this
+        // (optionally using DataPinHelper.DefaultFilter as an argument):
         // DataPinBuilder builder = new(new StandardDataPinTextFilter());
         //// latitude
         // builder.AddValue("lat", Latitude);
@@ -138,14 +139,14 @@ public sealed class __NAME__Part : PartBase
     /// <returns>Data pins definitions.</returns>
     public override IList<DataPinDefinition> GetDataPinDefinitions()
     {
-        return new List<DataPinDefinition>(new[]
-        {
+        return new List<DataPinDefinition>(
+        [
             // TODO: add pins definitions...
             // sample:
             // new DataPinDefinition(DataPinValueType.Integer,
             //    "tot-count",
             //    "The total count of entries.")
-        });
+        ]);
     }
 
     /// <summary>
@@ -169,6 +170,8 @@ public sealed class __NAME__Part : PartBase
 
 #### Part - Multiple Entities
 
+You can use this template when your part is just a container of an object representing an entry in a list of entries. Of course you are free to add more properties besides the list; this template just makes it easier to deal with typical objects-container parts.
+
 ```cs
 using System;
 using System.Collections.Generic;
@@ -176,7 +179,7 @@ using System.Text;
 using Cadmus.Core;
 using Fusi.Tools.Configuration;
 
-// ...
+namespace Cadmus.__PRJ__.Parts;
 
 /// <summary>
 /// TODO: add summary
@@ -187,6 +190,7 @@ public sealed class __NAME__Part : PartBase
 {
     /// <summary>
     /// Gets or sets the entries.
+    /// TODO: rename Entries in something more specific.
     /// </summary>
     public List<__ENTRY__> Entries { get; set; }
 
@@ -195,7 +199,7 @@ public sealed class __NAME__Part : PartBase
     /// </summary>
     public __NAME__Part()
     {
-        Entries = new List<__ENTRY__>();
+        Entries = [];
     }
 
     /// <summary>
@@ -210,6 +214,7 @@ public sealed class __NAME__Part : PartBase
     {
         // TODO: remove the filter if not using it, or make it a singleton
         // if using it in several components in the same library
+        // e.g. using DataPinHelper.DefaultFilter as an argument
         DataPinBuilder builder = new(new StandardDataPinTextFilter());
 
         builder.Set("tot", Entries?.Count ?? 0, false);
@@ -235,13 +240,13 @@ public sealed class __NAME__Part : PartBase
     /// <returns>Data pins definitions.</returns>
     public override IList<DataPinDefinition> GetDataPinDefinitions()
     {
-        return new List<DataPinDefinition>(new[]
-        {
+        return new List<DataPinDefinition>(
+        [
             // TODO: add pins definitions...
             new DataPinDefinition(DataPinValueType.Integer,
                "tot-count",
                "The total count of entries.")
-        });
+        ]);
     }
 
     /// <summary>
