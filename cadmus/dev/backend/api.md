@@ -9,6 +9,7 @@ subtitle: "Cadmus Backend Development"
 - [Program](#program)
 - [Startup](#startup)
 - [Assets](#assets)
+- [Additional Controllers](#additional-controllers)
 - [Docker](#docker)
 - [Readme](#readme)
 
@@ -867,6 +868,10 @@ Inside that folder, edit:
 This is the core customization for the whole project. Usually, the profile file is created after the documentation is completed, and before creating the code.
 
 Inside the `messages` folder you can customize the message templates as you prefer, but usually this is not required.
+
+## Additional Controllers
+
+If required, you might want to add more controllers specific to your API. For instance, many projects use a simple [proxy controller](https://github.com/vedph/proxy-api) to proxy some API calls bypassing issues connected to the lack of CORS support in the target server (e.g. for DBPedia).
 
 ## Docker
 
