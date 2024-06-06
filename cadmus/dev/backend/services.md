@@ -26,18 +26,18 @@ If the models you created are part of a specific project, you will typically req
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="Cadmus.Core" Version="7.0.2" />
-    <PackageReference Include="Cadmus.General.Parts" Version="6.1.0" />
-    <PackageReference Include="Cadmus.Index.Sql" Version="7.0.2" />
-    <PackageReference Include="Cadmus.Mongo" Version="7.0.2" />
-    <PackageReference Include="Cadmus.Philology.Parts" Version="8.2.0" />
-    <PackageReference Include="Cadmus.Seed.General.Parts" Version="6.1.0" />
-    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="8.2.0" />
-    <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.0" />
+  <PackageReference Include="Cadmus.Core" Version="7.0.3" />
+  <PackageReference Include="Cadmus.General.Parts" Version="6.1.0" />
+  <PackageReference Include="Cadmus.Index.Sql" Version="7.0.3" />
+  <PackageReference Include="Cadmus.Mongo" Version="7.0.3" />
+  <PackageReference Include="Cadmus.Philology.Parts" Version="8.2.0" />
+  <PackageReference Include="Cadmus.Seed.General.Parts" Version="6.1.0" />
+  <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="8.2.0" />
+  <PackageReference Include="Fusi.Microsoft.Extensions.Configuration.InMemoryJson" Version="3.0.1" />
 </ItemGroup>
 ```
 
->In this list I've included the general and philologic parts, which are used in most projects. If you do not use them, just remove them from the list.
+>In this list I've included the general (`Cadmus.General.Parts`) and philologic (`Cadmus.Philology.Parts`) parts, which are used in most projects. If you do not use them, just remove them from the list.
 
 ### Repository Provider
 
@@ -83,7 +83,7 @@ public sealed class __PRJ__RepositoryProvider : IRepositoryProvider
             typeof(ApparatusLayerFragment).GetTypeInfo().Assembly,
             // TODO: include all the assemblies required by your project
             // Cadmus.__PRJ__.Parts
-            // typeof(MYPART).GetTypeInfo().Assembly,
+            typeof(MYPART).GetTypeInfo().Assembly,
         ]);
 
         _partTypeProvider = new StandardPartTypeProvider(map);
@@ -157,7 +157,7 @@ public sealed class __PRJ__PartSeederFactoryProvider :
             typeof(ApparatusLayerFragmentSeeder).Assembly,
             // TODO: include all the assemblies required by your project
             // Cadmus.Seed.__PRJ__.Parts
-            // typeof(MYSEEDER).GetTypeInfo().Assembly,
+            typeof(MYSEEDER).GetTypeInfo().Assembly,
         ];
         TagAttributeToTypeMap map = new();
         map.Add(seedAssemblies);

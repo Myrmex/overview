@@ -116,7 +116,8 @@ using System;
 using System.Reflection;
 using Xunit;
 
-// ...
+namespace Cadmus.Seed.__PRJ__.Parts.Test;
+
 public sealed class __NAME__PartSeederTest
 {
     private static readonly PartSeederFactory _factory =
@@ -196,37 +197,36 @@ Sample configuration:
 }
 ```
 
-Here we just add all the parts to a single facet, and their seeders to be tested.
+In this file, add all the parts to a single facet, and inside it add all the parts (under `facets`) and their seeders (under `seed.partSeeders`).
 
-Sample `TestHelper`:
+Template for `TestHelper`:
 
 ```cs
+using System;
+using System.IO;
 using Cadmus.Core;
 using Cadmus.Core.Config;
 using Cadmus.__PRJ__.Parts;
 using Fusi.Microsoft.Extensions.Configuration.InMemoryJson;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.IO;
 using System.Reflection;
 using System.Text;
-using Xunit;
+using Microsoft.Extensions.Hosting;
 
-// ...
+namespace Cadmus.Seed.__PRJ__.Parts.Test;
 
 static internal class TestHelper
 {
     static public Stream GetResourceStream(string name)
     {
-        if (name == null) throw new ArgumentNullException(nameof(name));
+        ArgumentNullException.ThrowIfNull(name);
 
         return Assembly.GetExecutingAssembly().GetManifestResourceStream(
-                $"Cadmus.Seed.__PRJ__.Parts.Test.Assets.{name}")!;
+            $"Cadmus.Seed.__PRJ__.Parts.Test.Assets.{name}")!;
     }
 
     static public string LoadResourceText(string name)
     {
-        if (name == null) throw new ArgumentNullException(nameof(name));
+        ArgumentNullException.ThrowIfNull(name);
 
         using StreamReader reader = new(GetResourceStream(name),
             Encoding.UTF8);
@@ -237,25 +237,22 @@ static internal class TestHelper
     {
         // map
         TagAttributeToTypeMap map = new();
-        map.Add(new[]
-        {
+        map.Add(
+        [
             // TODO: your parts assemblies here
             // Cadmus.Core
             typeof(StandardItemSortKeyBuilder).Assembly,
             // Cadmus.__PRJ__.Parts
             typeof(YOURPART).Assembly
-        });
+        ]);
 
         return new HostBuilder().ConfigureServices((hostContext, services) =>
             {
                 PartSeederFactory.ConfigureServices(services,
                     new StandardPartTypeProvider(map),
-                    new[]
-                    {
                         // TODO: your seeder assembly here
                         // Cadmus.Seed.__PRJ__.Parts
-                        typeof(YOURSEEDER).Assembly
-                    });
+                        typeof(YOURSEEDER).Assembly);
             })
             // extension method from Fusi library
             .AddInMemoryJson(config)
