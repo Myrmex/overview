@@ -381,7 +381,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-// ...
+namespace Cadmus.__PRJ__.Parts.Test;
 
 public sealed class __NAME__PartTest
 {
