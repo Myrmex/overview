@@ -36,32 +36,32 @@ The [reference API backend project](https://github.com/vedph/cadmus_api) is the 
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
-    <PackageReference Include="Cadmus.Api.Controllers" Version="9.0.2" />
-    <PackageReference Include="Cadmus.Api.Controllers.Import" Version="9.0.2" />
-    <PackageReference Include="Cadmus.Api.Models" Version="9.0.2" />
-    <PackageReference Include="Cadmus.Api.Services" Version="9.0.2" />
-    <PackageReference Include="Cadmus.Graph" Version="7.0.2" />
-    <PackageReference Include="Cadmus.Graph.Ef.PgSql" Version="7.0.2" />
-    <PackageReference Include="Cadmus.Graph.Extras" Version="7.0.2" />
-    <PackageReference Include="Cadmus.Febo.Services" Version="0.0.1" />
-    <PackageReference Include="Cadmus.Seed.Codicology.Parts" Version="6.0.2" />
-    <PackageReference Include="Cadmus.Seed.General.Parts" Version="6.1.0" />
-    <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="8.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Polly" Version="8.3.1" />
-    <PackageReference Include="Serilog" Version="3.1.1" />
-    <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
-    <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
-    <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
-    <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
-    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
-    <PackageReference Include="Serilog.Sinks.MongoDB" Version="5.4.1" />
-    <PackageReference Include="Serilog.Sinks.Postgresql.Alternative" Version="4.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  <PackageReference Include="AspNetCore.Identity.Mongo" Version="8.3.3" />
+  <PackageReference Include="Cadmus.Api.Controllers" Version="9.0.6" />
+  <PackageReference Include="Cadmus.Api.Controllers.Import" Version="9.0.6" />
+  <PackageReference Include="Cadmus.Api.Models" Version="9.0.6" />
+  <PackageReference Include="Cadmus.Api.Services" Version="9.0.6" />
+  <PackageReference Include="Cadmus.Graph" Version="7.0.3" />
+  <PackageReference Include="Cadmus.Graph.Ef.PgSql" Version="7.0.3" />
+  <PackageReference Include="Cadmus.Graph.Extras" Version="7.0.3" />
+  <PackageReference Include="Cadmus.Febo.Services" Version="0.0.2" />
+  <PackageReference Include="Cadmus.Seed.Codicology.Parts" Version="6.0.3" />
+  <PackageReference Include="Cadmus.Seed.General.Parts" Version="6.1.0" />
+  <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="8.2.0" />
+  <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
+  <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.6" />
+  <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+  <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  <PackageReference Include="Polly" Version="8.4.0" />
+  <PackageReference Include="Serilog" Version="4.0.0" />
+  <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+  <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
+  <PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
+  <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
+  <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  <PackageReference Include="Serilog.Sinks.MongoDB" Version="5.4.1" />
+  <PackageReference Include="Serilog.Sinks.Postgresql.Alternative" Version="4.0.4" />
+  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 </ItemGroup>
 ```
 
@@ -201,7 +201,7 @@ public static class Program
     {
         Console.WriteLine("ENVIRONMENT VARIABLES:");
         IDictionary dct = Environment.GetEnvironmentVariables();
-        List<string> keys = new();
+        List<string> keys = [];
         var enumerator = dct.GetEnumerator();
         while (enumerator.MoveNext())
         {
@@ -229,10 +229,10 @@ public static class Program
         return value != null && value != false;
     }
 
-    private static void ConfigurePostgreLogging(HostBuilderContext context,
+    private static void ConfigurePostgresLogging(HostBuilderContext context,
         LoggerConfiguration loggerConfiguration)
     {
-        string cs = context.Configuration.GetConnectionString("PostgresLog");
+        string? cs = context.Configuration.GetConnectionString("PostgresLog");
         if (string.IsNullOrEmpty(cs))
         {
             Console.WriteLine("Postgres log connection string not found");
@@ -314,7 +314,7 @@ public static class Program
                     if (IsAuditEnabledFor(hostingContext.Configuration, "Mongo"))
                     {
                         Console.WriteLine("Logging to Mongo enabled");
-                        string cs = hostingContext.Configuration
+                        string? cs = hostingContext.Configuration
                             .GetConnectionString("MongoLog");
 
                         if (!string.IsNullOrEmpty(cs))
@@ -332,7 +332,7 @@ public static class Program
                     if (IsAuditEnabledFor(hostingContext.Configuration, "Postgres"))
                     {
                         Console.WriteLine("Logging to Postgres enabled");
-                        ConfigurePostgreLogging(hostingContext, loggerConfiguration);
+                        ConfigurePostgresLogging(hostingContext, loggerConfiguration);
                     }
 
                     if (IsAuditEnabledFor(hostingContext.Configuration, "Console"))
@@ -344,7 +344,7 @@ public static class Program
                 .Build()
                 .SeedAsync(); // see Services/HostSeedExtension
 
-            host.Run();
+            await host.RunAsync();
 
             return 0;
         }
@@ -357,7 +357,7 @@ public static class Program
         }
         finally
         {
-            Log.CloseAndFlush();
+            await Log.CloseAndFlushAsync();
         }
     }
 }
@@ -597,13 +597,13 @@ public sealed class Startup
             "wwwroot", "preview-profile.json");
         if (!File.Exists(path))
         {
-            logger?.LogError("Preview profile expected at {path} not found", path);
+            logger?.LogError("Preview profile expected at {Path} not found", path);
             return new CadmusPreviewer(factoryProvider.GetFactory("{}"),
                 repository);
         }
 
         // load profile
-        logger?.LogInformation("Loading preview profile from {path}...", path);
+        logger?.LogInformation("Loading preview profile from {Path}...", path);
         string profile;
         using (StreamReader reader = new(new FileStream(
             path, FileMode.Open, FileAccess.Read, FileShare.Read), Encoding.UTF8))
@@ -770,7 +770,10 @@ public sealed class Startup
                 Console.WriteLine("HSTS: yes");
                 app.UseHsts();
             }
-            else Console.WriteLine("HSTS: no");
+            else
+            {
+                Console.WriteLine("HSTS: no");
+            }
         }
 
         if (Configuration.GetValue<bool>("Server:UseHttpsRedirection"))
@@ -778,7 +781,10 @@ public sealed class Startup
             Console.WriteLine("HttpsRedirection: yes");
             app.UseHttpsRedirection();
         }
-        else Console.WriteLine("HttpsRedirection: no");
+        else
+        {
+            Console.WriteLine("HttpsRedirection: no");
+        }
 
         app.UseHttpsRedirection();
         app.UseRouting();
@@ -807,6 +813,8 @@ public sealed class Startup
 >⚠️ Before API v8, the `ConfigureIndexServices` method was used for both index and graph:
 
 ```cs
+// WARNING: OBSOLETE!
+
 private void ConfigureIndexServices(IServiceCollection services)
 {
     // item index factory provider
@@ -895,7 +903,7 @@ ENTRYPOINT ["dotnet", "Cadmus__PRJ__Api.dll"]
 
 (2) add a `docker-compose.yml` file to allow you using the API in a composer stack (replace `PRJ` with your project name; of course, you can change your image name as required to fit your organization).
 
-⚠️ **ATTENTION**: under cadmus-api ports replace `61691` with the port value used by your API project (you can find it under the project's properties, Debug).
+⚠️ **ATTENTION**: under cadmus-api ports replace `5052` with the port value used by your API project (you can find it under the project's properties, Debug, Launch Profiles, HTTP).
 
 ```yml
 version: '3.7'
@@ -930,10 +938,10 @@ services:
   # Biblio API
   # TODO: remove if you are not using it
   cadmus-biblio-api:
-    image: vedph2020/cadmus_biblio_api:5.0.0
+    image: vedph2020/cadmus_biblio_api:5.1.1
     container_name: cadmus-biblio-api
     ports:
-      - 61691:8080
+      - 60058:8080
     depends_on:
       - cadmus-PRJ-mongo
       - cadmus-PRJ-pgsql
@@ -948,9 +956,10 @@ services:
 
   # Cadmus PRJ API
   cadmus-PRJ-api:
-    image: vedph2020/cadmus-PRJ-api:6.0.0
+    image: vedph2020/cadmus-PRJ-api:0.0.1
     container_name: cadmus-PRJ-api
     ports:
+      # TODO: set your port replacing 5052
       - 5052:8080
     depends_on:
       - cadmus-PRJ-mongo
@@ -1043,9 +1052,9 @@ Add a readme like this:
 ```txt
 # Cadmus PRJ API
 
-Quick Docker image build:
+🐋 Quick Docker image build:
 
-    docker build . -t vedph2020/cadmus-__PRJ__-api:1.0.0 -t vedph2020/cadmus-__PRJ__-api:latest
+    docker build . -t vedph2020/cadmus-__PRJ__-api:0.0.1 -t vedph2020/cadmus-__PRJ__-api:latest
 
 (replace with the current version).
 
