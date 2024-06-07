@@ -124,6 +124,8 @@ This is the part editor UI, a dumb component which essentially uses a form to re
 (1) write code and HTML template:
 
 ```ts
+// NAME-part.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
@@ -194,7 +196,7 @@ export class __NAME__PartComponent
       this.form.reset();
       return;
     }
-	// TODO: set values of your form controls, e.g.:
+    // TODO: set values of your form controls, e.g.:
     // this.tag.setValue(part.tag || null);
     // this.text.setValue(part.text);
     this.form.markAsPristine();
@@ -223,6 +225,8 @@ export class __NAME__PartComponent
 HTML template:
 
 ```html
+<!-- NAME-part.component.html -->
+
 <form [formGroup]="form" (submit)="save()">
   <mat-card>
     <mat-card-header>
@@ -243,7 +247,7 @@ HTML template:
 </form>
 ```
 
-(2) ensure the component has been added to its module's `declarations` and `exports`, and to the `public-api.ts` barrel file.
+(2) ensure the component has been added to the `public-api.ts` barrel file, and, if using modules, to the library module's `declarations` and `exports`. The latter is not required with standalone components.
 
 ### List Part Editor Template
 
