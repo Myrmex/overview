@@ -27,7 +27,7 @@ The typical steps for developing a Cadmus frontend (as based on the [reference s
 
 ## Create Angular App
 
-(1) create a **new Angular app**: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use CSS (you may use SCSS if you prefer, or if you want to customize your theme).
+(1) create a **new Angular app**: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use SCSS if you prefer it or you want a custom Angular Material theme; else just pick CSS. If prompted, don't enable SSR (as per default option).
 
 >If you are creating an app for the only purpose of developing component libraries in it, our convention is naming it as `-shell` rather than `-app`.
 
@@ -38,6 +38,8 @@ ng add @angular/material
 ng add @angular/localize
 ```
 
+For Angular Material, pick the theme you prefer, answer Yes when prompted to setup global typography styles, and accept the default "Include and enable animations" option.
+
 >The localization package is a development package which is required by some localization-ready components such as the authentication libraries (`@myrmidon/auth-jwt-*`). You can also just add the NPM package via `npm -i --save-dev @angular/localize`.
 
 ## Install Packages
@@ -47,9 +49,7 @@ ng add @angular/localize
 ```bash
 npm i @auth0/angular-jwt @myrmidon/auth-jwt-admin @myrmidon/auth-jwt-login
 
-npm i @myrmidon/cadmus-api @myrmidon/cadmus-core @myrmidon/cadmus-graph-ui @myrmidon/cadmus-graph-pg
-
-npm i @myrmidon/cadmus-item-editor @myrmidon/cadmus-item-list @myrmidon/cadmus-item-search
+npm i @myrmidon/cadmus-api @myrmidon/cadmus-core @myrmidon/cadmus-graph-ui @myrmidon/cadmus-graph-pg @myrmidon/cadmus-item-editor @myrmidon/cadmus-item-list @myrmidon/cadmus-item-search
 
 npm i @myrmidon/cadmus-part-general-pg @myrmidon/cadmus-part-general-ui
 
@@ -59,7 +59,7 @@ npm i @myrmidon/cadmus-preview-pg @myrmidon/cadmus-preview-ui @myrmidon/cadmus-p
 
 npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-flags-pg @myrmidon/cadmus-flags-ui @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-mat-physical-size @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-flags-picker @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/paged-data-browsers @myrmidon/ngx-dirty-check @types/diff-match-patch diff-match-patch gravatar
 
-npm i @myrmidon/cadmus-text-ed @myrmidon/cadmus-text-ed-md
+npm i @myrmidon/cadmus-text-ed @myrmidon/cadmus-text-ed-md @myrmidon/cadmus-text-ed-txt
 ```
 
 The above packages are fairly typical, but you might well omit those you are not interested in, e.g. general parts or philology parts, or some [bricks](https://github.com/vedph/cadmus-bricks-shell-v2). Some of the legacy third party libraries may require `--force`.
@@ -67,7 +67,7 @@ The above packages are fairly typical, but you might well omit those you are not
 Typically you will also need **Monaco editor** and **Markdown**:
 
 - [NG essentials](https://github.com/cisstech/nge): `npm i @cisstech/nge monaco-editor`.
-- [ngx-markdown](https://github.com/jfcere/ngx-markdown) if you have components _displaying_ Markdown: `npm i ngx-markdown marked@^12.0.0`.
+- [ngx-markdown](https://github.com/jfcere/ngx-markdown) if you have components _displaying_ Markdown: `npm i ngx-markdown marked`.
 
 >Even though you usually all what you have to do is installing the listed packages, be sure to _follow the directions provided by each library_ when installing it.
 
@@ -75,7 +75,7 @@ Typically you will also need **Monaco editor** and **Markdown**:
 
 This is essential to let the frontend find the server, while allowing us to manually edit this URI after building a distribution, and before creating a Docker image.
 
-(1) under `src` add an `env.js` file for project-dependent environment variables, with this content (replace the port number, in this sample 60849, with your backend API port number):
+(1) under `src` (or under `public` if using templates from Angular 18 onwards) add an `env.js` file for project-dependent environment variables, with this content (replace the port number, in this sample 60849, with your backend API port number):
 
 ```js
 // https://www.jvandemo.com/how-to-use-environment-variables-to-configure-your-angular-application-without-a-rebuild/
@@ -90,12 +90,12 @@ This is essential to let the frontend find the server, while allowing us to manu
 })(this);
 ```
 
->💡 You might need additional settings here, like e.g. a Mapbox GL API token if using geographic components.
+>💡 You might need additional settings here, like e.g. a Mapbox GL API token, a Geonames account name, etc.
 
 📖 If you are going to use the [external bibliography API](https://github.com/vedph/cadmus_biblioapi), also add its URL here, e.g.:
 
 ```js
-window.__env.biblioApiUrl = 'http://localhost:61691/api/';
+window.__env.biblioApiUrl = 'http://localhost:60058/api/';
 ```
 
 In this case typically you will also need to install the bibliography packages:
@@ -131,7 +131,17 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
 ],
 ```
 
+⚠️ Since Angular 18 the `public` folder is the place where you should place items to be copied. So, in this case just place the `env.js` file there. No change is required in `angular.json` because it already has a glob catch-all pattern pointing to the `public` folder.
+
 >The glob for Monaco editor is no longer needed when using NG essentials as a Monaco wrapper.
+
+💡 If you are using legacy libraries like `gravatar` (which is included by default in the standard Cadmus app), add this option under `architect/build/options` to avoid a build warning:
+
+```json
+"allowedCommonJsDependencies": [
+  "gravatar"
+]
+```
 
 (3) in `src/index.html` add an import for `env.js` to your `head` element:
 
@@ -159,6 +169,8 @@ This is suggested to enable source maps in production and avoid nasty warnings a
 },
 ```
 
+>⚠️ Since Angular 18 you can omit this step.
+
 (2) in the same file, you will typically have to raise the warning limits for your `budget` size if getting a warning after building.
 
 ## Add Assets
@@ -166,6 +178,8 @@ This is suggested to enable source maps in production and avoid nasty warnings a
 This is optional and depends on your visuals.
 
 For a quick setup, just ensure you have the required icons and images in `assets` (see `cadmus-shell/assets`): usually they are `logo-white-40.png` for the top bar logo (you can use your own), and a couple of banner images for the homepage (`banner-512.jpg`, `banner-1024.jpg`).
+
+⚠️ Since Angular 18, you can rather place these assets under your `public/img` folder. This implies removing the `assets` folder from paths in the code templates if any, e.g. `/assets/img/some-image.jpg` becomes `/img/some-image.jpg`.
 
 The logo is used in the `app.component`'s template for the main toolbar, while banner images are used in the default homepage placeholder.
 
@@ -372,6 +386,896 @@ import { AuthJwtAccountService, AuthJwtAdminModule } from '@myrmidon/auth-jwt-ad
 // ... rest of code
 ```
 
+## Implement App Component
+
+The default app component must be updated with a code like this (remove the lookup services and/or the text plugins if not using them):
+
+```ts
+// app.component.ts
+
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterModule, RouterOutlet } from '@angular/router';
+import { Subscription } from 'rxjs';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+// myrmidon
+import {
+  EnvService,
+  EnvServiceProvider,
+  RamStorageService,
+} from '@myrmidon/ng-tools';
+import {
+  User,
+  AuthJwtService,
+  GravatarService,
+} from '@myrmidon/auth-jwt-login';
+
+// bricks
+import {
+  ASSERTED_COMPOSITE_ID_CONFIGS_KEY,
+  AssertedCompositeIdsComponent,
+} from '@myrmidon/cadmus-refs-asserted-ids';
+import { DocReferencesComponent } from '@myrmidon/cadmus-refs-doc-references';
+import {
+  HistoricalDateComponent,
+  HistoricalDatePipe,
+} from '@myrmidon/cadmus-refs-historical-date';
+import { FlagsPickerComponent } from '@myrmidon/cadmus-ui-flags-picker';
+import { ViafRefLookupService } from '@myrmidon/cadmus-refs-viaf-lookup';
+import { DbpediaRefLookupService } from '@myrmidon/cadmus-refs-dbpedia-lookup';
+import { GeoNamesRefLookupService } from '@myrmidon/cadmus-refs-geonames-lookup';
+
+// cadmus
+import {
+  CadmusCoreModule,
+  Thesaurus,
+  ThesaurusEntry,
+} from '@myrmidon/cadmus-core';
+import { CadmusGraphPgModule } from '@myrmidon/cadmus-graph-pg';
+import { CadmusGraphUiModule } from '@myrmidon/cadmus-graph-ui';
+import { CadmusProfileCoreModule } from '@myrmidon/cadmus-profile-core';
+import { AppRepository, CadmusStateModule } from '@myrmidon/cadmus-state';
+import { CadmusUiModule } from '@myrmidon/cadmus-ui';
+import { CadmusUiPgModule } from '@myrmidon/cadmus-ui-pg';
+import { CadmusItemEditorModule } from '@myrmidon/cadmus-item-editor';
+import { CadmusItemListModule } from '@myrmidon/cadmus-item-list';
+import { CadmusItemSearchModule } from '@myrmidon/cadmus-item-search';
+import { CadmusThesaurusEditorModule } from '@myrmidon/cadmus-thesaurus-editor';
+import { CadmusThesaurusListModule } from '@myrmidon/cadmus-thesaurus-list';
+import { CadmusThesaurusUiModule } from '@myrmidon/cadmus-thesaurus-ui';
+import { RefLookupConfig } from '@myrmidon/cadmus-refs-lookup';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterModule,
+    RouterOutlet,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatToolbarModule,
+    // Cadmus
+    DocReferencesComponent,
+    HistoricalDateComponent,
+    HistoricalDatePipe,
+    AssertedCompositeIdsComponent,
+    FlagsPickerComponent,
+    CadmusCoreModule,
+    CadmusProfileCoreModule,
+    CadmusStateModule,
+    CadmusUiModule,
+    CadmusUiPgModule,
+    CadmusGraphPgModule,
+    CadmusGraphUiModule,
+    CadmusItemEditorModule,
+    CadmusItemListModule,
+    CadmusItemSearchModule,
+    CadmusThesaurusEditorModule,
+    CadmusThesaurusListModule,
+    CadmusThesaurusUiModule,
+  ],
+  providers: [EnvServiceProvider],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
+})
+export class AppComponent implements OnInit, OnDestroy {
+  private _subs: Subscription[];
+
+  public user?: User;
+  public logged?: boolean;
+  public itemBrowsers?: ThesaurusEntry[];
+  public version: string;
+
+  constructor(
+    @Inject('itemBrowserKeys')
+    private _itemBrowserKeys: { [key: string]: string },
+    private _authService: AuthJwtService,
+    private _gravatarService: GravatarService,
+    private _appRepository: AppRepository,
+    private _router: Router,
+    env: EnvService,
+    // lookup
+    storage: RamStorageService,
+    viaf: ViafRefLookupService,
+    dbpedia: DbpediaRefLookupService,
+    geonames: GeoNamesRefLookupService
+  ) {
+    this.version = env.get('version') || '';
+    this._subs = [];
+
+    // configure external lookup for asserted composite IDs
+    storage.store(ASSERTED_COMPOSITE_ID_CONFIGS_KEY, [
+      {
+        name: 'VIAF',
+        iconUrl: '/img/viaf128.png',
+        description: 'Virtual International Authority File',
+        label: 'ID',
+        service: viaf,
+        itemIdGetter: (item: any) => item?.viafid,
+        itemLabelGetter: (item: any) => item?.term,
+      },
+      {
+        name: 'DBpedia',
+        iconUrl: '/img/dbpedia128.png',
+        description: 'DBpedia',
+        label: 'ID',
+        service: dbpedia,
+        itemIdGetter: (item: any) => item?.uri,
+        itemLabelGetter: (item: any) => item?.label,
+      },
+      {
+        name: 'geonames',
+        iconUrl: '/img/geonames128.png',
+        description: 'GeoNames',
+        label: 'ID',
+        service: geonames,
+        itemIdGetter: (item: any) => item?.geonameId,
+        itemLabelGetter: (item: any) => item?.name,
+      },
+    ] as RefLookupConfig[]);
+  }
+
+  ngOnInit(): void {
+    this.user = this._authService.currentUserValue || undefined;
+    this.logged = this.user !== null;
+
+    this._subs.push(
+      this._authService.currentUser$.subscribe((user: User | null) => {
+        this.logged = this._authService.isAuthenticated(true);
+        this.user = user || undefined;
+        if (user) {
+          this._appRepository.load();
+        }
+      })
+    );
+
+    this._subs.push(
+      this._appRepository.itemBrowserThesaurus$.subscribe(
+        (thesaurus: Thesaurus | undefined) => {
+          this.itemBrowsers = thesaurus ? thesaurus.entries : undefined;
+        }
+      )
+    );
+  }
+
+  ngOnDestroy(): void {
+    this._subs.forEach((sub) => {
+      sub.unsubscribe();
+    });
+  }
+
+  public getItemBrowserRoute(id: string): string {
+    return this._itemBrowserKeys[id] || id;
+  }
+
+  public getGravatarUrl(email: string, size = 80): string | null {
+    return this._gravatarService.buildGravatarUrl(email, size);
+  }
+
+  public logout(): void {
+    if (!this.logged) {
+      return;
+    }
+    this._authService.logout().subscribe((_) => {
+      this._router.navigate(['/home']);
+    });
+  }
+}
+```
+
+Styles:
+
+```css
+/* app.component.scss */
+
+.small-icon {
+  font-size: 85% !important;
+  margin-left: 8px;
+}
+
+.tb-fill-remaining-space {
+  flex: 1 1 auto;
+}
+
+footer {
+  background-color: #f0f0f0;
+  color: #808080;
+  padding: 4px;
+  text-align: center;
+}
+
+#logo {
+  flex: 0 0 60px;
+}
+```
+
+Template (replace `__PRJ__` with your project name):
+
+```html
+<header>
+  <mat-toolbar color="primary">
+    <span id="logo"
+      ><img src="./assets/img/logo-white-40.png" alt="Fusisoft"
+    /></span>
+    <a mat-button routerLink="/home">Cadmus</a>
+
+    <!-- items menu -->
+    <button
+      type="button"
+      mat-button
+      [matMenuTriggerFor]="itemMenu"
+      *ngIf="logged && itemBrowsers"
+    >
+      Items
+    </button>
+    <mat-menu #itemMenu>
+      <a mat-menu-item routerLink="/items">Items</a>
+      <a
+        mat-menu-item
+        *ngFor="let entry of itemBrowsers"
+        [routerLink]="'item-browser/' + getItemBrowserRoute(entry.id)"
+      ></a>
+    </mat-menu>
+    <!-- item menu -->
+    <ng-container *ngIf="logged && !itemBrowsers">
+      <button type="button" mat-button routerLink="/items">Items</button>
+    </ng-container>
+
+    <!-- search menu -->
+    <button type="button" mat-button routerLink="/search" *ngIf="logged">
+      Search
+    </button>
+    <!-- graph menu -->
+    <!-- <button type="button" mat-button routerLink="/graph" *ngIf="logged">
+      Graph
+    </button> -->
+    <!-- profile menu -->
+    <ng-container *ngIf="user && user.roles.includes('admin')">
+      <button type="button" mat-button [matMenuTriggerFor]="profileMenu">
+        Profile
+      </button>
+      <mat-menu #profileMenu>
+        <a mat-menu-item routerLink="/flags"> Flags </a>
+        <a mat-menu-item routerLink="/thesauri"> Thesauri </a>
+      </mat-menu>
+    </ng-container>
+
+    <span class="tb-fill-remaining-space"></span>
+
+    <!-- user -->
+    <div *ngIf="user" fxLayout="row" fxLayoutAlign="start center">
+      <!-- indicators -->
+      <img
+        alt="avatar"
+        [src]="getGravatarUrl(user.email, 32)"
+        [alt]="user.userName"
+      />
+      <mat-icon
+        class="small-icon"
+        *ngIf="user && user.roles.includes('admin')"
+        title="admin"
+        >build</mat-icon
+      >
+      <mat-icon
+        class="small-icon"
+        *ngIf="user && !user.emailConfirmed"
+        title="You must verify your email address! Please check your mailbox "
+        >feedback</mat-icon
+      >
+      <!-- <button mat-icon-button [mat-menu-trigger-for]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button> -->
+
+      <!-- user menu -->
+      <button type="button" mat-button [matMenuTriggerFor]="userMenu">
+        User
+      </button>
+      <mat-menu #userMenu>
+        <a mat-menu-item routerLink="/reset-password">Reset password</a>
+      </mat-menu>
+
+      <!-- admin menu -->
+      <button
+        type="button"
+        *ngIf="user && user.roles.includes('admin')"
+        mat-button
+        [matMenuTriggerFor]="adminMenu"
+      >
+        Admin
+      </button>
+      <mat-menu #adminMenu>
+        <a mat-menu-item routerLink="/manage-users">Manage users</a>
+        <a mat-menu-item routerLink="/register-user">Register user</a>
+      </mat-menu>
+    </div>
+
+    <!-- login -->
+    <button type="button" *ngIf="!logged" mat-icon-button routerLink="/login">
+      <mat-icon>login</mat-icon>
+    </button>
+    <!-- logout -->
+    <button type="button" *ngIf="logged" mat-icon-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer>
+  <div layout="row" layout-align="center center">
+    <p>
+      Cadmus __PRJ__ by
+      <a rel="noopener" href="http://www.fusisoft.it" target="_blank"
+        >Daniele Fusi</a
+      >
+      - version {{ version }}
+    </p>
+  </div>
+</footer>
+```
+
+## Configure Routes
+
+Setup your routes in `app.routes.ts`, e.g.:
+
+```ts
+// app.routes.ts
+
+import { Routes } from '@angular/router';
+
+import {
+  AuthJwtGuardService,
+  AuthJwtAdminGuardService,
+} from '@myrmidon/auth-jwt-login';
+import { EditorGuardService } from '@myrmidon/cadmus-api';
+import { PendingChangesGuard } from '@myrmidon/cadmus-core';
+
+import { HomeComponent } from './home/home.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { ManageUsersPageComponent } from './manage-users-page/manage-users-page.component';
+import { RegisterUserPageComponent } from './register-user-page/register-user-page.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
+export const routes: Routes = [
+  // local home
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  // local auth
+  { path: 'login', component: LoginPageComponent },
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+    canActivate: [AuthJwtGuardService],
+  },
+  {
+    path: 'register-user',
+    component: RegisterUserPageComponent,
+    canActivate: [AuthJwtAdminGuardService],
+  },
+  {
+    path: 'manage-users',
+    component: ManageUsersPageComponent,
+    canActivate: [AuthJwtAdminGuardService],
+  },
+  // cadmus - items
+  {
+    path: 'items',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-item-list').then(
+        (module) => module.CadmusItemListModule
+      ),
+    canActivate: [AuthJwtGuardService],
+  },
+  {
+    path: 'items/:id',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-item-editor').then(
+        (module) => module.CadmusItemEditorModule
+      ),
+    canActivate: [AuthJwtGuardService],
+    canDeactivate: [PendingChangesGuard],
+  },
+  {
+    path: 'search',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-item-search').then(
+        (module) => module.CadmusItemSearchModule
+      ),
+    canActivate: [AuthJwtGuardService],
+  },
+  // cadmus - thesauri
+  {
+    path: 'thesauri',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-thesaurus-list').then(
+        (module) => module.CadmusThesaurusListModule
+      ),
+    canActivate: [EditorGuardService],
+  },
+  {
+    path: 'thesauri/:id',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-thesaurus-editor').then(
+        (module) => module.CadmusThesaurusEditorModule
+      ),
+    canActivate: [EditorGuardService],
+  },
+  // cadmus - parts
+  {
+    path: 'items/:iid/general',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-part-general-pg').then(
+        (module) => module.CadmusPartGeneralPgModule
+      ),
+    canActivate: [AuthJwtGuardService],
+  },
+  {
+    path: 'items/:iid/philology',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-part-philology-pg').then(
+        (module) => module.CadmusPartPhilologyPgModule
+      ),
+    canActivate: [AuthJwtGuardService],
+  },
+  // cadmus - graph
+  {
+    path: 'graph',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-graph-pg').then(
+        (module) => module.CadmusGraphPgModule
+      ),
+    canActivate: [AuthJwtGuardService],
+  },
+  // cadmus - preview
+  {
+    path: 'preview',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-preview-pg').then(
+        (module) => module.CadmusPreviewPgModule
+      ),
+    canActivate: [AuthJwtGuardService],
+  },
+  // cadmus - flags
+  {
+    path: 'flags',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-flags-pg').then(
+        (module) => module.CadmusFlagsPgModule
+      ),
+  },
+  // geography
+  {
+    path: 'items/:iid/geography',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-part-geo-pg').then(
+        (module) => module.CadmusPartGeoPgModule
+      ),
+    canActivate: [AuthJwtGuardService],
+  },
+  // epigraphy
+  {
+    path: 'items/:iid/epigraphy',
+    loadChildren: () =>
+      import('@myrmidon/cadmus-part-epigraphy-pg').then(
+        (module) => module.CadmusPartEpigraphyPgModule
+      ),
+    canActivate: [AuthJwtGuardService],
+  },
+
+  // fallback
+  { path: '**', component: HomeComponent },
+];
+```
+
+## Configure App
+
+Finally, add to `app.config.ts` the required services, e.g.:
+
+```ts
+// app.config.ts
+
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import {
+  provideHttpClient,
+  withInterceptors,
+  withJsonpSupport,
+} from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+// material
+import { provideNativeDateAdapter } from '@angular/material/core';
+
+// vendor
+import { NgeMonacoModule } from '@cisstech/nge/monaco';
+import { NgeMarkdownModule } from '@cisstech/nge/markdown';
+
+// myrmidon
+import { authJwtInterceptor } from '@myrmidon/auth-jwt-login';
+import { EnvServiceProvider } from '@myrmidon/ng-tools';
+import { CadmusApiModule } from '@myrmidon/cadmus-api';
+import {
+  CADMUS_TEXT_ED_BINDINGS_TOKEN,
+  CADMUS_TEXT_ED_SERVICE_OPTIONS_TOKEN,
+} from '@myrmidon/cadmus-text-ed';
+import {
+  MdBoldCtePlugin,
+  MdItalicCtePlugin,
+  MdLinkCtePlugin,
+} from '@myrmidon/cadmus-text-ed-md';
+import { TxtEmojiCtePlugin } from '@myrmidon/cadmus-text-ed-txt';
+import { GEONAMES_USERNAME_TOKEN } from '@myrmidon/cadmus-refs-geonames-lookup';
+import { PROXY_INTERCEPTOR_OPTIONS } from '@myrmidon/cadmus-refs-lookup';
+
+// local
+import { INDEX_LOOKUP_DEFINITIONS } from './index-lookup-definitions';
+import { ITEM_BROWSER_KEYS } from './item-browser-keys';
+import { PART_EDITOR_KEYS } from './part-editor-keys';
+import { routes } from './app.routes';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideRouter(routes),
+    provideAnimationsAsync(),
+    provideHttpClient(
+      withJsonpSupport(),
+      withInterceptors([authJwtInterceptor])
+    ),
+    provideNativeDateAdapter(),
+    importProvidersFrom(NgeMonacoModule.forRoot({})),
+    importProvidersFrom(NgeMarkdownModule),
+    EnvServiceProvider,
+    importProvidersFrom(CadmusApiModule),
+    // parts and fragments type IDs to editor group keys mappings
+    // https://github.com/nrwl/nx/issues/208#issuecomment-384102058
+    // inject like: @Inject('partEditorKeys') partEditorKeys: PartEditorKeys
+    {
+      provide: 'partEditorKeys',
+      useValue: PART_EDITOR_KEYS,
+    },
+    // index lookup definitions
+    {
+      provide: 'indexLookupDefinitions',
+      useValue: INDEX_LOOKUP_DEFINITIONS,
+    },
+    // item browsers IDs to editor keys mappings
+    // inject like: @Inject('itemBrowserKeys') itemBrowserKeys: { [key: string]: string }
+    {
+      provide: 'itemBrowserKeys',
+      useValue: ITEM_BROWSER_KEYS,
+    },
+    // text editing plugins
+    MdBoldCtePlugin,
+    MdItalicCtePlugin,
+    TxtEmojiCtePlugin,
+    MdLinkCtePlugin,
+    // provide a factory so that plugins can be instantiated via DI
+    {
+      provide: CADMUS_TEXT_ED_SERVICE_OPTIONS_TOKEN,
+      useFactory: (
+        mdBoldCtePlugin: MdBoldCtePlugin,
+        mdItalicCtePlugin: MdItalicCtePlugin,
+        txtEmojiCtePlugin: TxtEmojiCtePlugin,
+        mdLinkCtePlugin: MdLinkCtePlugin
+      ) => {
+        return {
+          plugins: [
+            mdBoldCtePlugin,
+            mdItalicCtePlugin,
+            txtEmojiCtePlugin,
+            mdLinkCtePlugin,
+          ],
+        };
+      },
+      deps: [
+        MdBoldCtePlugin,
+        MdItalicCtePlugin,
+        TxtEmojiCtePlugin,
+        MdLinkCtePlugin,
+      ],
+    },
+    // monaco bindings for plugins
+    // 2080 = monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyB;
+    // 2087 = monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyI;
+    // 2083 = monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyE;
+    // 2090 = monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyL;
+    {
+      provide: CADMUS_TEXT_ED_BINDINGS_TOKEN,
+      useValue: {
+        2080: 'md.bold', // Ctrl+B
+        2087: 'md.italic', // Ctrl+I
+        2083: 'txt.emoji', // Ctrl+E
+        2090: 'md.link', // Ctrl+L
+      },
+    },
+    // GeoNames lookup (see environment.prod.ts for the username)
+    {
+      provide: GEONAMES_USERNAME_TOKEN,
+      useValue: 'myrmex',
+    },
+    // proxy
+    {
+      provide: PROXY_INTERCEPTOR_OPTIONS,
+      useValue: {
+        proxyUrl: (window as any).__env?.apiUrl + 'proxy',
+        urls: [
+          'http://lookup.dbpedia.org/api/search',
+          'http://lookup.dbpedia.org/api/prefix',
+        ],
+      },
+    },
+  ],
+};
+```
+
+## Add Supplementary Styles
+
+If using preview, add the corresponding styles in `preview-styles.css` and import them. For instance (under `src/app`):
+
+```css
+/*
+Preview styles. By convention they all start with prefix "pv-".
+*/
+
+.pv-muted {
+  color: silver;
+}
+.pv-flex-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.pv-flex-row * {
+  flex: 0 0 auto;
+}
+.cadmus-text-block-view-col {
+  border: 1px solid transparent;
+  padding: 1px;
+}
+.cadmus-text-block-view-col:hover {
+  border: 1px solid #ffdd26;
+  padding: 1px;
+}
+
+/* layer ID-based styles */
+
+div[class^="it.vedph.token-text-layer|fr.it.vedph.apparatus"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.apparatus"] {
+  background-color: lightsalmon;
+}
+
+div[class^="it.vedph.token-text-layer|fr.it.vedph.chronology"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.chronology"] {
+  background-color: palegoldenrod;
+}
+
+div[class^="it.vedph.token-text-layer|fr.it.vedph.comment"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.comment"] {
+  background-color: palegreen;
+}
+
+div[class^="it.vedph.token-text-layer|fr.it.vedph.orthography"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.orthography"] {
+  background-color: palevioletred;
+}
+
+div[class^="it.vedph.token-text-layer|fr.it.vedph.quotations"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.quotations"] {
+  background-color: paleturquoise;
+}
+
+div[class^="it.vedph.token-text-layer|fr.it.vedph.witnesses"],
+div[class*=" it.vedph.token-text-layer|fr.it.vedph.witnesses"] {
+  background-color: peachpuff;
+}
+
+/* note */
+
+.note-text {
+  margin: 8px;
+  column-count: 4;
+  column-width: 400px;
+}
+
+/* apparatus layer */
+
+.apparatus-lemma {
+  padding: 2px 4px;
+  border: 1px solid silver;
+  border-radius: 4px;
+  margin-right: 4px;
+  color: #065e1d;
+}
+
+.apparatus-w-value {
+  font-weight: bold;
+}
+
+.apparatus-w-note {
+  font-style: italic;
+}
+
+.apparatus-a-value {
+  font-style: italic;
+}
+
+.apparatus-a-note {
+  font-style: italic;
+}
+
+.apparatus-sep {
+  margin-left: 0.75em;
+}
+
+.apparatus-tag {
+  font-style: italic;
+}
+
+.apparatus-subrange {
+  color: silver;
+}
+
+.apparatus-value {
+  color: #b8690f;
+}
+
+.apparatus-type {
+  font-style: italic;
+}
+
+.apparatus-note {
+  font-style: italic;
+}
+
+/* comment layer */
+
+.comment a {
+  text-decoration: none;
+}
+.comment a:hover {
+  text-decoration: underline;
+}
+.comment-tag {
+  color: silver;
+  font-weight: bold;
+  padding: 6px;
+  border: 1px solid silver;
+  border-radius: 6px;
+}
+.comment-text {
+  margin: 8px;
+  column-count: 4;
+  column-width: 400px;
+}
+.comment-categories {
+    margin: 6px 0;
+}
+.comment-category {
+    background-color: #afd3ff;
+    border: 1px solid #afd3ff;
+    border-radius: 4px;
+    padding: 4px;
+}
+.comment-keywords {
+  line-height: 200%;
+}
+.comment-kw-x {
+  background-color: #34eb98;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-kw-l {
+  background-color: #bdb03e;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-kw-v {
+  color: #827609;
+}
+.comment-hdr {
+  color: royalblue;
+  border-bottom: 1px solid royalblue;
+  margin: 8px 0;
+  font-variant: small-caps;
+}
+.comment-references {
+  line-height: 200%;
+}
+.comment-ref-y {
+  background-color: #35c6ea;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-ref-t {
+  background-color: #34eb98;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-ref-c {
+}
+.comment-ref-n {
+  font-style: italic;
+}
+.comment-ids {
+  line-height: 200%;
+}
+.comment-id-t {
+  background-color: #34eb98;
+  color: white;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-id-r {
+  font-weight: bold;
+  color: orange;
+}
+.comment-id-n {
+  font-style: italic;
+}
+.comment-id-s {
+  border: 1px solid orange;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+}
+.comment-assertion {
+  border: 1px solid orange;
+  border-radius: 6px;
+  padding: 6px;
+  margin: 4px;
+  background-color: #fefefe;
+}
+.comment-assertion-refs {
+}
+```
+
+Import this file in your app's `styles.scss`:
+
+```scss
+@import "preview-styles.css";
+```
+
 ## Add Docker Support
 
 You can add Docker support to create an image of your frontend app. Use as templates the files in the reference shell app:
@@ -509,6 +1413,8 @@ networks:
   cadmus-__PRJ__-network:
     driver: bridge
 ```
+
+>⚠️ If using bibliography API, add its service to the compose stack too.
 
 - `dockerignore`:
 

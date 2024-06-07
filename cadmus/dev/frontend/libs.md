@@ -88,19 +88,22 @@ export class CadmusPartItineraPgModule {}
 
 ### Multiple-Components Libraries
 
-In a multiple-components approach, you create two libraries: one with the editors UI, and another for their page wrappers. Conventionally, these libraries are suffixed with `-ui` and `-pg` respectively.
+In a multiple-components approach, you create two libraries: one with the editors UI, and another for their page wrappers. Conventionally, these libraries are suffixed with `-ui` and `-pg` respectively, e.g.:
+
+```bash
+ng g library @myrmidon/cadmus-PRJ-part-ui --prefix cadmus
+ng g library @myrmidon/cadmus-PRJ-part-pg --prefix cadmus
+```
 
 The UI library is just a standard Angular library with a bunch of components in it. Once you have added all of your imports, you just have to include your part/fragment editors there, and export their components.
 
-The PG library is a standard Angular library with some added routes, one for each part included in the library. In its module add code like this:
+The PG library is a standard Angular library with some added routes, one for each part included in the library. In its **module** add code like this:
 
 ```ts
 // ... TODO: other imports ...
 
 // cadmus
 import { CadmusCoreModule, PendingChangesGuard } from '@myrmidon/cadmus-core';
-import { CadmusMatPhysicalSizeModule } from '@myrmidon/cadmus-mat-physical-size';
-import { CadmusRefsDecoratedCountsModule } from '@myrmidon/cadmus-refs-decorated-counts';
 import { CadmusStateModule } from '@myrmidon/cadmus-state';
 import { CadmusUiModule } from '@myrmidon/cadmus-ui';
 
@@ -138,17 +141,19 @@ export const RouterModuleForChild = RouterModule.forChild([
 export class Cadmus__PRJ__PartPgModule {}
 ```
 
+>As we need routes, here we use a module even when otherwise adopting the newer standalone components approach.
+
 ### Setup
 
 Once you create a library, whatever its type:
 
-(1) remove the stub code files added by Angular CLI: the sample component and its service. Also, take the time for adding more metadata to its `package.json` file, e.g. (replace `__PRJ__` with your project's ID):
+(1) remove the stub code files added by Angular CLI: the sample component and its service. Also, take the time for adding more metadata to its `package.json` file, e.g. (replace `__PRJ__` with your project's ID). In `peerDependencies` you should add at least the Cadmus peer dependencies, like in this example:
 
 ```json
 {
-  "name": "@myrmidon/cadmus-itinera-part-lt-ui",
+  "name": "@myrmidon/cadmus-__PRJ__-part-ui",
   "version": "0.0.1",
-  "description": "Cadmus - general parts UI components.",
+  "description": "Cadmus - __PRJ__ parts UI components.",
   "keywords": [
     "Cadmus",
     "__PRJ__"
@@ -162,16 +167,21 @@ Once you create a library, whatever its type:
     "name": "Daniele Fusi"
   },
   "peerDependencies": {
-    "@angular/common": "^15.0.0",
-    "@angular/core": "^15.0.0",
+    "@angular/common": "^18.0.0",
+    "@angular/core": "^18.0.0",
+    "@myrmidon/ng-tools": "^3.1.1",
+    "@myrmidon/cadmus-core": "^8.1.0",
+    "@myrmidon/cadmus-state": "^8.1.0",
+    "@myrmidon/cadmus-ui": "^8.1.2",
+    "@myrmidon/cadmus-ui-pg": "^8.1.1"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.0"
   }
 }
 ```
 
-(2) In each library module you should import all the required Angular, Angular Material, and Cadmus modules. You can refer to the `app.module` of your app to define the subset of modules required. If your library requires additional modules, remember to add them to the `app.module` file of the app, too.
+(2) In each library module you should import all the required Angular, Angular Material, and Cadmus modules. You can refer to `app.config.ts` or `app.module.ts` of your app to define the subset of modules required. If your library requires additional modules, remember to add them to the `app.config.ts`/`app.module.ts` file of the app, too.
 
 (3) in your app's `package.json` file, to speed up builds, for each added library you can add the corresponding **build commands** to `package.json` scripts (to be run like `npm run <SCRIPTNAME>`), e.g.:
 
