@@ -816,13 +816,31 @@ The **HTML template** just wraps the UI editor preceded by a current-item bar:
 (5) in your app's project `part-editor-keys.ts`, add the mapping for the part just created, like e.g.:
 
 ```ts
-  // itinera parts
-  [PERSON_PART_TYPEID]: {
-    part: ITINERA_LT
-  },
+// this constant refers to the project-dependent portion of the route path
+// (items/:iid/__PRJ__) in routes definitions
+const ITINERA_LT = 'itinera_lt';
+
+// itinera parts example
+[PERSON_PART_TYPEID]: {
+  part: ITINERA_LT
+},
 ```
 
 Here, the type ID of the part (from its model in the "ui" library) is mapped to the route prefix constant `ITINERA_LT` = `itinera-lt`, which is the root route to the "pg" library module for the app.
+
+>⚠️ Ensure that your app routes (usually `app.routes.ts`) include the PG library as a lazily loaded module, e.g.:
+
+```ts
+// cadmus - lon parts
+{
+  path: 'items/:iid/__PRJ__',
+  loadChildren: () =>
+    import('@myrmidon/cadmus-__PRJ__-part-pg').then(
+      (module) => module.Cadmus__PRJ__PartPgModule
+    ),
+  canActivate: [AuthJwtGuardService],
+},
+```
 
 🏠 [developer's home](../toc.md)
 
