@@ -469,7 +469,8 @@ HTML template:
               <mat-icon>add_circle</mat-icon> __NAME__
             </button>
           </div>
-          <table *ngIf="entries.value?.length">
+          @if (entries.value.length) {
+          <table>
             <thead>
               <tr>
                 <th></th>
@@ -477,14 +478,9 @@ HTML template:
               </tr>
             </thead>
             <tbody>
-              <tr
-                *ngFor="
-                  let entry of entries.value;
-                  let i = index;
-                  let first = first;
-                  let last = last
-                "
-              >
+              @for (entry of entries.value; track entry; let i = $index; let first =
+          $first; let last = $last) {
+              <tr>
                 <td class="fit-width">
                   <button
                     type="button"
@@ -493,7 +489,7 @@ HTML template:
                     matTooltip="Edit this __NAME__"
                     (click)="edit__NAME__(entry, i)"
                   >
-                    <mat-icon>edit</mat-icon>
+                    <mat-icon class="mat-primary">edit</mat-icon>
                   </button>
                   <button
                     type="button"
@@ -520,13 +516,15 @@ HTML template:
                     matTooltip="Delete this __NAME__"
                     (click)="delete__NAME__(i)"
                   >
-                    <mat-icon>remove_circle</mat-icon>
+                    <mat-icon class="mat-warn">remove_circle</mat-icon>
                   </button>
                 </td>
                 TODO: td's for properties
               </tr>
+              }
             </tbody>
           </table>
+          }
         </mat-tab>
 
         <mat-tab label="__NAME__" *ngIf="edited">
