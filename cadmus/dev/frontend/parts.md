@@ -401,8 +401,7 @@ export class __NAME__sPartComponent
   public delete__NAME__(index: number): void {
     this._dialogService
       .confirm('Confirmation', 'Delete __NAME__?')
-      .pipe(take(1))
-      .subscribe((yes) => {
+      .subscribe((yes: boolean | undefined) => {
         if (yes) {
           if (this._editedIndex === index) {
             this.close__NAME__();
@@ -486,7 +485,7 @@ HTML template:
                   let last = last
                 "
               >
-                <td>
+                <td class="fit-width">
                   <button
                     type="button"
                     mat-icon-button
@@ -546,6 +545,15 @@ HTML template:
     </mat-card-actions>
   </mat-card>
 </form>
+```
+
+CSS styles:
+
+```css
+td.fit-width {
+  width: 1px;
+  white-space: nowrap;
+}
 ```
 
 Typically you should edit each **single entry** in a component (generated with `ng g component <NAME>-editor` where NAME is the model's name, e.g. `cod-binding-editor` for the `cod-bindings-part` component - remember to export it both from the library's module and from its barrel `public-api.ts` file), similar to the following template (rename `model` as you prefer):
