@@ -570,11 +570,12 @@ import {
 import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 
 @Component({
-  selector: 'tgr-...',
-  templateUrl: './...component.html',
-  styleUrls: ['./...component.css'],
+  selector: 'cadmus-__PRJ__-__NAME__',
+  templateUrl: './__NAME__.component.html',
+  styleUrls: ['./__NAME__.component.css'],
 })
 export class __NAME__Component implements OnInit {
+  // TODO rename model into something more specific
   private _model: __TYPE__ | undefined | null;
 
   @Input()
@@ -589,20 +590,21 @@ export class __NAME__Component implements OnInit {
   }
 
   @Output()
-  public modelChange: EventEmitter<__TYPE__>;
+  public readonly modelChange: EventEmitter<__TYPE__> =
+    new EventEmitter<__TYPE__>();
   @Output()
-  public editorClose: EventEmitter<any>;
+  public readonly modelCancel: EventEmitter<void> =
+    new EventEmitter<void>();
 
-  public form: FormGroup;
   // TODO: controls
+  public form: FormGroup;
 
   constructor(formBuilder: FormBuilder) {
-    this.modelChange = new EventEmitter<__TYPE__>();
-    this.editorClose = new EventEmitter<any>();
     // form
-    // TODO: controls
+    // TODO: create controls
+
     this.form = formBuilder.group({
-      // TODO
+      // TODO: add controls to form model
     });
   }
 
@@ -631,7 +633,8 @@ export class __NAME__Component implements OnInit {
     if (this.form.invalid) {
       return;
     }
-    this.modelChange.emit(this.getModel());
+    this._model = this.getModel();
+    this.modelChange.emit(this._model);
   }
 }
 ```
@@ -645,21 +648,19 @@ HTML template:
   <div>
     <button
       type="button"
-      color="warn"
       mat-icon-button
       matTooltip="Discard changes"
       (click)="cancel()"
     >
-      <mat-icon>clear</mat-icon>
+      <mat-icon class="mat-warn">clear</mat-icon>
     </button>
     <button
       type="submit"
-      color="primary"
       mat-icon-button
       matTooltip="Accept changes"
       [disabled]="form.invalid || form.pristine"
     >
-      <mat-icon>check_circle</mat-icon>
+      <mat-icon class="mat-primary">check_circle</mat-icon>
     </button>
   </div>
 </form>
