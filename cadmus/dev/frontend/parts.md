@@ -254,6 +254,8 @@ HTML template:
 (1) write code and HTML template:
 
 ```ts
+// NAME-part.component.ts
+
 import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
@@ -442,9 +444,11 @@ export class __NAME__sPartComponent
 }
 ```
 
-HTML:
+HTML template:
 
 ```html
+<!-- NAME-part.component.html -->
+
 <form [formGroup]="form" (submit)="save()">
   <mat-card>
     <mat-card-header>
@@ -661,7 +665,7 @@ Once you have the part editor, you need its wrapper page, which in turn is linke
 
 (1) under your library's `src/lib` folder, add a **part editor feature component** named after the part (e.g. `ng g component note-part-feature` for `NotePartFeatureComponent` after `NotePart`).
 
-(2) ensure that this component is both under the module `declarations` and `exports`, and in the `public-api.ts` barrel file.
+(2) ensure that this component is exported from the `public-api.ts` barrel file, and from the module. If you are using standalone components, import them in the module `imports`, and export them from module's `exports`. Otherwise, import them in the module `declarations`.
 
 (3) add the corresponding **route** in the PG library's module, e.g.:
 
@@ -677,37 +681,49 @@ export const RouterModuleForChild = RouterModule.forChild([
 ]);
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    __NAME__PartFeatureComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     // Cadmus
     RouterModuleForChild,
+    // other imports here, unless using standalone:
     CadmusCoreModule,
     CadmusStateModule,
     CadmusUiModule,
     CadmusUiPgModule,
   ],
-  exports: [],
+  exports: [
+    __NAME__PartFeatureComponent
+  ],
 })
 export class CadmusPart__PRJ__PgModule {}
 ```
 
 (4) implement the feature **editor component** by making it extend `EditPartFeatureBase`, like in this code template:
 
+4A: for a **standalone** component (which is now the default):
+
 ```ts
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, ActivatedRoute } from '@angular/router';
 
-import { EditPartFeatureBase, PartEditorService } from '@myrmidon/cadmus-state';
 import { ItemService, ThesaurusService } from '@myrmidon/cadmus-api';
+import { EditPartFeatureBase, PartEditorService } from '@myrmidon/cadmus-state';
+import { CadmusUiPgModule } from '@myrmidon/cadmus-ui-pg';
+
+import { __NAME__PartComponent } from '@myrmidon/cadmus-lon-part-ui';
 
 @Component({
   selector: 'cadmus-__NAME__-part-feature',
-  templateUrl: './note-__NAME__-feature.component.html',
-  styleUrls: ['./note-__NAME__-feature.component.css'],
+  standalone: true,
+  imports: [CadmusUiPgModule, __NAME__PartComponent],
+  templateUrl: './__NAME__-part-feature.component.html',
+  styleUrl: './__NAME__-part-feature.component.css',
 })
 export class __NAME__PartFeatureComponent
   extends EditPartFeatureBase
@@ -739,7 +755,52 @@ export class __NAME__PartFeatureComponent
 }
 ```
 
-The HTML template just wraps the UI editor preceded by a current-item bar:
+4B: for a **non-standalone** component (this is for legacy code, new projects use standalone):
+
+```ts
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { EditPartFeatureBase, PartEditorService } from '@myrmidon/cadmus-state';
+import { ItemService, ThesaurusService } from '@myrmidon/cadmus-api';
+
+@Component({
+  selector: 'cadmus-__NAME__-part-feature',
+  templateUrl: './__NAME__-part-feature.component.html',
+  styleUrl: './__NAME__-part-feature.component.css',
+})
+export class __NAME__PartFeatureComponent
+  extends EditPartFeatureBase
+  implements OnInit
+{
+  constructor(
+    router: Router,
+    route: ActivatedRoute,
+    snackbar: MatSnackBar,
+    itemService: ItemService,
+    thesaurusService: ThesaurusService,
+    editorService: PartEditorService
+  ) {
+    super(
+      router,
+      route,
+      snackbar,
+      itemService,
+      thesaurusService,
+      editorService
+    );
+  }
+
+  protected override getReqThesauriIds(): string[] {
+    // TODO: return the IDs of all the thesauri required by the wrapped editor, e.g.:
+    return ['note-tags'];
+    // or just avoid overriding the function if no thesaurus required
+  }
+}
+```
+
+The **HTML template** just wraps the UI editor preceded by a current-item bar:
 
 ```html
 <cadmus-current-item-bar></cadmus-current-item-bar>
@@ -749,7 +810,7 @@ The HTML template just wraps the UI editor preceded by a current-item bar:
   (dataChange)="save($event)"
   (editorClose)="close()"
   (dirtyChange)="onDirtyChange($event)"
-></cadmus-__NAME__-part>
+/>
 ```
 
 (5) in your app's project `part-editor-keys.ts`, add the mapping for the part just created, like e.g.:
