@@ -27,7 +27,7 @@ The typical steps for developing a Cadmus frontend (as based on the [reference s
 
 ## Create Angular App
 
-(1) create a **new Angular app**: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use SCSS if you prefer it or you want a custom Angular Material theme; else just pick CSS. If prompted, don't enable SSR (as per default option).
+(1) create a **new Angular app**: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use SCSS. If prompted, don't enable SSR (as per default option).
 
 >If you are creating an app for the only purpose of developing component libraries in it, our convention is naming it as `-shell` rather than `-app`.
 
@@ -41,6 +41,41 @@ ng add @angular/localize
 For Angular Material, pick the theme you prefer, answer Yes when prompted to setup global typography styles, and accept the default "Include and enable animations" option.
 
 >The localization package is a development package which is required by some localization-ready components such as the authentication libraries (`@myrmidon/auth-jwt-*`). You can also just add the NPM package via `npm -i --save-dev @angular/localize`.
+
+(2) ensure to apply some [M3 theme](https://material.angular.io/guide/theming) in your app's `styles.scss`, like in this example:
+
+```scss
+@use "@angular/material" as mat;
+
+@include mat.core();
+
+$light-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+    ),
+  )
+);
+
+html {
+  @include mat.all-component-themes($light-theme);
+}
+```
+
+💡 If you are dealing with an existing app using CSS rather than SCSS:
+
+1. rename `styles.css` to `styles.scss`.
+2. in `angular.json`, rename `styles.css` in `styles.scss` in the `styles` array.
+3. configure Angular CLI to Use SCSS for new components: in `angular.json`, locate the `schematics` section. If it doesn't exist, add it under your project's root. Add or update the `@schematics/angular:component` section to specify scss as the default style extension:
+
+```json
+"schematics": {
+  "@schematics/angular:component": {
+    "style": "scss"
+  }
+}
+```
 
 ## Install Packages
 
