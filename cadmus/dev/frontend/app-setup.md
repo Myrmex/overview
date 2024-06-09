@@ -649,6 +649,10 @@ footer {
 #logo {
   flex: 0 0 60px;
 }
+
+mat-toolbar mat-icon {
+  color: white;
+}
 ```
 
 Template (replace `__PRJ__` with your project name):
