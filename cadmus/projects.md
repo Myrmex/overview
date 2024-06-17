@@ -121,7 +121,7 @@ FeBo [Federalism and Border Management in Greek Antiquity](https://webmagazine.u
 
 ### MapAeg
 
-MapAeg: Buondelmonti's _Liber Insularum_ (B. Bessi, Università di Venezia Ca' Foscari).
+MapAeg: [Cristoforo Buondelmonti's _Liber Insularum_](https://mapaeg.websoupcloud.it/site/index) (B. Bessi, Università di Venezia Ca' Foscari).
 
 - [API](https://github.com/vedph/cadmus_bdm_api)
 - [app](https://github.com/vedph/cadmus-bdm-app)
@@ -151,7 +151,7 @@ Repositories:
 
 ### PURA
 
-[PURA: PURism in Antiquity](https://www.unive.it/pag/40985) (prof. O. Tribulato, Università di Venezia Ca' Foscari).
+[PURA: PURism in Antiquity](https://pric.unive.it/projects/pura/home) (prof. O. Tribulato, Università di Venezia Ca' Foscari).
 
 - [models](https://github.com/vedph/cadmus_pura)
 - [API](https://github.com/vedph/cadmus_pura_api)
@@ -160,7 +160,7 @@ Repositories:
 
 ### Re.Novella
 
-_Re.Novella: Il genere novella nel Rinascimento italiano: repertorio, database e inquadramento storiografico_ (prof. M. Marchi, Università di Siena).
+[Re.Novella: Il genere novella nel Rinascimento italiano: repertorio, database e inquadramento storiografico](https://renovella.unisi.it) (prof. M. Marchi, Università di Siena).
 
 - [models](https://github.com/vedph/cadmus-renovella)
 - [API](https://github.com/vedph/cadmus-renovella-api)
