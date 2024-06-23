@@ -574,7 +574,7 @@ import { ThesaurusEntry } from '@myrmidon/cadmus-core';
 })
 export class __NAME__Component implements OnInit {
   // TODO rename model into something more specific
-  private _model: __TYPE__ | undefined | null;
+  private _model?: __TYPE__;
 
   @Input()
   public get model(): __TYPE__ | undefined | null {
@@ -582,7 +582,7 @@ export class __NAME__Component implements OnInit {
   }
   public set model(value: __TYPE__ | undefined | null) {
     if (this._model !== value) {
-      this._model = value;
+      this._model = value || undefined;
       this.updateForm(value);
     }
   }
@@ -624,7 +624,7 @@ export class __NAME__Component implements OnInit {
   }
 
   public cancel(): void {
-    this.editorClose.emit();
+    this.modelCancel.emit();
   }
 
   public save(): void {
