@@ -45,7 +45,6 @@ The [reference API backend project](https://github.com/vedph/cadmus_api) is the 
   <PackageReference Include="Cadmus.Graph" Version="7.0.3" />
   <PackageReference Include="Cadmus.Graph.Ef.PgSql" Version="7.0.3" />
   <PackageReference Include="Cadmus.Graph.Extras" Version="7.0.3" />
-  <PackageReference Include="Cadmus.Febo.Services" Version="0.0.2" />
   <PackageReference Include="Cadmus.Seed.Codicology.Parts" Version="6.0.3" />
   <PackageReference Include="Cadmus.Seed.General.Parts" Version="6.1.0" />
   <PackageReference Include="Cadmus.Seed.Philology.Parts" Version="8.2.0" />
@@ -66,7 +65,7 @@ The [reference API backend project](https://github.com/vedph/cadmus_api) is the 
 </ItemGroup>
 ```
 
->You can remove the Serilog sinks you are not going to use, like e.g. the PostgreSQL one.
+>You can remove the Serilog sinks you are not going to use, like e.g. the PostgreSQL one. Also, typically you will add your project's `Cadmus.PRJ.Services` package(s).
 
 ## Settings
 
