@@ -232,6 +232,21 @@ import { IndexLookupDefinitions } from '@myrmidon/cadmus-core';
 export const INDEX_LOOKUP_DEFINITIONS : IndexLookupDefinitions = {}
 ```
 
+You can add to the definitions object all the pin-based lookup definitions you will need in your project, e.g.:
+
+```ts
+// ...
+import { METADATA_PART_TYPEID } from '@myrmidon/cadmus-part-general-ui';
+
+export const INDEX_LOOKUP_DEFINITIONS: IndexLookupDefinitions = {
+  // item's metadata
+  meta_eid: {
+    typeId: METADATA_PART_TYPEID,
+    name: 'eid',
+  },
+};
+```
+
 - `src/app/item-browser-keys.ts` with this content:
 
 ```ts
@@ -1328,7 +1343,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 RUN rm /etc/nginx/conf.d/default.conf
 
 WORKDIR /usr/share/nginx/html
-COPY dist/browser/cadmus-__PRJ__-app/ .
+COPY dist/cadmus-__PRJ__-app/browser .
 
 EXPOSE 80
 ```
@@ -1421,7 +1436,7 @@ services:
     container_name: cadmus-__PRJ__-api
     ports:
       # TODO: change 5080 with your API port in the host
-      - 5080:80
+      - 5080:8080
     depends_on:
       - cadmus-__PRJ__-mongo
       - cadmus-__PRJ__-pgsql
