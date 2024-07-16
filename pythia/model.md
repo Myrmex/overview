@@ -30,7 +30,7 @@ So, in a sense the text gets de-materialized into a set of objects with metadata
 
 While metadata and attributes here are mostly used as synonyms, the convention adopted here is that _metadata are modeled as attributes_, i.e. essentially _name=value_ pairs.
 
-Matching metadata means matching these attributes, i.e. finding those attributes with a specific name and/or value. For instance, searching for the word `sic` means matching all the occurrences of tokens whose attribute `value` (the attribute representing a token's text) is equal to `sic`; but you might also want to find all the adverbs starting with `s`, counting no more of 5 letters or 1 syllable, at the beginning of the sentence, in documents in a specific chronological interval, etc.
+Matching metadata means matching these attributes, i.e. finding those attributes with a specific name and/or value. For instance, searching for the word `sic` means matching all the occurrences of tokens whose attribute `value` (the attribute representing a token's text) is equal to `sic`; but you might also want to find all the adverbs starting with `s`, counting no longer of 5 letters or 1 syllable, at the beginning of the sentence, in documents in a specific chronological interval, etc.
 
 Thus, in this model you can imagine a set of objects as a circle including any number and type of shapes; each of these shapes projects to the world outside of that circle any number of connection points, which provide a uniform search surface. The search engine just deals with these points, without caring whether they are linked to a word, a sentence, a document, etc.
 

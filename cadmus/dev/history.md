@@ -12,5 +12,6 @@ This page contains a list of the main changes applied to Cadmus during its devel
 - [RDBMS Refactoring](history/b-rdbms.md)
 - [Logging Refactoring](history/b-logging.md)
 - [logging Configuration](history/b-logging-cfg.md)
+- [Gravatar refactoring](history/f-gravatar.md)
 
 🏠 [developer's home](toc.md)

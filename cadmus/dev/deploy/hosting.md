@@ -379,11 +379,11 @@ Other options are specific for each service. Other mailing services can be used 
 
 ## App Settings
 
-When hosting on a server, the web application needs to know the address of the API service, which is no more found at `localhost`.
+When hosting on a server, the web application needs to know the address of the API service, which is no longer found at `localhost`.
 
 To avoid having to recompile the Angular app when changing this address, the app has an uncompiled `env.json` file including the base URIs accessed by it. So, you can just change the URIs inside this file and you are ready to go.
 
->💡 Also remember that your web app too will be relocated on a server, so it will no more be running at `localhost`. This means that you should ensure to include its new location under the [allowed CORS origins](#allowedorigins) of the API layer.
+>💡 Also remember that your web app too will be relocated on a server, so it will no longer be running at `localhost`. This means that you should ensure to include its new location under the [allowed CORS origins](#allowedorigins) of the API layer.
 
 This is the default content of `env.js` (the version number may vary):
 

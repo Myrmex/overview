@@ -27,7 +27,7 @@ So, I developed a new version of `Fusi.Tools.Config`, named `Fusi.Tools.Configur
 
 >⚠️ Since version 3.1.0, which was updated in compliance with the new library, `Fusi.Tools` moved its configuration-related components (`TagAttribute` and `IConfigurable<T>`) to `Fusi.Tools.Config`, so that we can continue to use `Fusi.Tools` without overlapping some configuration-related code from `Fusi.Tools.Config` or `Fusi.Tools.Configuration`. So, pay attention to the namespace of these components in your code: ensure to update all your code to 3.1.0 or later, so that these components get not accidentally drawn from `Fusi.Tools` rather than from the new `Fusi.Tools.Configuration` (or the old `Fusi.Tools.Config`).
 
-While the new library provides all the functions of the old one, plus many new ones, it is of course no more compatible with it, as its dependencies have changed. The new components factory no more uses `SimpleInjector`'s container, but rather adopts the [IHost](https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host) paradigm, widely used in MS technologies like ASP.NET, but equally applicable to libraries, console apps, etc.
+While the new library provides all the functions of the old one, plus many new ones, it is of course no longer compatible with it, as its dependencies have changed. The new components factory no longer uses `SimpleInjector`'s container, but rather adopts the [IHost](https://learn.microsoft.com/en-us/dotnet/core/extensions/generic-host) paradigm, widely used in MS technologies like ASP.NET, but equally applicable to libraries, console apps, etc.
 
 For instance, this is how we can build such a host:
 

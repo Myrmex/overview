@@ -516,7 +516,7 @@ instead of `"TextRetriever":{"Id":"text-retriever.file"}`.
 
 >Note that before pasting into JSON you must first escape any `"` as `\"` to avoid JSON syntax errors!
 
-These changes make the database contents independent from their hosting environment, because no more references to the file system are required.
+These changes make the database contents independent from their hosting environment, because no longer references to the file system are required.
 
 (6) if you want to bulk export your database tables in a format ready to be automatically picked up and restored by the Pythia API, run the `bulk-write` command:
 

@@ -10,7 +10,7 @@ subtitle: History - RDBMS Refactoring
 
 ### Rationale
 
-This refactoring affects the way relational databases are used for index and graph. Before it, we had a single MySql database used for both index and graph. With this update instead, we have **two distinct databases**, and the default underlying RDBMS provider is no more MySql, but **PostgreSQL** (though you can still use MySql if you prefer).
+This refactoring affects the way relational databases are used for index and graph. Before it, we had a single MySql database used for both index and graph. With this update instead, we have **two distinct databases**, and the default underlying RDBMS provider is no longer MySql, but **PostgreSQL** (though you can still use MySql if you prefer).
 
 Since its origin, Cadmus has been designed to use several types of RDBMS for its index, even though traditionally using MySql, which is one of the most popular choices. Since MySql is showing glitches when containerized in hardware environments like MacOS with Apple CPUs, its software support is not ideal, open alternatives like MariaDB are not 100% binary compatible, and more extensible choices like PostgreSQL are preferable, especially in a developer perspective, I implemented new libraries to migrate indexes to other providers.
 
@@ -174,7 +174,7 @@ ConfigureGraphServices(services);
 "Index": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True"
 ```
 
->If you find a `"DatabaseType": "mysql"` entry in `Indexing`, just remove it. This is a legacy setting, no more in use.
+>If you find a `"DatabaseType": "mysql"` entry in `Indexing`, just remove it. This is a legacy setting, no longer in use.
 
 No other change is required, because when the `Graph` connection string template is not defined, the `Index` template is used for it too; the database name will be automatically derived from the data database name suffixed with `-graph`.
 

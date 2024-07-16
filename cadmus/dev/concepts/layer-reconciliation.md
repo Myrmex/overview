@@ -42,7 +42,7 @@ The former issue is really about freeing data modeling from the cage of text whi
 
 In Cadmus, the approach to such issues is **reversing the hierarchy**: rather than having a dominant, unique structure represented by the text, where any other data is embedded as markup, we start from the data themselves, each considered in isolation, on its own, as an independent model: one for representing orthography and linguistic phenomena underlying it; one for paleographic data; one for metrical analysis; one for syntactical analysis; etc.
 
-In this view, the text is no more the bearing structure any other data is attached to; rather, it is a part of our data, just like any other part, like metrics or paleography.
+In this view, the text is no longer the bearing structure any other data is attached to; rather, it is a part of our data, just like any other part, like metrics or paleography.
 
 Further on this path, there can be place for any part of data which not only is non-textual, but it is not even directly related to a text: for instance, think of the archaelogical description of the context where the inscription has been found; or of a monographic collection of data related to ancient religious associations. The latter is a work on its own, which would typically fit in a traditional database; yet, one of its primary sources are inscriptions, so that scholars wanting to produce a similar study would probably have to build up their own epigraphic corpus as a part of that study.
 
@@ -85,7 +85,7 @@ So, for instance it is possible that while user B is editing an orthographic lay
 
 By the way, we should add that the system provides full editing history and auditing, so similar concurrency issues are somewhat mitigated.
 
-Further, this is a situation where the orphaned fragment in the layer would be harmless: we could simply drop it in a validation pass, just like we can automate the removal of all the broken links in a set of static HTML pages. In fact, the fragment annotated a word which no more exists; so that's probably what we would want to do anyway. Yet, it would be useful for user B to know about this, should he ever want to move elsewhere some information he put in the fragment's model.
+Further, this is a situation where the orphaned fragment in the layer would be harmless: we could simply drop it in a validation pass, just like we can automate the removal of all the broken links in a set of static HTML pages. In fact, the fragment annotated a word which no longer exists; so that's probably what we would want to do anyway. Yet, it would be useful for user B to know about this, should he ever want to move elsewhere some information he put in the fragment's model.
 
 Also, other edits might affect the layers in a more critical way: for instance, if we move a word around, most of the word-based coordinates in the affected area would probably require to be rebased. This is not a process we would want to go unsupervised, as the metatextual data models might be complex, and so their reference to a specific portion of the base text. Thus, we cannot predict which types of adjustments users might want to do.
 
@@ -175,7 +175,7 @@ This is what a standard diffing tool tells us about the changes in the text. In 
 
 - the detection of *movements*. If word `delta` carried a number of metadata, we want them to be moved with it, rather than being wrongly assigned to `epsilon`, which now has `delta`'s original coordinates.
 
-- the detection of *replacements*. For similar reasons, a replacement might or not involve changes in the layers; if I just replaced `Bixit` (capitalized by error) with `bixit`, probably no layer would be affected. If instead I replaced it with `vixit`, the orthography layer might be affected, as far as it was referring a form with `b` which no more exists. In both cases, the word-based coordinates of this and other layers are not affected by this change, as it is still -say- the second word of the third line, whatever its content.
+- the detection of *replacements*. For similar reasons, a replacement might or not involve changes in the layers; if I just replaced `Bixit` (capitalized by error) with `bixit`, probably no layer would be affected. If instead I replaced it with `vixit`, the orthography layer might be affected, as far as it was referring a form with `b` which no longer exists. In both cases, the word-based coordinates of this and other layers are not affected by this change, as it is still -say- the second word of the third line, whatever its content.
 
 - the *coordinates* of each affected text. As layers are connected via text-based coordinates, we must know the coordinates of each piece of diffed text, so that we can refer it to the layers.
 

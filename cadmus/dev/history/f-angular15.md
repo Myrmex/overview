@@ -171,7 +171,7 @@ npm uninstall @datorama/akita-ngdevtools @datorama/akita --force
 
 (1) pass `formBuilder` to the super ctor.
 
-(2) implement `ngOnInit` at least as (`initEditor` no more exists):
+(2) implement `ngOnInit` at least as (`initEditor` no longer exists):
 
 ```ts
 public override ngOnInit(): void {

@@ -88,4 +88,4 @@ chmod +x ~/.docker/cli-plugins/docker-compose
 
 (5) check with: `docker compose version`.
 
->Remember that docker V2 being a plugin no more uses dashes (like `docker-compose`) but rather spaces (like `docker compose`).
+>Remember that docker V2 being a plugin no longer uses dashes (like `docker-compose`) but rather spaces (like `docker compose`).
