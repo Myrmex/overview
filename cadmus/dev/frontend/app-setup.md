@@ -1478,6 +1478,8 @@ node_modules
 src
 ```
 
+>💡 In a true [host environment](../deploy/hosting.md), you would also want to specify a `restart` policy for each container.
+
 ## Add Readme
 
 Finally you can use a README template like this:

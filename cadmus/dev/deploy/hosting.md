@@ -5,11 +5,14 @@ subtitle: Cadmus Deployment
 ---
 
 - [Services](#services)
+  - [Persisting Data](#persisting-data)
+  - [Named Volumes and Bind Mounts](#named-volumes-and-bind-mounts)
 - [API Settings](#api-settings)
+  - [Settings and Environment Variables](#settings-and-environment-variables)
   - [Overriding Settings](#overriding-settings)
   - [Security](#security)
     - [AllowedOrigins](#allowedorigins)
-    - [Jwt](#jwt)
+    - [JWT](#jwt)
     - [Server](#server)
     - [StockUsers](#stockusers)
     - [Auditing and Privacy](#auditing-and-privacy)
@@ -24,14 +27,18 @@ Essentially, to host Cadmus on a server you should just customize the default _D
 
 ## Services
 
-The default script skeleton includes 4 services:
+The default script skeleton includes 4 services (`PRJ` here is the placeholder for your Cadmus project name):
 
-- `cadmus-mongo`: MongoDB service.
-- `cadmus-pgsql`: PostgreSQL service used for indexes and semantic graphs.
-- `cadmus-api`: API backend service. This is exposed at some port in `localhost`. This is ASP.NET 7 served by [Kestrel](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel).
-- `cadmus-app`: web app service, exposed at port 4200 in `localhost`. This is Angular served by [NGINX](https://www.nginx.com/).
+- `cadmus-PRJ-mongo`: MongoDB service.
+- `cadmus-PRJ-pgsql`: PostgreSQL service used for indexes and semantic graphs (and optionally for logging).
+- `cadmus-PRJ-api`: API backend service. This is exposed at some port in `localhost`. This is ASP.NET 8 served by [Kestrel](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel) at port 8080.
+- `cadmus-PRJ-app`: web app service, exposed at port 4200 in `localhost`. This is Angular served by [NGINX](https://www.nginx.com/).
 
-⚠️ Please notice that if you want your _data to persist when containers are destroyed_, you must use Docker _volumes_ for databases, e.g.:
+👉 See the app setup page for a full [Docker compose script template](../frontend/app-setup.md#add-docker-support).
+
+### Persisting Data
+
+⚠️ IMPORTANT! If you want your _data to persist when containers are destroyed_, you must use Docker _volumes_ for databases, e.g.:
 
 ```yml
 services:
@@ -46,34 +53,50 @@ services:
     volumes:
       - pgsql-vol:/var/lib/postgresql/data
 
+# ...
 volumes:
   mongo-vol:
   pgsql-vol:
 ```
 
-The `volumes:` section in a `docker-compose.yml` file is used to define named volumes. _Named volumes_ are a type of Docker volume that can persist data between container lifecycles, and can be more easily referenced and managed.
-
-When you specify a volume this section, Docker Compose will ensure that this volume is created if it does not already exist. In the `services` section of your `docker-compose.yml` file, you can use named volumes like so:
+The `volumes:` section in a `docker-compose.yml` file is used to define named volumes. _Named volumes_ are a type of Docker volume that can persist data between container lifecycles, and can be more easily referenced and managed. When you specify a volume in this section, Docker Compose will ensure that this volume is created if it does not already exist. In the `services` section of your `docker-compose.yml` file, you can use named volumes like so:
 
 ```yml
 services:
   # MongoDB
-  cadmus-mongo:
+  cadmus-PRJ-mongo:
+    restart: always
+    image: mongo
+    container_name: cadmus-PRJ-mongo
     # ...
     volumes:
       - mongo-vol:/data/db
   # PostgreSQL
   cadmus-pgsql:
+    restart: always
+    image: postgres
+    container_name: cadmus-PRJ-pgsql
     # ...
     volumes:
       - pgsql-vol:/var/lib/postgresql/data
+
+# ...
+volumes:
+  mongo-vol:
+  pgsql-vol:
 ```
+
+>In this example, `mongo-vol` and `pgsql-vol` are the named volumes on the host machine, while `/data/db` and `/var/lib/postgresql/data` are the directories inside the respective containers where volumes are mounted.
 
 This tells Docker to mount the named volumes at the specified paths within the containers. Any data that the MongoDB or PostgreSQL services write to these paths will be stored in the named volumes, and will persist even if the containers are stopped or deleted (unless you destroy also the volumes like in `docker compose down -v`).
 
-For databases, named volumes are the default choice rather than bind mounts. A named volume is created and managed by Docker, while a _bind mount_ is a file or directory on the host machine that is mounted into a container.
+### Named Volumes and Bind Mounts
 
-Named volumes are created using the docker volume create command, or by specifying them in the `volumes:` section of a `docker-compose.yml` file. They are stored in the Docker host's filesystem, typically under `/var/lib/docker/volumes`, and can be more easily referenced and managed using the docker volume command.
+>💡 This is a note for newcomers. Experienced Docker compose users can safely skip it.
+
+For databases, named volumes are the default choice rather than bind mounts. A _named volume_ is created and managed by Docker, while a _bind mount_ is a file or directory on the host machine that is mounted into a container.
+
+Named volumes are created using the `docker volume create` command, or by specifying them in the `volumes:` section of a `docker-compose.yml` file. They are stored in the Docker host's filesystem, typically under `/var/lib/docker/volumes`, and can be more easily referenced and managed using the `docker volume` command.
 
 On the other hand, bind mounts are created by specifying the path to a file or directory on the host machine when starting a container, using the `-v` or `--mount` flag, or by using another syntax in the `docker-compose.yml` file, like:
 
@@ -90,6 +113,8 @@ In this case we have a single JavaScript file (`env.js`) which contains environm
 Bind mounts rely on the host machine's filesystem having a specific directory structure available, and give the container access to files and directories on the host machine. So, one key difference between named volumes and bind mounts is that named volumes are completely managed by Docker, while bind mounts depend on the directory structure and operating system of the host machine. This means that named volumes are generally easier to back up, migrate, and manage than bind mounts.
 
 ## API Settings
+
+### Settings and Environment Variables
 
 All the API settings are defined in `appsettings.json`. This is packed in the Docker image, but you can override any of its values by just providing an _environment variable_ in the Docker compose script. So, you don't need to change the Docker image, but just setup some environment variables in your host.
 
@@ -127,7 +152,7 @@ In this section I list the most relevant settings from the perspective of a serv
 
 To override settings you typically use environment variables in the host. Every sensitive setting is systematically overridden; other settings can be overridden at will, to customize the API's behavior and fit it into its hosting environment.
 
-The Cadmus API uses the standard ASP.NET Core 3 [default configuration](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1#default-configuration) order, namely:
+The Cadmus API uses the standard ASP.NET Core [default configuration](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-3.1#default-configuration) order, namely:
 
 1. settings from `appsettings.json`;
 2. settings from the environment-specific versions of `appsettings.json` (named like `appsettings.{Environment}.json`);
@@ -152,7 +177,9 @@ dotnet run CommandLineKey1= CommandLineKey2=value2
 
 ### Security
 
-Security settings comprise the most relevant changes in your configuration. Please be sure to carefully follow these advices, as failing in doing so might compromise your system's security.
+Security settings comprise the most relevant changes in your configuration.
+
+⚠️ Please be sure to carefully follow these advices, as failing in doing so might compromise your system's security.
 
 #### AllowedOrigins
 
@@ -168,10 +195,10 @@ Here, you must replace the `localhost` origin (`ALLOWEDORIGINS__0`) with the URL
 
 ```yml
   environment:
-    - ALLOWEDORIGINS__0=http://100.101.102.103
+    - ALLOWEDORIGINS__0=https://myproject.somewhere.edu
 ```
 
-#### Jwt
+#### JWT
 
 🚩 This object contains the configuration for the authentication JWT token. Among its properties, the relevant one is `SecureKey`, which contains a seed for generating the token. This must be a string whose length _must_ be a multiple of 8. Use some long and complex string here; it should at least be 48 characters long, but the longer the better. For instance:
 
@@ -180,10 +207,12 @@ Here, you must replace the `localhost` origin (`ALLOWEDORIGINS__0`) with the URL
     - JWT__SECUREKEY=Rh+m(dkh_Rn6DhOD-wKcd;>P=]Q*T}J/MPbnfenDKOL[1y4I_1Oy1JAU./V98Zex
 ```
 
-Other, less relevant settings are:
+>⚠️ Be sure to make this key long enough (48 or more characters), or the ASP.NET service will throw an error.
 
-- `Issuer`: the issuer URI.
-- `Audience`: the audience URI.
+Other, less relevant settings in the `JWT` section are:
+
+- `Issuer` (`JWT__ISSUER`): the issuer URI.
+- `Audience` (`JWT__AUDIENCE`): the audience URI.
 
 #### Server
 
@@ -229,7 +258,12 @@ Here, you must at least replace the default stock user _password_. Of course, yo
 
 >💡 If you want to preload a set of users, create them directly in `appsettings.json`, like in the above example. For security reasons, just ensure that their usernames and passwords are fake. Then, override their usernames and passwords with the real ones via environment variables in your host. This way, you can create fully structured user accounts in JSON, and just provide the sensitive data from environment variables.
 
-In descending order of assigned authorizations, **roles** are: `admin`, `editor`, `operator`, `visitor`.
+In descending order of assigned authorizations, **roles** are:
+
+1. `admin`
+2. `editor`
+3. `operator`
+4. `visitor`
 
 >⚠️ Please ensure that you are complying with all the requirements setup in Cadmus for a password, or you will get errors at startup. The password must include at least 8 characters, uppercase and lowercase letters, digits, and symbols like dash, stop, parentheses, etc.
 
@@ -271,18 +305,19 @@ For instance:
 
 ### Database
 
-The database-related settings essentially refer to connection strings. In `appsettings.json`, they are (here `__PRJ__` is a placeholder for your project's short name):
+The database-related settings essentially refer to connection strings. In `appsettings.json`, they are (here `PRJ` is a placeholder for your project's short name):
 
 ```json
 {
   "ConnectionStrings": {
-    "Default": "mongodb://localhost:27017/{0}",
-    "Index": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True",
-    "Log": "mongodb://localhost:27017/cadmus-__PRJ__-log"
+    "Default": "mongodb://cadmus-PRJ-mongo:27017/{0}",
+    "Index": "Server=cadmus-PRJ-pgsql;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True",
+    "MongoLog": "mongodb://cadmus-PRJ-mongo:27017/cadmus-PRJ-log",
+    "PostgresLog": "Server=cadmus-PRJ-pgsql;Database=cadmus-PRJ-log;User Id=postgres;Password=postgres;Include Error Detail=True"
   },
   "DatabaseNames": {
-    "Auth": "cadmus-__PRJ__auth",
-    "Data": "cadmus-__PRJ__"
+    "Auth": "cadmus-PRJ-auth",
+    "Data": "cadmus-PRJ"
   },
   "Seed": {
     "ProfileSource": "%wwwroot%/seed-profile.json",
@@ -298,17 +333,19 @@ The database-related settings essentially refer to connection strings. In `appse
 
 ```yml
 environment:
-  - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-mongo:27017/{0}
-  - CONNECTIONSTRINGS__INDEX=Server=cadmus-pgsql;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
+  - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-PRJ-mongo:27017/{0}
+  - CONNECTIONSTRINGS__INDEX=Server=cadmus-PRJ-pgsql;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
 ```
 
->💡 Note that here the hostnames (like `cadmus-mongo` or `cadmus-pgsql`) are just the names of the database containerized services in the Docker compose script.
+>💡 Note that here the hostnames (like `cadmus-PRJ-mongo` or `cadmus-PRJ-pgsql`) are just the names of the database containerized services in the Docker compose script. In development we just use `localhost`.
 
-- `DatabaseNames`: the names of the authentication and data databases. These are not found in the connection string templates, where there is a placeholder `{0}` representing them, as the program needs to know both the full connection string and the database name alone.
+- `DatabaseNames` (`DATABASENAMES`): the names of the authentication and data databases. These are not found in the connection string templates, where there is a placeholder `{0}` representing them, as the program needs to know both the full connection string and the database name alone.
+  - `Auth` (`DATABASENAMES__AUTH`): user accounts database. Usually `cadmus-PRJ-auth`.
+  - `Data` (`DATABASENAMES__DATA`): Cadmus data database. Usually `cadmus-PRJ`.
 - `Seed`:
   - `ProfileSource` (`SEED__PROFILESOURCE`): the source of the profile file. Typically you should not change this.
   - `ItemCount` (`SEED__ITEMCOUNT`): the count of the mock items you might want to seed into your database when creating it. On startup, the API service creates and seeds the database if not found.
-  - `IndexDelay` (`SEED__INDEXDELAY`): an optional delay in milliseconds. When greater than 0, the API service waits the specified amount of time before starting to seed the database index. This may be required if the underlying database service takes some time to startup in your host.
+  - `IndexDelay` (`SEED__INDEXDELAY`): an optional delay in seconds. When greater than 0, the API service waits the specified amount of time before starting to seed the database index. This may be required if the underlying database service takes some time to startup in your host. It is usually advisable to set this to some seconds; for slower machines in local environments you might also increase it up to 25 seconds or more.
 
 #### External Databases
 
@@ -322,12 +359,12 @@ To sum up, the API section should look like this:
 
 ```yml
 services:
-  cadmus-api:
+  cadmus-PRJ-api:
     image: ...
     environment:
       - CONNECTIONSTRINGS__DEFAULT=Server=somedb;...
     networks:
-      - cadmus-network
+      - cadmus-PRJ-network
     # added for mapping to IP outside the Docker virtual network
     extra_hosts:
       - "somedb:130.140.150.200"
@@ -347,6 +384,11 @@ In this API service the connection string points to the `somedb` server (`Server
   "SupportEmail": "webmaster@fusisoft.net"
 },
 ```
+
+- AppName (`MESSAGING__APPNAME`): application name.
+- ApiRootUrl: (`MESSAGING__APIROOTURL`): root URL to the API services.
+- AppRootUrl: (`MESSAGING__APPROOTURL`): root URL to the web application.
+- SupportEmail: (`MESSAGING__SUPPORTEMAIL`): email address for support.
 
 The settings here are used to fill some placeholders in the body of the messages being built. The provided values are mock values. Feel free to change these settings as you prefer, or just leave them as they are if you are not going to use email.
 
@@ -368,10 +410,10 @@ The settings here are used to fill some placeholders in the body of the messages
 
 All the messaging services share these options:
 
-- `IsEnabled`: a boolean used to enable or disable messaging.
-- `SenderEmail`: the sender email address.
-- `SenderName`: the sender human-friendly name.
-- `TestRecipient`: the recipient email address to be used when sending a test email message. If not specified, no mail message will be sent.
+- `IsEnabled` (`MAILER__ISENABLED`): a boolean used to enable or disable messaging.
+- `SenderEmail` (`MAILER__SENDEREMAIL`): the sender email address.
+- `SenderName` (`MAILER__SENDERNAME`): the sender human-friendly name.
+- `TestRecipient` (`MAILER__TESTRECIPIENT`): the recipient email address to be used when sending a test email message. If not specified, no mail message will be sent.
 
 Other options are specific for each service. Other mailing services can be used (e.g. SendGrid, MailJet, etc.); this requires just swapping the default service with another in the API startup code.
 
@@ -392,8 +434,12 @@ This is the default content of `env.js` (the version number may vary):
   window.__env = window.__env || {};
   window.__env.apiUrl = "http://localhost:29557/api/";
   window.__env.version = "0.0.10";
+  // enable thesaurus import in thesaurus list for admins
+  window.__env.thesImportEnabled = true;
 })(this);
 ```
+
+>Port 29557 is just an example. The actual number is random and varies according to the project.
 
 As you can see, the only URI to change is `apiUrl`. Eventually, you can also change the version label, which gets displayed at the bottom of the page.
 
@@ -409,8 +455,10 @@ Then, in your Docker compose script:
 2. change the exposed app _port number_ from 4200 to the standard HTTP / HTTPS port 80 / 443, like e.g.:
 
 ```yml
-  cursus-app:
-    image: yourrepo/yourimage:1.0.0-prod
+services:
+  cadmus-PRJ-app:
+    image: yourdockerrepo/cadmus-PRJ-app:0.0.1
+    container_name: cadmus-PRJ-app  
     ports:
       - 80:80
 ```
@@ -420,12 +468,17 @@ Another option is just using a _bind mount_ with a modified copy of `env.js`, e.
 ```yml
 services:
   cadmus-PRJ-app:
+    image: yourdockerrepo/cadmus-PRJ-app:0.0.1
+    container_name: cadmus-PRJ-app  
     # ...
     volumes:
       - /opt/cadmus/web/env.js:/usr/share/nginx/html/env.js
 ```
 
-In this sample, your host machine has a patched `env.js` file in its local file system, in the directory `/opt/cadmus/web`; this file gets bound to the container's `env.js` file in its NGINX `/usr/share/nginx/html` directory.
+In this example:
+
+- your _host_ machine has a patched `env.js` file in its local file system, in directory `/opt/cadmus/web`
+- this file gets bound to the container's `env.js` file in its NGINX `/usr/share/nginx/html` directory.
 
 >Alternatively, you may might "hack" the Docker image by directly changing the file's content in the container. Anyway, manually changing a Docker image is not a good practice.
 
