@@ -41,7 +41,7 @@ This is required because we are going to share these certificates with the servi
 
 The next step is passing our certificates to the API service inside the Cadmus Docker stack.
 
->As an ASP.NET 6 API, the Cadmus API service uses [Kestrel](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel).
+>As an ASP.NET API, the Cadmus API service uses [Kestrel](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/kestrel).
 
 (1) in the API service of the Docker compose script add a **volume** to share the PFX certificate file:
 
