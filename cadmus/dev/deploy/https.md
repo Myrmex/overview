@@ -6,7 +6,262 @@ subtitle: Cadmus Deployment
 
 ## Configuring HTTPS - Method 1
 
-- no third party script required.
+- the easiest way. Recommended for most users.
+- requires third party libraries.
+
+This procedure can be used whenever you want to configure a Docker-based NGINX reverse proxy. This will:
+
+- map each domain/subdomain to any specific container you want to expose from your Docker compose stack.
+- automatically get and manage LetsEncrypt certificates for all of them.
+
+You can place your files where you want; usually I create a `/dockers` folder and then inside it a folder for each compose script. So in this case I would have:
+
+- /dockers/proxy for the NGINX proxy script.
+- /dockers/your-cadmus-prj for the Cadmus script. This also includes `env.js` modified to point to the correct URLs (see below).
+
+1. **Create a Docker Network**: Create a Docker network that your services and the NGINX proxy will use to communicate with each other. You can create a network with the following command:
+
+```bash
+docker network create nginx-proxy
+```
+
+To check for network: `docker network ls`.
+
+2. **Configure Your Services** connecting them to the newly created network and linking each service to a subdomain. In your `docker-compose.yml` file, make sure each of your services is connected to the `nginx-proxy` network and add under `environment:`a list of variables like this:
+
+```yaml
+services:
+  # for each service:
+  your-service:
+    image: your-service-image
+    restart: unless-stopped
+    # ...
+    # link to subdomain
+    environment:
+      - VIRTUAL_HOST=service-subdomain.my-domain.com
+      # optionally add also the port, e.g.:
+      # - VIRTUAL_PORT=8080
+      - LETSENCRYPT_HOST=service-subdomain.my-domain.com
+      - LETSENCRYPT_EMAIL=yourEmailAddress
+    # connect the service
+    networks:
+      - nginx-proxy
+
+# at the end, define the network:
+networks:
+  nginx-proxy:
+    external: true
+```
+
+>⚠️ NOTE: you might also need to specify the container's port especially when it's not standard, i.e. 8080 instead of 80, by just adding `VIRTUAL_PORT=8080` to the environment variables. Adding this does not make any harm, so it is suggested to do so.
+
+3. **Set Up NGINX Proxy**: Create a new Docker Compose file for the NGINX proxy. This will use the `jwilder/nginx-proxy` image, which automatically generates reverse proxy configurations for your services. To use SSL, you can use the `jrcs/letsencrypt-nginx-proxy-companion` Docker image to automatically create and manage your SSL certificates:
+
+```yaml
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    restart: unless-stopped
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+    labels:
+      - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"      
+    networks:
+      - nginx-proxy
+
+  letsencrypt-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    restart: unless-stopped
+    container_name: letsencrypt-companion
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - certs:/etc/nginx/certs
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy      
+    networks:
+      - nginx-proxy
+
+networks:
+  nginx-proxy:
+    external: true
+
+volumes:
+  certs:
+  vhost:
+  html:
+```
+
+This setup will expose port 80 (and 443 for SSL) to the outside world, and automatically route traffic to the correct service based on the domain name used to access your server. The `jwilder/nginx-proxy` image uses Docker labels to determine which service a request should be routed to, so you'll need to add a `VIRTUAL_HOST` environment variable to each of your services with the domain name for that service, as explained above.
+
+4. **Start Your Services and the Proxy**: Start your services with `docker compose up -d`, then start the proxy with `docker compose -f docker-compose-proxy.yml up -d`.
+
+### Sample Cadmus Docker Compose
+
+Here is a full sample (passwords and other sensitive data have been replaced by `...`):
+
+```yml
+services:
+  # MongoDB
+  cadmus-PRJ-mongo:
+    image: mongo
+    container_name: cadmus-PRJ-mongo
+    restart: unless-stopped
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    command: mongod --logpath=/dev/null
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-vol:/data/db
+    networks:
+      - nginx-proxy
+
+  # PostgreSQL
+  cadmus-PRJ-pgsql:
+    image: postgres
+    container_name: cadmus-PRJ-pgsql
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - pgsql-vol:/var/lib/postgresql/data
+    networks:
+      - nginx-proxy
+
+  # Biblio API (remove if you don't use external bibliography)
+  cadmus-biblio-api:
+    image: vedph2020/cadmus-biblio-api:6.0.2
+    container_name: cadmus-biblio-api
+    restart: unless-stopped
+    ports:
+      - 60058:8080
+    depends_on:
+      - cadmus-PRJ-mongo
+      - cadmus-PRJ-pgsql
+    environment:
+      - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-PRJ-mongo:27017/{0}
+      - CONNECTIONSTRINGS__BIBLIO=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
+      - SEED__BIBLIODELAY=50
+      - SEED__ENTITYCOUNT=5
+      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-PRJ-mongo:27017/{0}-log
+      - STOCKUSERS__0__PASSWORD=...
+      - JWT__SECUREKEY=...
+      - ALLOWEDORIGINS__0=https://cadmus-PRJ.YOURDOMAIN
+      - VIRTUAL_HOST=cadmus-biblio-api.YOURDOMAIN
+      - VIRTUAL_PORT=8080
+      - LETSENCRYPT_HOST=cadmus-biblio-api.YOURDOMAIN
+      - LETSENCRYPT_EMAIL=...
+    networks:
+      - nginx-proxy
+
+  # Cadmus PRJ API
+  cadmus-PRJ-api:
+    image: vedph2020/cadmus-PRJ-api:0.0.5
+    container_name: cadmus-PRJ-api
+    restart: unless-stopped
+    ports:
+      - 5003:8080
+    depends_on:
+      - cadmus-PRJ-mongo
+      - cadmus-PRJ-pgsql
+      - cadmus-biblio-api
+    environment:
+      - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-PRJ-mongo:27017/{0}
+      - CONNECTIONSTRINGS__INDEX=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
+      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-PRJ-mongo:27017/{0}-log
+      - STOCKUSERS__0__PASSWORD=...
+      - JWT__SECUREKEY=...
+      - ALLOWEDORIGINS__0=https://cadmus-PRJ.YOURDOMAIN
+      - SEED__INDEXDELAY=25
+      - SEED__ITEMCOUNT=5
+      - MESSAGING__APIROOTURL=https://cadmus-PRJ-api.YOURDOMAIN/
+      - MESSAGING__APPROOTURL=http://cadmus-PRJ.YOURDOMAIN/
+      - MESSAGING__SUPPORTEMAIL=...
+      - VIRTUAL_HOST=cadmus-PRJ-api.YOURDOMAIN
+      - LETSENCRYPT_HOST=cadmus-PRJ-api.YOURDOMAIN
+      - LETSENCRYPT_EMAIL=...
+    networks:
+      - nginx-proxy
+
+  # Cadmus PRJ App
+  cadmus-app:
+    image: vedph2020/cadmus-PRJ-app:0.0.6
+    container_name: cadmus-PRJ-app
+    ports:
+      - 4200:80
+    depends_on:
+      - cadmus-PRJ-api
+    environment:
+      - VIRTUAL_HOST=cadmus-PRJ.YOURDOMAIN
+      - LETSENCRYPT_HOST=cadmus-PRJ.YOURDOMAIN
+      - LETSENCRYPT_EMAIL=...
+    volumes:
+      - /dockers/cadmus-PRJ/env.js:/usr/share/nginx/html/env.js
+    networks:
+      - nginx-proxy
+
+volumes:
+  mongo-vol:
+  pgsql-vol:
+
+networks:
+  nginx-proxy:
+    external: true
+```
+
+### Defining A-Records
+
+In the context of Docker and NGINX reverse proxy, the `VIRTUAL_HOST` environment variable in your Docker Compose configuration is used to route requests to the correct container based on the hostname in the HTTP request. This means that if a request comes in for `service1.your-domain.com`, it will be routed to the `service1` container, and if a request comes in for `service2.your-domain.com`, it will be routed to the `service2` container.
+
+This works well for local testing and development, but for it to work on the public internet, you need to set up DNS records for each subdomain, pointing to the public IP address of your server. This is because when someone tries to visit `service1.your-domain.com`, their browser needs to know which server to send the request to, and it gets this information from the DNS records for that subdomain.
+
+So, in summary, while you can freely define subdomains in your Docker Compose configuration, you would still need to set up corresponding DNS records for those subdomains to be accessible over the internet.
+
+#### Configuring DNS
+
+To setup the DNS A records, you must use the dashboard provided by your service.
+
+For instance, if you registered your domain with Namecheap, login there and open the dashboard to manage your domain like `my-domain.com` (under Advanced DNS) and add the subdomain portion only as an A record pointing to your server VM IP, e.g.:
+
+- A record: host=`service-subdomain` (without `.my-domain.com`), value=your VM IP, TTL=automatic.
+
+If you use your VM provider also as your registrar, e.g. with SSDNodes or similar services, you would use their dashboard or control panel to define A records. In SSDNodes you will find a DNS zone corresponding to the registered domain, and you will add A-records there. For example, if your server’s public IP address is 203.0.113.0, and you want to create a subdomain `service1.your-domain.com`, you would create an A record that points `service1.your-domain.com` to 203.0.113.0. This way, when someone visits `service1.your-domain.com`, their request is directed to your server at 203.0.113.0. Your NGINX reverse proxy then routes the request to the correct Docker service based on the `VIRTUAL_HOST` environment variable.
+
+>Note that DNS takes time to propagate. You can use an online DNS propagation checker like <https://www.whatsmydns.net/> to check if the DNS has propagated worldwide. Once you see that DNS has propagated, just do `docker compose down` (add `-v` if you want to remove also volumes) and then `up` for your NGINX proxy script.
+
+You can check your DNS propagation with `nslookup` in Ubuntu, e.g.:
+
+```bash
+nslookup YOURDOMAIN
+nslookup cadmus-PRJ.YOURDOMAIN
+nslookup cadmus-PRJ-api.YOURDOMAIN
+nslookup cadmus-biblio-api.YOURDOMAIN
+```
+
+`nslookup` is part of the `dnsutils` package. You can install it using the following command:
+
+```bash
+sudo apt-get update
+sudo apt-get install dnsutils
+```
+
+## Configuring HTTPS - Method 2
+
+- no third party library required.
 
 To use HTTPS, you need to make some changes to the previous configuration to use a [certificate](https://en.wikipedia.org/wiki/Public_key_certificate) and change the URIs protocol from HTTP to HTTPS. Of course, there are several other methods, but the one illustrated here just continues the above configuration.
 
@@ -145,183 +400,5 @@ cadmus-app:
     - /opt/cadmus/nginx/docker_it.cer:/etc/nginx/docker_it.cer
     - /opt/cadmus/nginx/docker_it.key:/etc/nginx/docker_it.key
 ```
-
-## Configuring HTTPS - Method 2
-
-- third party script: [acme companion](https://github.com/nginx-proxy/acme-companion)
-
-Among others, an easier configuration option is using the [acme-companion](https://github.com/nginx-proxy/acme-companion), which relies on Docker API to automate most of the certificate procedures: essentially, once it is in place, you just have to start the Docker compose script to have this script automatically request and apply a certificate from [LetsEncrypt](https://letsencrypt.org), and renewing it when required.
-
-### Setup DNS
-
-The first step is getting a domain for your site, so that LetsEncrypt can see it. Let's assume that the domain name is `mydomain.org`, and that you want to setup the API endpoint at `api.mydomain.org`, and the application at `app.mydomain.org`. You should setup your hosting environment accordingly (e.g. adding `A` -alias- records to the DNS configuration, pointing to the server's IP address via `RDATA`), e.g.:
-
-- `A` = `api.mydomain.org`, `RDATA`=`99.100.101.102`.
-- `A` = `app.mydomain.org`, `RDATA`=`99.100.101.102`.
-
-### Setup Acme Companion
-
->This summarizes the tutorial at <https://blog.ssdnodes.com/blog/host-multiple-ssl-websites-docker-nginx>, with changes I introduced to use the more recent dockerized version of the ACME companion, which further simplifies the process.
-
-(1) create and enter the directory where to place a Docker compose script:
-
-```bash
-mkdir nginx-proxy
-cd nginx-proxy
-```
-
-(2) create a network to be shared among containers:
-
-```bash
-docker network create nginx-proxy
-```
-
-(3) in the folder created at (1), create a `docker-compose.yml` file for NGINX. This will be used as the reverse proxy which redirects traffic in your host machine.
-
-```yml
-version: '2'
-
-# version 2 required by volumes_from
-# https://github.com/nginx-proxy/acme-companion/blob/main/docs/Docker-Compose.md
-
-services:
-  nginx-proxy:
-    image: nginxproxy/nginx-proxy
-    container_name: nginx-proxy
-    ports:
-      - "80:80"
-      - "443:443"
-    restart: always
-    volumes:
-      - conf:/etc/nginx/conf.d
-      - vhost:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - certs:/etc/nginx/certs:ro
-      - /var/run/docker.sock:/tmp/docker.sock:ro
-
-  acme-companion:
-    image: nginxproxy/acme-companion
-    container_name: nginx-proxy-acme
-    volumes_from:
-      - nginx-proxy
-    volumes:
-      - certs:/etc/nginx/certs:rw
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - acme:/etc/acme.sh
-    environment:
-      - DEFAULT_EMAIL=daniele.fusi@unive.it
-
-volumes:
-  conf:
-  vhost:
-  html:
-  certs:
-  acme:
-
-# Do not forget to 'docker network create nginx-proxy' before launch, and to add '--network nginx-proxy' to proxied containers.
-
-networks:
-  default:
-    name: nginx-proxy
-    external: true
-```
-
-(4) run the script:
-
-```bash
-docker compose up -d
-```
-
-To confirm, run `docker ps`. You should see 2 running containers with these names:
-
-- `nginx-proxy`
-- `nginx-proxy-acme`
-
-This procedure is done once. When in place, you can use this infrastructure to add as many docker-based services as you want, each with its own subdomain and certificate.
-
-### Modify Docker Compose Script
-
-To set up any containerized app to work with this proxy, you must configure its compose script as follows:
-
-- add 3 environment variables: `VIRTUAL_HOST`, `LETSENCRYPT_HOST`, `LETSENCRYPT_EMAIL`.
-- replace the Docker network (with `nginx-proxy`, cf. step 2 in the previous section).
-- exposing port 80/443 (this is already done in the default script).
-
-With reference to the default docker compose script, you should make these changes:
-
-(1) in the `cadmus-api` section, add the above environment variables (under `environment`), e.g. (of course change their values to fit your own setup):
-
-```yml
-cadmus-api:
-  # ... omitted for brevity
-  environment:
-    - VIRTUAL_HOST=api.mydomain.org
-    - LETSENCRYPT_HOST=api.mydomain.org
-    - LETSENCRYPT_EMAIL=myemail@mydomain.org
-    - ALLOWEDORIGINS__0=https://app.mydomain.org
-```
-
-(2) in the `cadmus-app` section, do the same for the app subdomain:
-
-```yml
-cadmus-app:
-  # ... omitted for brevity
-  environment:
-    - VIRTUAL_HOST=app.mydomain.org
-    - LETSENCRYPT_HOST=app.mydomain.org
-    - LETSENCRYPT_EMAIL=myemail@mydomain.org
-```
-
-(3) in all the sections, remove the original network of the script as we're going to replace it with `nginx-proxy`. This means deleting (or commenting out) these lines from `cadmus-db`, `cadmus-api`, `cadmus-app`; and deleting (or commenting out) the final `cadmus-network`
-
-- remove from any service:
-
-```yml
-    networks:
-      - cadmus-network
-```
-
-- remove at the end:
-
-```yml
-networks:
-  cadmus-network:
-    driver: bridge
-```
-
-(4) at the end, add the `nginx-proxy` network instead (note the added `external` value here):
-
-```yml
-networks:
-  default:
-    external: true
-    name: nginx-proxy
-```
-
-(5) rebuild the Angular app (follow the instructions in its `README.md`), and then under `dist/env.js` (mind `dist` here!) change the URI of the API according to your new setup, and the `version` variable as you prefer, e.g.:
-
-```js
-(function (window) {
-  window.__env = window.__env || {};
-  window.__env.apiUrl = "https://api.mydomain.org/api/";
-  window.__env.version = "0.0.11-prod";
-})(this);
-```
-
-(6) build and push a Docker image for your production environment, e.g.:
-
-```bash
-docker build . -t vedph2020/cadmus-app:0.0.11-prod
-docker push vedph2020/cadmus-app:0.0.11-prod
-```
-
-(7) change the name of the app image accordingly in the `cadmus-app` section:
-
-```yml
-cadmus-app:
-  image: vedph2020/cadmus-app:0.0.11-prod
-```
-
-(8) start the docker compose script, and in some moments you will be able to navigate to your HTTPS domain for both API and app.
 
 ▶️ next: [backup](backup.md)
