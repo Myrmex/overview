@@ -19,7 +19,7 @@ You can place your files where you want; usually I create a `/dockers` folder an
 - /dockers/proxy for the NGINX proxy script.
 - /dockers/your-cadmus-prj for the Cadmus script. This also includes `env.js` modified to point to the correct URLs (see below).
 
-1. **Create a Docker Network**: Create a Docker network that your services and the NGINX proxy will use to communicate with each other. You can create a network with the following command:
+(1) **Create a Docker Network**: Create a Docker network that your services and the NGINX proxy will use to communicate with each other. You can create a network with the following command:
 
 ```bash
 docker network create nginx-proxy
@@ -27,7 +27,7 @@ docker network create nginx-proxy
 
 To check for network: `docker network ls`.
 
-2. **Configure Your Services** connecting them to the newly created network and linking each service to a subdomain. In your `docker-compose.yml` file, make sure each of your services is connected to the `nginx-proxy` network and add under `environment:`a list of variables like this:
+(2) **Configure Your Services** connecting them to the newly created network and linking each service to a subdomain. In your `docker-compose.yml` file, make sure each of your services is connected to the `nginx-proxy` network and add under `environment:`a list of variables like this:
 
 ```yaml
 services:
@@ -55,7 +55,7 @@ networks:
 
 >⚠️ NOTE: you might also need to specify the container's port especially when it's not standard, i.e. 8080 instead of 80, by just adding `VIRTUAL_PORT=8080` to the environment variables. Adding this does not make any harm, so it is suggested to do so.
 
-3. **Set Up NGINX Proxy**: Create a new Docker Compose file for the NGINX proxy. This will use the `jwilder/nginx-proxy` image, which automatically generates reverse proxy configurations for your services. To use SSL, you can use the `jrcs/letsencrypt-nginx-proxy-companion` Docker image to automatically create and manage your SSL certificates:
+(3) **Set Up NGINX Proxy**: Create a new Docker Compose file for the NGINX proxy. This will use the `jwilder/nginx-proxy` image, which automatically generates reverse proxy configurations for your services. To use SSL, you can use the `jrcs/letsencrypt-nginx-proxy-companion` Docker image to automatically create and manage your SSL certificates:
 
 ```yaml
 services:
@@ -102,7 +102,7 @@ volumes:
 
 This setup will expose port 80 (and 443 for SSL) to the outside world, and automatically route traffic to the correct service based on the domain name used to access your server. The `jwilder/nginx-proxy` image uses Docker labels to determine which service a request should be routed to, so you'll need to add a `VIRTUAL_HOST` environment variable to each of your services with the domain name for that service, as explained above.
 
-4. **Start Your Services and the Proxy**: Start your services with `docker compose up -d`, then start the proxy with `docker compose -f docker-compose-proxy.yml up -d`.
+(4) **Start Your Services and the Proxy**: Start your services with `docker compose up -d`, then start the proxy with `docker compose -f docker-compose-proxy.yml up -d`.
 
 ### Sample Cadmus Docker Compose
 
