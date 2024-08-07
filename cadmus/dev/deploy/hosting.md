@@ -17,6 +17,7 @@ subtitle: Cadmus Deployment
     - [StockUsers](#stockusers)
     - [Auditing and Privacy](#auditing-and-privacy)
   - [Database](#database)
+    - [Securing Databases](#securing-databases)
     - [External Databases](#external-databases)
   - [Other Services](#other-services)
 - [App Settings](#app-settings)
@@ -346,6 +347,58 @@ environment:
   - `ProfileSource` (`SEED__PROFILESOURCE`): the source of the profile file. Typically you should not change this.
   - `ItemCount` (`SEED__ITEMCOUNT`): the count of the mock items you might want to seed into your database when creating it. On startup, the API service creates and seeds the database if not found.
   - `IndexDelay` (`SEED__INDEXDELAY`): an optional delay in seconds. When greater than 0, the API service waits the specified amount of time before starting to seed the database index. This may be required if the underlying database service takes some time to startup in your host. It is usually advisable to set this to some seconds; for slower machines in local environments you might also increase it up to 25 seconds or more.
+
+#### Securing Databases
+
+🚩 By default, when you publish a port in Docker, it binds the port to all network interfaces on the host machine. This means the port _is accessible from outside_ the host, which can be a security risk. To ensure that the port is only accessible from the host machine (localhost), you can bind the port to the `127.0.0.1` interface. To do this, just prefix your port with `127.0.0.1:` in compose, like in this example configuration:
+
+```yml
+services:
+  # MongoDB
+  cadmus-lon-mongo:
+    image: mongo
+    container_name: cadmus-lon-mongo
+    restart: unless-stopped
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/var/log/mongodb
+    command: mongod --config /etc/mongod.conf
+    ports:
+      # CHANGE HERE
+      - 127.0.0.1:27017:27017
+    volumes:
+      - mongo-vol:/data/db
+      - ./mongod.conf:/etc/mongod.conf
+      - ./mongo-logs:/var/log/mongodb
+    networks:
+      - nginx-proxy
+
+  # PostgreSQL
+  cadmus-lon-pgsql:
+    image: postgres
+    container_name: cadmus-lon-pgsql
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      # CHANGE HERE
+      - 127.0.0.1:5432:5432
+    volumes:
+      - pgsql-vol:/var/lib/postgresql/data
+    networks:
+      - nginx-proxy
+
+volumes:
+  mongo-vol:
+  pgsql-vol:
+  mongo-logs:
+
+networks:
+  nginx-proxy:
+    external: true
+```
 
 #### External Databases
 
