@@ -910,8 +910,6 @@ ENTRYPOINT ["dotnet", "Cadmus__PRJ__Api.dll"]
 ⚠️ **ATTENTION**: under cadmus-api ports replace `5052` with the port value used by your API project (you can find it under the project's properties, Debug, Launch Profiles, HTTP).
 
 ```yml
-version: '3.7'
-
 services:
   # MongoDB
   cadmus-PRJ-mongo:
