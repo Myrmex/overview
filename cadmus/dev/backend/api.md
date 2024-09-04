@@ -319,7 +319,7 @@ public static class Program
 
                         if (!string.IsNullOrEmpty(cs))
                         {
-                            loggerConfiguration.WriteTo.MongoDBCapped(cs,
+                            loggerConfiguration.WriteTo.MongoDBBson(cs,
                                 cappedMaxSizeMb: !string.IsNullOrEmpty(maxSize) &&
                                 int.TryParse(maxSize, out int n) && n > 0 ? n : 10);
                         }
