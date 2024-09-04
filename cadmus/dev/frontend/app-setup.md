@@ -92,7 +92,7 @@ npm i @myrmidon/cadmus-part-philology-pg @myrmidon/cadmus-part-philology-ui
 
 npm i @myrmidon/cadmus-preview-pg @myrmidon/cadmus-preview-ui @myrmidon/cadmus-profile-core
 
-npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-flags-pg @myrmidon/cadmus-flags-ui @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-mat-physical-size @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-flags-picker @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/paged-data-browsers @types/diff-match-patch diff-match-patch gravatar
+npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-flags-pg @myrmidon/cadmus-flags-ui @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-mat-physical-size @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-flags-picker @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/paged-data-browsers @types/diff-match-patch diff-match-patch
 
 npm i @myrmidon/cadmus-text-ed @myrmidon/cadmus-text-ed-md @myrmidon/cadmus-text-ed-txt
 ```
@@ -170,7 +170,7 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
 
 >The glob for Monaco editor is no longer needed when using NG essentials as a Monaco wrapper.
 
-💡 If you are using legacy libraries like `gravatar` (which is included by default in the standard Cadmus app), add this option under `architect/build/options` to avoid a build warning:
+💡 If you are using legacy libraries like `gravatar`, add this option under `architect/build/options` to avoid a build warning:
 
 ```json
 "allowedCommonJsDependencies": [
