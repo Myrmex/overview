@@ -54,6 +54,7 @@ All the generic models designed for Cadmus projects are listed here. Project-spe
 - parts:
   - [writing](https://github.com/vedph/cadmus-epigraphy/blob/master/docs/epi-writing.md)
   - [support](https://github.com/vedph/cadmus-epigraphy/blob/master/docs/epi-support.md)
+  - [support fragments](https://github.com/vedph/cadmus-epigraphy/blob/master/docs/epi-support-frr.md)
   - [formula patterns](https://github.com/vedph/cadmus-epigraphy/blob/master/docs/epi-formula-patterns.md)
 - fragments:
   - [ligatures](https://github.com/vedph/cadmus-epigraphy/blob/master/docs/fr.epi-ligatures.md)
