@@ -14,6 +14,7 @@ All the generic models designed for Cadmus projects are listed here. Project-spe
   - [chronotopes](https://github.com/vedph/cadmus-general/blob/master/docs/chronotopes.md)
   - [comment](https://github.com/vedph/cadmus-general/blob/master/docs/comment.md)
   - [decorated counts](https://github.com/vedph/cadmus-general/blob/master/docs/decorated-counts.md)
+  - [district location](https://github.com/vedph/cadmus-general/blob/master/docs/district-location.md)
   - [documental references](https://github.com/vedph/cadmus-general/blob/master/docs/doc-references.md)
   - [external bibliography](https://github.com/vedph/cadmus-general/blob/master/docs/ext-bibliography.md)
   - [external IDs](https://github.com/vedph/cadmus-general/blob/master/docs/external-ids.md)
@@ -54,6 +55,7 @@ All the generic models designed for Cadmus projects are listed here. Project-spe
 - parts:
   - [writing](https://github.com/vedph/cadmus-epigraphy/blob/master/docs/epi-writing.md)
   - [support](https://github.com/vedph/cadmus-epigraphy/blob/master/docs/epi-support.md)
+  - [technique](https://github.com/vedph/cadmus-epigraphy/blob/master/docs/epi-technique.md)
   - [support fragments](https://github.com/vedph/cadmus-epigraphy/blob/master/docs/epi-support-frr.md)
   - [formula patterns](https://github.com/vedph/cadmus-epigraphy/blob/master/docs/epi-formula-patterns.md)
 - fragments:
