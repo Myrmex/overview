@@ -33,11 +33,12 @@ The [reference API backend project](https://github.com/vedph/cadmus-api) is the 
 
 (3) add NuGet packages: just paste this code in the project file and then use NuGet package manager to update all the packages (replace `__PRJ__` with your project name, removing project's parts if they are not present):
 
-TODO
-
 ```xml
 <ItemGroup>
-<PackageReference Include="Cadmus.Graph.Ef.PgSql" Version="8.0.0" />
+  <PackageReference Include="Cadmus.Api.Controllers" Version="10.1.0" />
+  <PackageReference Include="Cadmus.Api.Models" Version="10.1.0" />
+  <PackageReference Include="Cadmus.Api.Services" Version="10.1.0" />
+  <PackageReference Include="Cadmus.Graph.Ef.PgSql" Version="8.0.0" />
   <PackageReference Include="Cadmus.Graph.Extras" Version="8.0.0" />
   <PackageReference Include="Cadmus.Img.Parts" Version="3.0.4" />
   <PackageReference Include="Cadmus.Index.Ef.PgSql" Version="8.0.0" />
