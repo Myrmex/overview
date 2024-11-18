@@ -124,6 +124,12 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
   "AllowedOrigins": [
     "http://localhost:4200",
   ],
+  "RateLimit": {
+    "IsDisabled": true,
+    "PermitLimit": 100,
+    "QueueLimit": 0,
+    "TimeWindow": "00:01:00"
+  },  
   "Seed": {
     "ProfileSource": "%wwwroot%/seed-profile.json",
     "ItemCount": 100,
