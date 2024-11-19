@@ -508,7 +508,7 @@ services:
   # Biblio API
   # TODO: remove if you are not using it
   cadmus-biblio-api:
-    image: vedph2020/cadmus-biblio-api:5.1.1
+    image: vedph2020/cadmus-biblio-api:7.0.0
     container_name: cadmus-biblio-api
     ports:
       - 60058:8080
@@ -516,7 +516,9 @@ services:
       - cadmus-PRJ-mongo
       - cadmus-PRJ-pgsql
     environment:
+      - ASPNETCORE_URLS=http://+:8080
       - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-PRJ-mongo:27017/{0}
+      - CONNECTIONSTRINGS__AUTH=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
       - CONNECTIONSTRINGS__BIBLIO=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
       - SEED__BIBLIODELAY=50
       - SERILOG__CONNECTIONSTRING=mongodb://cadmus-PRJ-mongo:27017/{0}-log
@@ -535,11 +537,13 @@ services:
       - cadmus-PRJ-mongo
       - cadmus-PRJ-pgsql
     environment:
+      - ASPNETCORE_URLS=http://+:8080
       - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-PRJ-mongo:27017/{0}
+      - CONNECTIONSTRINGS__AUTH=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
       - CONNECTIONSTRINGS__INDEX=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
       - SERILOG__CONNECTIONSTRING=mongodb://cadmus-PRJ-mongo:27017/{0}-log
       - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
-      - SEED__INDEXDELAY=25
+      - SEED__DELAY=20
       - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
       - MESSAGING__APPROOTURL=http://cadmusapi.com/
       - MESSAGING__SUPPORTEMAIL=support@cadmus.com
@@ -550,6 +554,8 @@ networks:
   cadmus-PRJ-network:
     driver: bridge
 ```
+
+>⚠️ Note that setting `ASPNETCORE_URLS` for Docker is a requirement because the default HTTP port for ASP.NET core in development mode is 5000.
 
 (3) add a `.dockerignore` file with this content:
 

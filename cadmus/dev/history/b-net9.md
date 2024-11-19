@@ -50,3 +50,34 @@ Provided that you have upgraded to .NET 9 your models (if any):
 8. replace `Program.cs` with the code from the [new API v10+ solution](https://github.com/vedph/cadmus-api/blob/master/CadmusApi/Program.cs). The only change required refers to the name of the repository and part seeder factory providers for your project, in `Program.ConfigureAppServices`: `__PRJ__RepositoryProvider` and `__PRJ__PartSeederFactoryProvider` (see `Startup.ConfigureServices`).
 9. remove `Startup.cs`.
 10. in the API project Debug properties, change the startup route from `swagger` to `scalar/v1`.
+11. in your Docker compose:
+    - add the environment variable to override the connection to the AUTH database:
+    - ensure that ASP.NET core port is set to 8080.
+
+Example:
+
+```yml
+  cadmus-vela-api:
+    image: vedph2020/cadmus-vela-api:4.0.1
+    container_name: cadmus-vela-api
+    ports:
+      - 5080:8080
+    depends_on:
+      - cadmus-vela-mongo
+      - cadmus-vela-pgsql
+    environment:
+      # for Windows use : as separator, for non Windows use __
+      # (see https://github.com/aspnet/Configuration/issues/469)
+      - ASPNETCORE_URLS=http://+:8080
+      - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-vela-mongo:27017/{0}
+      - CONNECTIONSTRINGS__AUTH=Server=cadmus-vela-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
+      - CONNECTIONSTRINGS__INDEX=Server=cadmus-vela-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
+      - SERILOG__CONNECTIONSTRING=mongodb://cadmus-vela-mongo:27017/{0}-log
+      - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
+      - SEED__DELAY=20
+      - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
+      - MESSAGING__APPROOTURL=http://cadmusapi.com/
+      - MESSAGING__SUPPORTEMAIL=support@cadmus.com
+    networks:
+      - cadmus-vela-network
+```
