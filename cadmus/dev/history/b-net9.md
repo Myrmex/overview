@@ -29,7 +29,7 @@ Provided that you have upgraded to .NET 9 your models (if any):
 3. add packages:
 
     ```xml
-    <PackageReference Include="Cadmus.Api.Config" Version="10.1.1" />
+    <PackageReference Include="Cadmus.Api.Config" Version="10.1.2" />
     <PackageReference Include="Scalar.AspNetCore" Version="1.2.39" />
     ```
 
@@ -46,6 +46,7 @@ Provided that you have upgraded to .NET 9 your models (if any):
     },
     ```
 
-7. replace `Program.cs` with the code from the [new API v10+ solution](https://github.com/vedph/cadmus-api/blob/master/CadmusApi/Program.cs). The only change required refers to the name of the repository and part seeder factory providers for your project, in `Program.ConfigureAppServices`: `__PRJ__RepositoryProvider` and `__PRJ__PartSeederFactoryProvider` (see `Startup.ConfigureServices`).
-8. remove `Startup.cs`.
-9. in the API project Debug properties, change the startup route from `swagger` to `scalar/v1`.
+7. in `appconfig.json`, change `Seed:IndexDelay` entry to `Seed:Delay`. Also change the environment variable name in Docker compose accordingly to `SEED__DELAY`.
+8. replace `Program.cs` with the code from the [new API v10+ solution](https://github.com/vedph/cadmus-api/blob/master/CadmusApi/Program.cs). The only change required refers to the name of the repository and part seeder factory providers for your project, in `Program.ConfigureAppServices`: `__PRJ__RepositoryProvider` and `__PRJ__PartSeederFactoryProvider` (see `Startup.ConfigureServices`).
+9. remove `Startup.cs`.
+10. in the API project Debug properties, change the startup route from `swagger` to `scalar/v1`.
