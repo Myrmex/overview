@@ -86,3 +86,5 @@ Example:
     networks:
       - cadmus-vela-network
 ```
+
+>If using bibliography API, remember to upgrade it to version 7+, because this shares the new PostgreSQL-based auth database.
