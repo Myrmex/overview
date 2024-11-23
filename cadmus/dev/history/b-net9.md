@@ -56,7 +56,8 @@ Provided that you have upgraded to .NET 9 your models (if any):
 11. update the .NET image versions to 9 in your Dockerfile, ensuring that 8080 is the exposed port.
 12. in your Docker compose:
     - add the environment variable to override the connection to the AUTH database:
-    - ensure that ASP.NET core port is set to 8080.
+    - ensure that ASP.NET core port is set to 8080 and that the environment variable `ASPNETCORE_URLS` is properly set.
+    - ensure that `SEED__DELAY` (renamed from `SEED__INDEXDELAY`) is set if you are going to seed mock items, so that there is a pause before the API starts using the database service when this is still starting.
 
 Example:
 
