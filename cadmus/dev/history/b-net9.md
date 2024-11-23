@@ -53,7 +53,8 @@ Provided that you have upgraded to .NET 9 your models (if any):
 8. replace `Program.cs` with the code from the [new API v10+ solution](https://github.com/vedph/cadmus-api/blob/master/CadmusApi/Program.cs). The only change required refers to the name of the repository and part seeder factory providers for your project, in `Program.ConfigureAppServices`: `__PRJ__RepositoryProvider` and `__PRJ__PartSeederFactoryProvider` (see `Startup.ConfigureServices`).
 9. remove `Startup.cs`.
 10. in the API project Debug properties, change the startup route from `swagger` to `scalar/v1`.
-11. in your Docker compose:
+11. update the .NET image versions to 9 in your Dockerfile, ensuring that 8080 is the exposed port.
+12. in your Docker compose:
     - add the environment variable to override the connection to the AUTH database:
     - ensure that ASP.NET core port is set to 8080.
 
