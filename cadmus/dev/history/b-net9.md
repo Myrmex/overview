@@ -30,8 +30,11 @@ Provided that you have upgraded to .NET 9 your models (if any):
 
     ```xml
     <PackageReference Include="Cadmus.Api.Config" Version="10.1.2" />
-    <PackageReference Include="Scalar.AspNetCore" Version="1.2.39" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Scalar.AspNetCore" Version="1.2.43" />
     ```
+
+    >Update versions of these packages if newer are available.
 
 4. remove packages `AspNetCore.Identity.Mongo` and `Swashbuckle.AspNetCore`.
 5. add the `Auth` connection string to `appconfig.json` under section `ConnectionStrings`: `"Auth": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True",`.
