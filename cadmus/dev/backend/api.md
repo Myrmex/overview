@@ -35,6 +35,7 @@ The [reference API backend project](https://github.com/vedph/cadmus-api) is the 
 
 ```xml
 <ItemGroup>
+  <PackageReference Include="Cadmus.Api.Config" Version="10.1.2" />
   <PackageReference Include="Cadmus.Api.Controllers" Version="10.1.0" />
   <PackageReference Include="Cadmus.Api.Models" Version="10.1.0" />
   <PackageReference Include="Cadmus.Api.Services" Version="10.1.0" />
@@ -133,7 +134,7 @@ Add these settings to `appsettings.json` (replace `__PRJ__` with your project's 
   "Seed": {
     "ProfileSource": "%wwwroot%/seed-profile.json",
     "ItemCount": 100,
-    "IndexDelay": 0
+    "Delay": 0
   },
   "Jwt": {
     "Issuer": "https://cadmus.azurewebsites.net",
