@@ -38,14 +38,13 @@ ng add @angular/material
 ng add @angular/localize
 ```
 
-For Angular Material, pick the theme you prefer, answer Yes when prompted to setup global typography styles, and accept the default "Include and enable animations" option.
+>For Angular Material, use a custom theme or pick the theme you prefer, answer Yes when prompted to setup global typography styles, and accept the default "Include and enable animations" option. After installing, be sure that there is no prebuilt Angular Material style set in `angular.json`. The localization package instead is a development package which is required by some localization-ready components such as the authentication libraries (`@myrmidon/auth-jwt-*`). You can also just add the NPM package via `npm -i --save-dev @angular/localize`.
 
->The localization package is a development package which is required by some localization-ready components such as the authentication libraries (`@myrmidon/auth-jwt-*`). You can also just add the NPM package via `npm -i --save-dev @angular/localize`.
-
-(2) ensure to apply some [M3 theme](https://material.angular.io/guide/theming) in your app's `styles.scss`, like in this example:
+(2) ensure to apply some [M3 theme](https://material.angular.io/guide/theming) in your app's `styles.scss`:
 
 ```scss
 @use "@angular/material" as mat;
+@import "preview-styles.css";
 
 @include mat.core();
 
@@ -53,15 +52,62 @@ $light-theme: mat.define-theme(
   (
     color: (
       theme-type: light,
-      primary: mat.$azure-palette,
+      primary: mat.$blue-palette,
+    ),
+  )
+);
+
+$accent-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$violet-palette,
+    ),
+  )
+);
+
+$error-theme: mat.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: mat.$red-palette,
     ),
   )
 );
 
 html {
   @include mat.all-component-themes($light-theme);
+  & {
+    color-scheme: light;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-primary, .mat-accent {
+  @include mat.all-component-colors($accent-theme);
+}
+
+.mat-error, .mat-warn {
+  @include mat.all-component-colors($error-theme);
+}
+
+mat-icon.mat-accent, mat-icon.mat-primary {
+  color: var(--mdc-filled-text-field-focus-label-text-color) !important;
+}
+mat-icon.mat-error, mat-icon.mat-warn {
+  color: var(--mat-form-field-error-focus-trailing-icon-color) !important;
 }
 ```
+
+>This configuration allows to use Cadmus libraries with classes `mat-primary`, `mat-warn` (or `mat-error`), and `mat-accent` without using legacy compatibility mixins. Since Angular 18 the color directive (which automatically changed the target component's theme) has been removed, and you could use compatibility mixins; but these have side effects. In the approach used here, we just create different themes for color variants. In M2 Cadmus I used classes `mat-primary` for emphasized components and `mat-warn` for warn/error components. In M3 I have a default theme, an error theme corresponding to mat-warn, and an accent theme corresponding to mat-primary (and mat-accent). See also my [SO post about M3 theming](https://stackoverflow.com/questions/79230742/proper-angular-material-v3-theming).
 
 💡 If you are dealing with an existing app using CSS rather than SCSS:
 
