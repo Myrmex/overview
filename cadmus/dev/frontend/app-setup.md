@@ -138,7 +138,7 @@ npm i @myrmidon/cadmus-part-philology-pg @myrmidon/cadmus-part-philology-ui
 
 npm i @myrmidon/cadmus-preview-pg @myrmidon/cadmus-preview-ui @myrmidon/cadmus-profile-core
 
-npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-flags-pg @myrmidon/cadmus-flags-ui @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-mat-physical-size @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-flags-picker @myrmidon/cadmus-ui-pg @myrmidon/ng-mat-tools @myrmidon/ng-tools @myrmidon/paged-data-browsers @types/diff-match-patch diff-match-patch ts-md5
+npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-flags-pg @myrmidon/cadmus-flags-ui @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-mat-physical-size @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-flags-picker @myrmidon/cadmus-ui-pg @myrmidon/ngx-mat-tools @myrmidon/ngx-tools @myrmidon/paged-data-browsers @types/diff-match-patch diff-match-patch ts-md5
 
 npm i @myrmidon/cadmus-text-ed @myrmidon/cadmus-text-ed-md @myrmidon/cadmus-text-ed-txt
 ```
@@ -239,20 +239,7 @@ Also, you can change the web app's `title` in `head` to a more human-friendly na
 
 This is suggested to enable source maps in production and avoid nasty warnings after compilation.
 
-(1) in `angular.json`: following the suggestions in <https://stackoverflow.com/questions/54891679/how-do-i-get-source-map-working-for-npm-linked-angular-library>, and the [Angular docs](https://angular.io/guide/workspace-config#optimization-and-source-map-configuration), explicitly opt for the source maps (under `projects/app/architect/build/options`):
-
-```json
-"sourceMap": {
-  "scripts": true,
-  "hidden": false,
-  "vendor": true,
-  "styles": true,
-},
-```
-
->⚠️ Since Angular 18 you can omit this step.
-
-(2) in the same file, you will typically have to raise the warning limits for your `budget` size if getting a warning after building.
+(1) in `angular.json` you will typically have to raise the warning limits for your `budget` size if getting a warning after building.
 
 ## Add Assets
 
@@ -317,170 +304,12 @@ export const ITEM_BROWSER_KEYS = {
 - `register-user-page`
 - `reset-password`
 
-As currently the shell app still has module-based components, patch these with the following imports for each component:
+As currently the shell app still has module-based components, you can use the pages from project FeBO, which was the first to use standalone components:
 
-**login-page**:
-
-```ts
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
-
-import {
-  AuthJwtLoginModule,
-  AuthJwtService,
-  Credentials,
-} from '@myrmidon/auth-jwt-login';
-
-@Component({
-  selector: 'app-login-page',
-  standalone: true,
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.css'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatTooltipModule,
-    AuthJwtLoginModule,
-  ],
-})
-// ... rest of code
-```
-
-**manage-users-page**:
-
-```ts
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-
-import { AuthJwtAdminModule } from '@myrmidon/auth-jwt-admin';
-
-@Component({
-  selector: 'app-manage-users-page',
-  standalone: true,
-  templateUrl: './manage-users-page.component.html',
-  styleUrls: ['./manage-users-page.component.css'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatProgressBarModule,
-    MatTooltipModule,
-    AuthJwtAdminModule,
-  ],
-})
-// ... rest of code
-```
-
-**register-user-page**:
-
-```ts
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-
-import { AuthJwtAdminModule } from '@myrmidon/auth-jwt-admin';
-
-@Component({
-  selector: 'app-register-user-page',
-  standalone: true,
-  templateUrl: './register-user-page.component.html',
-  styleUrls: ['./register-user-page.component.css'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatProgressBarModule,
-    MatTooltipModule,
-    AuthJwtAdminModule,
-  ],
-})
-// ... rest of code
-```
-
-**reset-password**:
-
-```ts
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import {
-  FormGroup,
-  FormControl,
-  FormBuilder,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
-
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTooltipModule } from '@angular/material/tooltip';
-
-import { AuthJwtAccountService, AuthJwtAdminModule } from '@myrmidon/auth-jwt-admin';
-
-@Component({
-  selector: 'cadmus-reset-password',
-  standalone: true,
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.css'],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatProgressBarModule,
-    MatTooltipModule,
-    AuthJwtAdminModule,
-  ]
-})
-// ... rest of code
-```
+- [login page](https://github.com/vedph/cadmus-febo-app/tree/master/src/app/login-page)
+- [manage-users-page](https://github.com/vedph/cadmus-febo-app/tree/master/src/app/manage-users-page)
+- [register user page](https://github.com/vedph/cadmus-febo-app/tree/master/src/app/register-user-page)
+- [reset password page](https://github.com/vedph/cadmus-febo-app/tree/master/src/app/reset-password)
 
 ## Implement App Component
 
@@ -504,7 +333,7 @@ import {
   EnvService,
   EnvServiceProvider,
   RamStorageService,
-} from '@myrmidon/ng-tools';
+} from '@myrmidon/ngx-tools';
 import {
   User,
   AuthJwtService,
@@ -1022,7 +851,7 @@ import { NgeMarkdownModule } from '@cisstech/nge/markdown';
 
 // myrmidon
 import { authJwtInterceptor } from '@myrmidon/auth-jwt-login';
-import { EnvServiceProvider } from '@myrmidon/ng-tools';
+import { EnvServiceProvider } from '@myrmidon/ngx-tools';
 import { CadmusApiModule } from '@myrmidon/cadmus-api';
 import {
   CADMUS_TEXT_ED_BINDINGS_TOKEN,
