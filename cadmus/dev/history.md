@@ -14,6 +14,6 @@ This page contains a list of the main changes applied to Cadmus during its devel
 - [logging Configuration](history/b-logging-cfg.md)
 - [Gravatar refactoring](history/f-gravatar.md)
 - [Backend API v10 Update for .NET 9](history/b-net9.md)
-- [Frontend Core Dependencies Update](f-core-deps.md)
+- [Frontend Core Dependencies Update](history/f-core-deps.md)
 
 🏠 [developer's home](toc.md)
