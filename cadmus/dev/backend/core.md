@@ -77,14 +77,14 @@ This will hold parts and fragments specific to your projects. Usually a single l
 <AssemblyVersion>0.0.1</AssemblyVersion>
 ```
 
-(3) add another _C# .NET 8 class library_ named `Cadmus.Seed.PRJ.Parts` to provide the mock data seeders for your components. This is not strictly a requirement, but it's suggested to let you play with the editor while building it. Once created, delete the empty `Class1.cs` file from it.
+(3) add another _C# .NET 9 class library_ named `Cadmus.Seed.PRJ.Parts` to provide the mock data seeders for your components. This is not strictly a requirement, but it's suggested to let you play with the editor while building it. Once created, delete the empty `Class1.cs` file from it.
 
 ```bash
 dotnet new classlib -n Cadmus.Seed.PRJ.Parts
 dotnet sln CadmusPRJ.sln add Cadmus.Seed.PRJ.Parts/Cadmus.Seed.PRJ.Parts.csproj
 ```
 
-(4) add another _C# .NET 8 class library_ named `Cadmus.PRJ.Services` to provide some API services to plug into your API. Once created, delete the empty `Class1.cs` file from it.
+(4) add another _C# .NET 9 class library_ named `Cadmus.PRJ.Services` to provide some API services to plug into your API. Once created, delete the empty `Class1.cs` file from it.
 
 ```bash
 dotnet new classlib -n Cadmus.PRJ.Services
