@@ -13,6 +13,7 @@ subtitle: Cadmus Deployment
   - [Security](#security)
     - [AllowedOrigins](#allowedorigins)
     - [JWT](#jwt)
+    - [Rate Limiting](#rate-limiting)
     - [Server](#server)
     - [StockUsers](#stockusers)
     - [Auditing and Privacy](#auditing-and-privacy)
@@ -129,14 +130,15 @@ For instance, say your configuration document has a `ConnectionStrings` object l
 {
   "ConnectionStrings": {
     "Default": "mongodb://localhost:27017/{0}",
-    "Index": "Server=localhost;Database={0};Uid=root;Pwd=mysql;"
+    "Auth": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True",
+    "Index": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True"
   }
 }
 ```
 
-The path to the `Default` connection property will be `CONNECTIONSTRINGS__DEFAULT` (notice the 2 underscores between its words). This is the name of the environment variable to set for overriding the value of this setting.
+In this context, the path to the `Default` connection property will be `CONNECTIONSTRINGS__DEFAULT` (notice the 2 underscores between its words). This is the name of the environment variable to set for overriding the value of this setting.
 
-When using arrays, use the index of each item in it to refer to that item. So, in an array like this:
+💡 When dealing with _arrays_ in settings, use the index of each item in it to refer to that item. So, in an array like this:
 
 ```json
 "AllowedOrigins": [
@@ -145,7 +147,7 @@ When using arrays, use the index of each item in it to refer to that item. So, i
 ],
 ```
 
-the first item of the array will be targeted by `ALLOWEDORIGINS__0`; the second item by `ALLOWEDORIGINS__1`; and so forth. The default items are used for testing.
+the first item of the array will be targeted by `ALLOWEDORIGINS__0`; the second item by `ALLOWEDORIGINS__1`; and so forth.
 
 In this section I list the most relevant settings from the perspective of a server setup. The settings marked with 🚩 _must_ be changed to adapt to the hosting environment.
 
@@ -214,6 +216,19 @@ Other, less relevant settings in the `JWT` section are:
 
 - `Issuer` (`JWT__ISSUER`): the issuer URI.
 - `Audience` (`JWT__AUDIENCE`): the audience URI.
+
+#### Rate Limiting
+
+Cadmus API also provides a rate limiting mechanism, which by default is _not_ enabled. If you want to enable it, ensure to carefully calculate the parameters so that you don't cause unwanted service denials. The default settings are:
+
+```json
+"RateLimit": {
+  "IsDisabled": true,
+  "PermitLimit": 100,
+  "QueueLimit": 0,
+  "TimeWindow": "00:01:00"
+},
+```
 
 #### Server
 
@@ -311,8 +326,9 @@ The database-related settings essentially refer to connection strings. In `appse
 ```json
 {
   "ConnectionStrings": {
-    "Default": "mongodb://cadmus-PRJ-mongo:27017/{0}",
-    "Index": "Server=cadmus-PRJ-pgsql;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True",
+    "Default": "mongodb://localhost:27017/{0}",
+    "Auth": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True",
+    "Index": "Server=localhost;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True",
     "MongoLog": "mongodb://cadmus-PRJ-mongo:27017/cadmus-PRJ-log",
     "PostgresLog": "Server=cadmus-PRJ-pgsql;Database=cadmus-PRJ-log;User Id=postgres;Password=postgres;Include Error Detail=True"
   },
@@ -323,18 +339,19 @@ The database-related settings essentially refer to connection strings. In `appse
   "Seed": {
     "ProfileSource": "%wwwroot%/seed-profile.json",
     "ItemCount": 100,
-    "IndexDelay": 0
+    "SeedDelay": 0
   }
 }
 ```
 
 >💥 Please remember that the containerized API layer requiring the database service connects to it within a Docker network. This means that the server name is just the name of the container, and that the port is the default port for its database service. Even when you eventually remap the database service port, e.g. to avoid a clash with the same service (PostgreSQL at 5432) on the host, nonetheless the containerized API will continue to connect to the default port 5432.
 
-- `ConnectionStrings` 🚩 This object contains the connection string template to the MongoDB database (`Default`), and the index database (`Index`). You must ensure that the strings use the database service as named in the Docker stack (or, if you prefer, any other external database service, in this case removing it from the bottom of the Docker stack). Typically, they are as follows:
+- `ConnectionStrings` 🚩 This object contains the connection string template to the MongoDB database (`Default`), and the authentication and index databases (`Auth`, `Index`). You must ensure that the strings use the database service as named in the Docker stack (or, if you prefer, any other external database service, in this case removing it from the bottom of the Docker stack). Typically, they are as follows:
 
 ```yml
 environment:
   - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-PRJ-mongo:27017/{0}
+  - CONNECTIONSTRINGS__AUTH=Server=cadmus-PRJ-pgsql;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
   - CONNECTIONSTRINGS__INDEX=Server=cadmus-PRJ-pgsql;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
 ```
 
@@ -346,7 +363,7 @@ environment:
 - `Seed`:
   - `ProfileSource` (`SEED__PROFILESOURCE`): the source of the profile file. Typically you should not change this.
   - `ItemCount` (`SEED__ITEMCOUNT`): the count of the mock items you might want to seed into your database when creating it. On startup, the API service creates and seeds the database if not found.
-  - `IndexDelay` (`SEED__INDEXDELAY`): an optional delay in seconds. When greater than 0, the API service waits the specified amount of time before starting to seed the database index. This may be required if the underlying database service takes some time to startup in your host. It is usually advisable to set this to some seconds; for slower machines in local environments you might also increase it up to 25 seconds or more.
+  - `SeedDelay` (`SEED__DELAY`): an optional delay in seconds. When greater than 0, the API service waits the specified amount of time before starting to seed the database index. This is usually required because the underlying database service takes some time to startup in your host. It is usually advisable to set this to some seconds; for slower machines in local environments you might also increase it up to 25 seconds or more.
 
 #### Securing Databases
 
