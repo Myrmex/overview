@@ -153,7 +153,9 @@ services:
       - cadmus-PRJ-mongo
       - cadmus-PRJ-pgsql
     environment:
+      - ASPNETCORE_URLS=http://+:8080
       - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-PRJ-mongo:27017/{0}
+      - CONNECTIONSTRINGS__AUTH=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include 
       - CONNECTIONSTRINGS__BIBLIO=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
       - SEED__BIBLIODELAY=50
       - SEED__ENTITYCOUNT=5
@@ -180,13 +182,15 @@ services:
       - cadmus-PRJ-pgsql
       - cadmus-biblio-api
     environment:
+      - ASPNETCORE_URLS=http://+:8080
       - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-PRJ-mongo:27017/{0}
+      - CONNECTIONSTRINGS__AUTH=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include 
       - CONNECTIONSTRINGS__INDEX=Server=cadmus-PRJ-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
       - SERILOG__CONNECTIONSTRING=mongodb://cadmus-PRJ-mongo:27017/{0}-log
       - STOCKUSERS__0__PASSWORD=...
       - JWT__SECUREKEY=...
       - ALLOWEDORIGINS__0=https://cadmus-PRJ.YOURDOMAIN
-      - SEED__INDEXDELAY=25
+      - SEED__DELAY=25
       - SEED__ITEMCOUNT=5
       - MESSAGING__APIROOTURL=https://cadmus-PRJ-api.YOURDOMAIN/
       - MESSAGING__APPROOTURL=http://cadmus-PRJ.YOURDOMAIN/
