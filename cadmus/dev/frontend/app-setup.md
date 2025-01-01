@@ -154,7 +154,10 @@ Typically you will also need **Monaco editor** and **Markdown**:
 
 ```ts
 import { NgeMonacoModule } from '@cisstech/nge/monaco';
+import { NgeMarkdownModule } from '@cisstech/nge/markdown';
+
 // ...
+
 export const appConfig: ApplicationConfig = {
   providers: [
     // ...
