@@ -27,11 +27,11 @@ The typical steps for developing a Cadmus frontend (as based on the [reference s
 
 ## Create Angular App
 
-(1) create a **new Angular app**: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use SCSS. If prompted, don't enable SSR (as per default option).
+▶️ (1) create a **new Angular app**: `ng new cadmus-<PRJ>-app`: when prompted, add Angular routing and use SCSS. If prompted, don't enable SSR (as per default option).
 
 >If you are creating an app for the only purpose of developing component libraries in it, our convention is naming it as `-shell` rather than `-app`.
 
-(2) enter the newly created directory and **add Angular Material** (choose the Indigo/Pink theme - or whatever you prefer -, setup typography styles=yes, include and enable animations=yes) and **Angular localization package**:
+▶️ (2) enter the newly created directory and **add Angular Material** (choose the Indigo/Pink theme - or whatever you prefer -, setup typography styles=yes, include and enable animations=yes) and **Angular localization package**:
 
 ```bash
 ng add @angular/material
@@ -40,7 +40,7 @@ ng add @angular/localize
 
 >For Angular Material, use a custom theme or pick the theme you prefer, answer Yes when prompted to setup global typography styles, and accept the default "Include and enable animations" option. After installing, be sure that there is no prebuilt Angular Material style set in `angular.json`. The localization package instead is a development package which is required by some localization-ready components such as the authentication libraries (`@myrmidon/auth-jwt-*`). You can also just add the NPM package via `npm -i --save-dev @angular/localize`.
 
-(2) ensure to apply some [M3 theme](https://material.angular.io/guide/theming) in your app's `styles.scss`:
+▶️ (3) ensure to apply some [M3 theme](https://material.angular.io/guide/theming) in your app's `styles.scss`:
 
 ```scss
 @use "@angular/material" as mat;
@@ -125,7 +125,7 @@ mat-icon.mat-error, mat-icon.mat-warn {
 
 ## Install Packages
 
-(3) install the typical Cadmus packages via NPM:
+▶️ Install the typical Cadmus packages via NPM:
 
 ```bash
 npm i @auth0/angular-jwt @myrmidon/auth-jwt-admin @myrmidon/auth-jwt-login
@@ -156,7 +156,7 @@ Typically you will also need **Monaco editor** and **Markdown**:
 
 This is essential to let the frontend find the server, while allowing us to manually edit this URI after building a distribution, and before creating a Docker image.
 
-(1) under `public` add an `env.js` file for project-dependent environment variables, with this content (replace the port number, in this sample 60849, with your backend API port number):
+▶️ (1) under `public` add an `env.js` file for project-dependent environment variables, with this content (replace the port number, in this sample 60849, with your backend API port number):
 
 ```js
 // https://www.jvandemo.com/how-to-use-environment-variables-to-configure-your-angular-application-without-a-rebuild/
@@ -210,7 +210,7 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
 ]
 ```
 
-(2) in `src/index.html` add an import for `env.js` to your `head` element:
+▶️ (2) in `src/index.html` add an import for `env.js` to your `head` element:
 
 ```html
 <head>
@@ -225,7 +225,7 @@ Also, you can change the web app's `title` in `head` to a more human-friendly na
 
 This is suggested to enable source maps in production and avoid nasty warnings after compilation.
 
-(1) in `angular.json` you will typically have to raise the warning limits for your `budget` size if getting a warning after building.
+▶️ In `angular.json` you will typically have to raise the warning limits for your `budget` size if getting a warning after building.
 
 ## Add Assets
 
@@ -239,7 +239,7 @@ The logo is used in the `app.component`'s template for the main toolbar, while b
 
 ## Add Cadmus Infrastructure
 
-(1) add some extension points, eventually adding new entries for your new parts (see [dynamic lookup](https://github.com/vedph/cadmus_doc/blob/master/core/dynamic-lookup.md)):
+▶️ (1) add some extension points, optionally adding new entries for your new parts (see [dynamic lookup](https://github.com/vedph/cadmus_doc/blob/master/core/dynamic-lookup.md)):
 
 - `src/app/index-lookup-definitions.ts` with this content:
 
@@ -280,7 +280,7 @@ export const ITEM_BROWSER_KEYS = {
 
 >⚠️ If using external bibliography, remember to [add the route](#set-environment-variables) for its editor.
 
-(2) copy these folders (each corresponding to an app's page component) into your app's `src/app` folder from the [reference project](https://github.com/vedph/cadmus-shell-2):
+▶️ (2) copy these folders (each corresponding to an app's page component) into your app's `src/app` folder from the [reference project](https://github.com/vedph/cadmus-shell-2):
 
 - `home` (adjust the homepage contents according to your project)
 - `login-page`
@@ -1260,8 +1260,6 @@ http {
 - `docker-compose.yml`: _customize this_ for the image names and versions:
 
 ```yml
-version: "3.7"
-
 services:
   # MongoDB
   cadmus-__PRJ__-mongo:
@@ -1300,11 +1298,13 @@ services:
       - cadmus-__PRJ__-mongo
       - cadmus-__PRJ__-pgsql
     environment:
+      - ASPNETCORE_URLS=http://+:8080
       - CONNECTIONSTRINGS__DEFAULT=mongodb://cadmus-__PRJ__-mongo:27017/{0}
+      - CONNECTIONSTRINGS__AUTH=Server=cadmus-__PRJ__-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
       - CONNECTIONSTRINGS__INDEX=Server=cadmus-__PRJ__-pgsql;port=5432;Database={0};User Id=postgres;Password=postgres;Include Error Detail=True
       - SERILOG__CONNECTIONSTRING=mongodb://cadmus-__PRJ__-mongo:27017/{0}-log
       - STOCKUSERS__0__PASSWORD=P4ss-W0rd!
-      - SEED__INDEXDELAY=25
+      - SEED__DELAY=20
       - MESSAGING__APIROOTURL=http://cadmusapi.azurewebsites.net
       - MESSAGING__APPROOTURL=http://cadmusapi.com/
       - MESSAGING__SUPPORTEMAIL=support@cadmus.com
