@@ -138,7 +138,7 @@ npm i @myrmidon/cadmus-part-philology-pg @myrmidon/cadmus-part-philology-ui
 
 npm i @myrmidon/cadmus-preview-pg @myrmidon/cadmus-preview-ui @myrmidon/cadmus-profile-core
 
-npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-flags-pg @myrmidon/cadmus-flags-ui @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-mat-physical-size @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-flags-picker @myrmidon/cadmus-ui-pg @myrmidon/ngx-mat-tools @myrmidon/ngx-tools @myrmidon/paged-data-browsers @types/diff-match-patch diff-match-patch ts-md5
+npm i @myrmidon/cadmus-refs-asserted-chronotope @myrmidon/cadmus-flags-pg @myrmidon/cadmus-flags-ui @myrmidon/cadmus-refs-asserted-ids @myrmidon/cadmus-refs-assertion @myrmidon/cadmus-refs-decorated-ids @myrmidon/cadmus-refs-doc-references @myrmidon/cadmus-refs-external-ids @myrmidon/cadmus-refs-historical-date @myrmidon/cadmus-mat-physical-size @myrmidon/cadmus-refs-lookup @myrmidon/cadmus-refs-proper-name @myrmidon/cadmus-state @myrmidon/cadmus-text-block-view @myrmidon/cadmus-thesaurus-editor @myrmidon/cadmus-thesaurus-list @myrmidon/cadmus-thesaurus-ui @myrmidon/cadmus-ui @myrmidon/cadmus-ui-flag-set @myrmidon/cadmus-ui-pg @myrmidon/ngx-mat-tools @myrmidon/ngx-tools @myrmidon/paged-data-browsers @types/diff-match-patch diff-match-patch ts-md5
 
 npm i @myrmidon/cadmus-text-ed @myrmidon/cadmus-text-ed-md @myrmidon/cadmus-text-ed-txt
 ```
@@ -156,7 +156,7 @@ Typically you will also need **Monaco editor** and **Markdown**:
 
 This is essential to let the frontend find the server, while allowing us to manually edit this URI after building a distribution, and before creating a Docker image.
 
-(1) under `src` (or under `public` if using templates from Angular 18 onwards) add an `env.js` file for project-dependent environment variables, with this content (replace the port number, in this sample 60849, with your backend API port number):
+(1) under `public` add an `env.js` file for project-dependent environment variables, with this content (replace the port number, in this sample 60849, with your backend API port number):
 
 ```js
 // https://www.jvandemo.com/how-to-use-environment-variables-to-configure-your-angular-application-without-a-rebuild/
@@ -200,31 +200,17 @@ export const PART_EDITOR_KEYS: PartEditorKeys = {
 };
 ```
 
-(2) in `angular.json`, under `projects/APPNAME/architect/build/options/assets`:
+⚠️ Since Angular 18 the `public` folder is the place where you should place items to be copied. So, in this case just place the `env.js` file there. No change is required in `angular.json` because it already has a glob catch-all pattern pointing to the `public` folder. Before this version, you typically added `src/env.js` to the `assets` array in `projects/APPNAME/architect/build/options/assets`.
 
-- add `"src/env.js"`:
-
-```json
-"assets": [
-  "src/favicon.ico",
-  "src/assets",
-  "src/env.js"
-],
-```
-
-⚠️ Since Angular 18 the `public` folder is the place where you should place items to be copied. So, in this case just place the `env.js` file there. No change is required in `angular.json` because it already has a glob catch-all pattern pointing to the `public` folder.
-
->The glob for Monaco editor is no longer needed when using NG essentials as a Monaco wrapper.
-
-💡 If you are using legacy libraries like `gravatar`, add this option under `architect/build/options` to avoid a build warning:
+💡 If you are using legacy libraries like `leaflet`, add this option under `architect/build/options` to avoid a build warning:
 
 ```json
 "allowedCommonJsDependencies": [
-  "gravatar"
+  "leaflet"
 ]
 ```
 
-(3) in `src/index.html` add an import for `env.js` to your `head` element:
+(2) in `src/index.html` add an import for `env.js` to your `head` element:
 
 ```html
 <head>
@@ -245,9 +231,7 @@ This is suggested to enable source maps in production and avoid nasty warnings a
 
 This is optional and depends on your visuals.
 
-For a quick setup, just ensure you have the required icons and images in `assets` (see `cadmus-shell/assets`): usually they are `logo-white-40.png` for the top bar logo (you can use your own), and a couple of banner images for the homepage (`banner-512.jpg`, `banner-1024.jpg`).
-
-⚠️ Since Angular 18, you can rather place these assets under your `public/img` folder. This implies removing the `assets` folder from paths in the code templates if any, e.g. `/assets/img/some-image.jpg` becomes `/img/some-image.jpg`.
+For a quick setup, just ensure you have the required icons and images in `public/img`: usually they are `logo-white-40.png` for the top bar logo (you can use your own), and a couple of banner images for the homepage (`banner-512.jpg`, `banner-1024.jpg`).
 
 The logo is used in the `app.component`'s template for the main toolbar, while banner images are used in the default homepage placeholder.
 
