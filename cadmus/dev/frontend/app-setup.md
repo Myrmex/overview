@@ -150,6 +150,21 @@ Typically you will also need **Monaco editor** and **Markdown**:
 - [NG essentials](https://github.com/cisstech/nge): `npm i @cisstech/nge monaco-editor`.
 - [ngx-markdown](https://github.com/jfcere/ngx-markdown) if you have components _displaying_ Markdown: `npm i ngx-markdown marked`.
 
+⚠️ Note that for such libraries you should also import the providers in `app.config.ts` like:
+
+```ts
+import { NgeMonacoModule } from '@cisstech/nge/monaco';
+// ...
+export const appConfig: ApplicationConfig = {
+  providers: [
+    // ...
+    importProvidersFrom(NgeMonacoModule.forRoot({})),
+    importProvidersFrom(NgeMarkdownModule),
+    // ...
+  ]
+};
+```
+
 >Even though you usually all what you have to do is installing the listed packages, be sure to _follow the directions provided by each library_ when installing it.
 
 ## Set Environment Variables
