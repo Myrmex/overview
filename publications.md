@@ -4,7 +4,8 @@ layout: page
 
 ## Publications
 
-- (in print) D. Fusi, _New approaches to processing and modeling judicial corpora_, in AA. VV., _The Language of defense_.
+- 2026 D. Fusi, _New approaches to processing and modeling judicial corpora_, in J. Visconti, _The Language of lawyers - a European Perspective_, Berlin 2026, pp.167-185.
+- 2025 D. Fusi, F. Fischer, Cl. Zittel, M. Zupancic, _Taming the Hydra: A Model for Textual Dynamics and Constellations of Goethe’s Venetian Epigrams_, in _Diversity, Equity, and Inclusion: Challenges and Opportunities for Digital Humanities in the Age of Artificial Intelligence, Proceedings del XIV Convegno Annuale AIUCD_, Verona 11-13 giugno 2025, Università di Verona, pp. 334-341.
 - 2024 B. Bessi, D. Fusi, _Modelling the Archipelago: Corfu as a Case Study for a Digital Edition of Cristoforo Buondelmonti’s Liber Insularum_, [Open Research Europe](https://open-research-europe.ec.europa.eu/articles/4-11/v1).
 - 2024 D. Fusi, _Il corpus digitale AttiChiari: costruzione, analisi, strumenti di ricerca_, in M.V. Dell'Anna (ed.), _La lingua e la scrittura forense: storia, temi, prospettive_, Torino 2024 (ISBN 979-12-211-0513-1), 157-174.
 - 2023 L. Clemenzi, F. Fusco, D. Fusi, G. Lombardi, _Testi in maschera: nuovi strumenti per la sicurezza e l’analisi linguistica di corpora giuridici_, «Umanistica Digitale», 7 (16) (2023) 1–32: <https://doi.org/10.6092/issn.2532-8816/15608>
