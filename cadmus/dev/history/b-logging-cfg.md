@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: History - Logging Configuration
----
-
 ## Logging Configuration
 
 📆 Date: 2023-12-06

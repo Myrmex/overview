@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: History - Backend Graph Upgrade
----
-
 ## Backend Graph Upgrade
 
 📆 Date: 2023-05-18

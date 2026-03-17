@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Graph Studio
-subtitle: Examples
----
-
 - [Work](#work)
   - [Work Example](#work-example)
 - [Events](#events)

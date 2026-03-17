@@ -1,9 +1,3 @@
----
-layout: page
-title: Layers Reconciliation
-subtitle: "Cadmus Development"
----
-
 - [Linking Text and Metatextual Data](#linking-text-and-metatextual-data)
 - [The Cadmus Approach](#the-cadmus-approach)
 - [Editing Experience](#editing-experience)

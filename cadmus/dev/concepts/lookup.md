@@ -1,9 +1,3 @@
----
-layout: page
-title: Dynamic Lookup
-subtitle: "Cadmus Development"
----
-
 ## Dynamic Lookup
 
 - [Dynamic Lookup](#dynamic-lookup)

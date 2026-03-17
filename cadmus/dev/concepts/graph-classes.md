@@ -1,9 +1,3 @@
----
-layout: page
-title: Graph Classes
-subtitle: "Cadmus Development"
----
-
 🛠️ Technical Note
 
 In the editor database, graph nodes representing classes are marked as such by setting their `node.is_class` field to true. Also, to allow for a very basic inference mechanism useful for in-place searches, the special `node_class` table provides a list of all the classes a node descends from, either directly or indirectly. This table is automatically updated using an SQL function named `populate_node_class`.

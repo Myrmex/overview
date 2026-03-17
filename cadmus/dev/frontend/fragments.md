@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating Fragments
-subtitle: "Cadmus Frontend Development"
----
-
 - [Adding Fragment](#adding-fragment)
 - [Adding UI Editor](#adding-ui-editor)
 - [Adding PG Editor Wrapper](#adding-pg-editor-wrapper)

@@ -4,25 +4,16 @@ title: Cadmus
 subtitle: Structured Content Creation System
 ---
 
-👉 [Cadmus Presentation Site](https://cadmus.fusi-soft.com): refer to this site for a general introduction to Cadmus. The site is still under development, especially for its interactive resources, but it still represents the most complete introduction to the system philosophy.
+📖 [Cadmus Documentation Site](https://https://vedph.github.io/cadmus-doc): the official documentation about Cadmus. This page is a stub, for Cadmus documentation refer to this site.
 
 ⚙️ [Cadmus Source Code](https://github.com/vedph/): the full source code of Cadmus is found in several VeDPH GitHub repositories. Some of the repositories implement the general infrastructure, while others are versions specialized for each real-world project using Cadmus.
 
 ## Overview
 
-Cadmus is an open-ended, modular, and full-stack creation system for highly structured content, including text with any number of specialized annotation layers, and capable of multiple types of data export (including TEI) and import (mostly via the [Proteus](proteus.md) system).
+Cadmus is an open-ended, modular, and full-stack creation system for highly structured content, including text with any number of specialized annotation layers, and capable of multiple types of data export (including TEI and RDF) and import (mostly via the [Proteus](proteus.md) system).
 
-- 🛠️ [developer's guide](cadmus/dev/toc.md)
-- 🔰 [directory of Cadmus code repositories](cadmus/dev/repos.md)
-- 🌐 [hosting Cadmus](cadmus/dev/deploy/hosting.md)
-  - [installing Docker](cadmus/docker-setup.md)
-  - [configuring HTTPS](cadmus/dev/deploy/https.md)
-  - [managing backup](cadmus/dev/deploy/backup.md)
-- 🧑‍🤝‍🧑 [projects using Cadmus](cadmus/projects.md)
-- Cadmus graph studio:
-  - 💼 [Cadmus graph studio online](https://cadmus-graph-studio.fusi-soft.com)
-  - 📖 [Cadmus graph studio documentation](cadmus/graph-studio/graph-studio.md)
-- 🧱 [Cadmus bricks demo](https://cadmus-bricks.fusi-soft.com)
+- 🕸️ [Cadmus graph studio online](https://cadmus-graph-studio.fusi-soft.com)
+- 🧱 [Cadmus bricks demo](https://cadmus-bricks-v3.fusi-soft.com)
 
 Cadmus presentation speech at [VeDPH](https://www.unive.it/pag/39287) seminars:
 
@@ -63,8 +54,8 @@ Technically, the system is a _full-stack framework_ using a number of layers: fr
 1. database layer ([MongoDB](https://www.mongodb.com), and [PostgreSQL](https://www.postgresql.org) for indexes and graph)
 2. data layer ([C#](https://dotnet.microsoft.com/en-us/languages/csharp))
 3. business layer ([C#](https://dotnet.microsoft.com/en-us/languages/csharp))
-4. web API layer ([ASP.NET 7](https://www.asp.net))
-5. web frontend layer ([Angular 15+](https://angular.io))
+4. web API layer ([ASP.NET 10](https://www.asp.net))
+5. web frontend layer ([Angular 21+](https://angular.io))
 
 A Cadmus editor, composed by aggregating existing parts or adding new ones, is _distributed_ via 🐋 [Docker](https://www.docker.com/) images, so that all what you need to run it, either locally or on a server, is a machine with Docker installed. Of course, given the layered architecture, you are free to replace the layers you want, e.g. to use a different frontend, or a different storage technology. Yet, in most cases you can just put together object models created for several projects, and have your own up and running in a few hours.
 

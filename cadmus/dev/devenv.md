@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: Environment
----
-
 - [Development Environment](#development-environment)
   - [Angular CLI](#angular-cli)
   - [MongoDB](#mongodb)

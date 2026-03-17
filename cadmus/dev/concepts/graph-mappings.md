@@ -1,9 +1,3 @@
----
-layout: page
-title: Graph Mappings
-subtitle: "Cadmus Development"
----
-
 - [Sources](#sources)
 - [Identifiers](#identifiers)
   - [Source ID (SID)](#source-id-sid)

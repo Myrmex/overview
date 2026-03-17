@@ -1,9 +1,3 @@
----
-layout: page
-title: Graph
-subtitle: "Cadmus Development"
----
-
 - 👉 [introduction](https://cadmus.fusi-soft.com/#/docs/semantic-graph)
 - 🛠️ [code documentation](https://github.com/vedph/cadmus-graph/blob/master/docs/index.md)
 - 💼 [Cadmus graph studio](https://cadmus-graph-studio.fusi-soft.com)

@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: History - Gravatar
----
-
 ## Gravatar Rafactoring
 
 📆 Date: 2024-07-16.

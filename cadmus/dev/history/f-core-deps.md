@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: History - Core Frontend Dependencies
----
-
 ## Core Frontend Dependencies Update
 
 📆 Date: 2024-12-03.

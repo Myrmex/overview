@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: Summary
----
-
 To create a Cadmus editor for your project, you need a backend and a frontend. For the most part, you will end up just customizing the provided code templates, so you do not need advanced programming skills to setup an editor. Of course, a minimal familiarity with the languages and technologies involved is required.
 
 You start with creating backend core libraries, eventually adding your own parts and fragments, with their seeders and tests. Then, you add a couple of services which put all the pieces together, and are consumed by the API layer. Once done, you create the backend API by just assembling the pieces you created with those coming from Cadmus infrastructure.

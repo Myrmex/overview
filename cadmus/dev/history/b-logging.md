@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: History - Logging Refactoring
----
-
 ## Logging Refactoring
 
 📆 Date: 2023-07-19

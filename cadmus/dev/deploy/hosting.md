@@ -1,9 +1,3 @@
----
-layout: page
-title: Hosting Cadmus
-subtitle: Cadmus Deployment
----
-
 - [Services](#services)
   - [Persisting Data](#persisting-data)
   - [Named Volumes and Bind Mounts](#named-volumes-and-bind-mounts)

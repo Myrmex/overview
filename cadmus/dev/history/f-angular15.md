@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: History - Angular 15
----
-
 - [Migration to Angular 15](#migration-to-angular-15)
   - [App](#app)
 - [Part/Fragment Editors](#partfragment-editors)

@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating API
-subtitle: "Cadmus Backend Development"
----
-
 - [Creating the API Project](#creating-the-api-project)
 - [Settings](#settings)
 - [Program](#program)

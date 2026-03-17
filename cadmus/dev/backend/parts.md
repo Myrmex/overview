@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating Parts
-subtitle: Cadmus Backend Development
----
-
 - [Parts](#parts)
   - [Packages](#packages)
   - [Procedure](#procedure)

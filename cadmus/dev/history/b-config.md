@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: History - Backend Infrastructure Upgrade
----
-
 - [Backend Infrastructure Upgrade](#backend-infrastructure-upgrade)
   - [Rationale](#rationale)
   - [Affected Products](#affected-products)

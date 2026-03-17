@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: History - Backend API Update
----
-
 ## Backend Graph Upgrade
 
 📆 Date: 2024-11-18

@@ -1,9 +1,3 @@
----
-layout: page
-title: Graph Walker
-subtitle: "Cadmus Development"
----
-
 - [Walker](#walker)
 - [Sample](#sample)
   - [GraphWalker](#graphwalker)

@@ -1,9 +1,3 @@
----
-layout: page
-title: Frontend App - Setup
-subtitle: "Cadmus Frontend Development"
----
-
 📌 Task: create a Cadmus frontend web app in a new Angular workspace, setting up its general infrastructure.
 
 1. **app**

@@ -1,9 +1,3 @@
----
-layout: page
-title: Backup
-subtitle: Cadmus Deployment
----
-
 To backup your Cadmus data, you must:
 
 - backup its 3 **Mongo** databases (data, authentication, and log). You can leave out logs if you are not interested in keeping audit records.

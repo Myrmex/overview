@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating Libraries
-subtitle: "Cadmus Frontend Development"
----
-
 - [Adding Libraries](#adding-libraries)
   - [Single-Component Libraries](#single-component-libraries)
   - [Multiple-Components Libraries](#multiple-components-libraries)

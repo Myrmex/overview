@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating Part Seeders
-subtitle: "Cadmus Backend Development"
----
-
 - [Packages](#packages)
 - [Part Seeder Templates](#part-seeder-templates)
   - [Part Seeder](#part-seeder)

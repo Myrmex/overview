@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating Fragments
-subtitle: "Cadmus Backend Development"
----
-
 - [Fragment Template](#fragment-template)
 - [Fragment Test Template](#fragment-test-template)
 

@@ -1,8 +1,3 @@
----
-layout: page
-title: Cadmus Graph Studio
----
-
 - 🛠️ [GitHub code repository](https://github.com/vedph/cadmus-graph-studio-app)
 - 💼 [online tool](https://cadmus-graph-studio.fusi-soft.com/)
 

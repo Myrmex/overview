@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating Fragment Seeders
-subtitle: "Cadmus Backend Development"
----
-
 - [Fragment Seeder Template](#fragment-seeder-template)
 - [Fragment Seeder Test Template](#fragment-seeder-test-template)
 

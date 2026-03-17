@@ -1,9 +1,3 @@
----
-layout: page
-title: Frontend App - Components (Modules)
-subtitle: "Cadmus Frontend Development"
----
-
 - [App Module](#app-module)
 - [App Routes](#app-routes)
 - [App Component](#app-component)

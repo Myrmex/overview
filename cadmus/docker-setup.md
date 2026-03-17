@@ -1,8 +1,3 @@
----
-layout: page
-title: Docker Setup
----
-
 ## Windows
 
 For Windows, it is recommended to apply all the latest updates, so that you can take advantage of WSL 2 (Windows Subsystem for Linux). Once your OS is up to date, just follow the directions during Docker setup (you will need to install an additional component when requested).

@@ -1,9 +1,3 @@
----
-layout: page
-title: Thesauri
-subtitle: "Cadmus Development"
----
-
 - [Requirements](#requirements)
 - [Overview](#overview)
 - [Role-Dependent Thesauri](#role-dependent-thesauri)

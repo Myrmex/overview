@@ -1,9 +1,3 @@
----
-layout: page
-title: Configuring HTTPS
-subtitle: Cadmus Deployment
----
-
 ## Configuring HTTPS - Method 1
 
 - the easiest way. Recommended for most users.

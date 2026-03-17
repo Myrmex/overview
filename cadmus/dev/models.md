@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: Models
----
-
 All the generic models designed for Cadmus projects are listed here. Project-specific models are described in the repository of each project.
 
 ## General

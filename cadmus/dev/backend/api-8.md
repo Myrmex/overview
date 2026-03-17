@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating API
-subtitle: "Cadmus Backend Development"
----
-
 ⚠️ This documentation refers to the old API versions before upgrading to .NET 9 and Cadmus API 10+. Please refer to the [new documentation](api.md) for new projects.
 
 - [Creating the API Project](#creating-the-api-project)

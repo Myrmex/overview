@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: History - RDBMS Refactoring
----
-
 ## RDBMS Refactoring
 
 📆 Date: 2023-06-16

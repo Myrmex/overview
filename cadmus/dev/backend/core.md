@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating Core Backend
-subtitle: "Cadmus Backend Development"
----
-
 - [Creating Solution](#creating-solution)
 - [Adding Parts/Fragments](#adding-partsfragments)
   - [Adding Parts or Fragments](#adding-parts-or-fragments)

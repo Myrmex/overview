@@ -1,9 +1,3 @@
----
-layout: page
-title: Frontend App - Components (Standalone)
-subtitle: "Cadmus Frontend Development"
----
-
 - [Add Global Providers](#add-global-providers)
 - [Root Component](#root-component)
 - [Add Routes](#add-routes)

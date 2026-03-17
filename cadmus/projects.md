@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Projects
-subtitle: "Directory"
----
-
 - [Production Sites](#production-sites)
 - [Demos](#demos)
 - [Code Repositories](#code-repositories)

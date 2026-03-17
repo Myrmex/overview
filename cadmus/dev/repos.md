@@ -1,9 +1,3 @@
----
-layout: page
-title: Cadmus Development
-subtitle: Repositories
----
-
 - [Backend](#backend)
   - [Models](#models)
   - [Services](#services)

@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating Parts
-subtitle: "Cadmus Frontend Development"
----
-
 - [Adding Part](#adding-part)
 - [Adding UI Editor](#adding-ui-editor)
   - [Generic Part Editor Template](#generic-part-editor-template)

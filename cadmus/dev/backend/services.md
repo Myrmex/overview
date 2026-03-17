@@ -1,9 +1,3 @@
----
-layout: page
-title: Creating Services
-subtitle: "Cadmus Backend Development"
----
-
 📌 Create a repository provider service to provide models, and a part seeder factory provider to provide part or fragment seeders when using mock data.
 
 1. [core](core.md)
