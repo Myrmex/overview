@@ -4,6 +4,7 @@ layout: page
 
 ## Publications
 
+- 2026 G. Ferrante, A. La Veglia, D. Fusi, S.A. Rizzo, S. Palma, E. Lauro, _Computational Approaches to the Textual and Iconographical Criticism of Dante’s Commedia - Data Modeling, Handwritten Text Recognition, and Automatic Text Alignment_, Umanistica Digitale (ISSN: 2532-8816) n. 25, 2026: Special Issue, DOI <http://doi.org/10.60923/issn.2532-8816/25673>
 - 2026 D. Fusi, _New approaches to processing and modeling judicial corpora_, in J. Visconti, _The Language of lawyers - a European Perspective_, Berlin 2026, pp.167-185.
 - 2025 D. Fusi, F. Fischer, Cl. Zittel, M. Zupancic, _Taming the Hydra: A Model for Textual Dynamics and Constellations of Goethe’s Venetian Epigrams_, in _Diversity, Equity, and Inclusion: Challenges and Opportunities for Digital Humanities in the Age of Artificial Intelligence, Proceedings del XIV Convegno Annuale AIUCD_, Verona 11-13 giugno 2025, Università di Verona, pp. 334-341.
 - 2024 B. Bessi, D. Fusi, _Modelling the Archipelago: Corfu as a Case Study for a Digital Edition of Cristoforo Buondelmonti’s Liber Insularum_, [Open Research Europe](https://open-research-europe.ec.europa.eu/articles/4-11/v1).

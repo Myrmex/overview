@@ -10,7 +10,7 @@ Several projects (including [Cadmus](cadmus.md)) sometimes require a web API ser
 - provides a multiple-platform CLI tool to handle import and other related functions.
 - wraps some essential query functions in a RESTful API.
 
-The project code and documentation can be found in its [repository](https://github.com/vedph/pleiades-api). Currently, it serves two purposes in my environment:
+The project code and documentation can be found in its [repository](https://github.com/vedph/pleiades-api). Demo pages:
 
-- provides [Cadmus](cadmus.md) editors with lookup capabilities.
-- provides lookup capabilites to the [epigraphic codices project](https://github.com/vedph/epicod), where massive metadata import and cross-matching is required.
+- [query](https://cadmus-bricks-v3.fusi-soft.com/geo/pleiades-query)
+- [quick lookup](https://cadmus-bricks-v3.fusi-soft.com/refs/pleiades-ref-lookup)

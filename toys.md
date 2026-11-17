@@ -11,3 +11,13 @@ Here are some toys created for didactic purposes:
 - [Liddell-Scott and Lewis-Short Online](https://lsj.fusi-soft.com): a minimalist browser for these Perseus TEI-based dictionaries, converted using [Proteus](proteus.md). An offline Windows desktop version is available in the [downloads](downloads.md) section.
 - [mensor](https://myrmex-mensor.surge.sh/): ancient measurement units converter (Greek, Roman, Egyptian). This demonstrates a simple PWA app.
 - [sigla](https://myrmex-sigla.surge.sh/): Roman and Greek epigraphical abbreviations, perpetual Roman calendar, ancient eras converter. This demonstrates a simple PWA app.
+
+Demo API services:
+
+- [Alatius Macronizer](https://macronizer-api.fusi-soft.com/scalar/v1)
+- [Collatinus API](https://collatinus-api.fusi-soft.com/scalar/v1)
+
+Theuth (based on [Proteus](proteus.md)):
+
+- [online demo](https://proteus.fusi-soft.com/theuth)
+- [VSCode Extension](https://marketplace.visualstudio.com/items?itemName=myrmex.theuth)

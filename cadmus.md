@@ -4,7 +4,7 @@ title: Cadmus
 subtitle: Structured Content Creation System
 ---
 
-📖 [Cadmus Documentation Site](https://https://vedph.github.io/cadmus-doc): the official documentation about Cadmus. This page is a stub, for Cadmus documentation refer to this site.
+📖 [Cadmus Documentation Site](https://vedph.github.io/cadmus-doc): the official documentation about Cadmus. This page is a stub, for Cadmus documentation refer to this site.
 
 ⚙️ [Cadmus Source Code](https://github.com/vedph/): the full source code of Cadmus is found in several VeDPH GitHub repositories. Some of the repositories implement the general infrastructure, while others are versions specialized for each real-world project using Cadmus.
 
@@ -14,6 +14,7 @@ Cadmus is an open-ended, modular, and full-stack creation system for highly stru
 
 - 🕸️ [Cadmus graph studio online](https://cadmus-graph-studio.fusi-soft.com)
 - 🧱 [Cadmus bricks demo](https://cadmus-bricks-v3.fusi-soft.com)
+- ✏️ [Cadmus graph studio](https://cadmus-graph-studio.fusi-soft.com)
 
 Cadmus presentation speech at [VeDPH](https://www.unive.it/pag/39287) seminars:
 
@@ -52,8 +53,8 @@ Technically, the system is a _full-stack framework_ using a number of layers: fr
 1. database layer ([MongoDB](https://www.mongodb.com), and [PostgreSQL](https://www.postgresql.org) for indexes and graph)
 2. data layer ([C#](https://dotnet.microsoft.com/en-us/languages/csharp))
 3. business layer ([C#](https://dotnet.microsoft.com/en-us/languages/csharp))
-4. web API layer ([ASP.NET 10](https://www.asp.net))
-5. web frontend layer ([Angular 21+](https://angular.io))
+4. web API layer ([ASP.NET 11](https://www.asp.net))
+5. web frontend layer ([Angular 22](https://angular.io))
 
 A Cadmus editor, composed by aggregating existing parts or adding new ones, is _distributed_ via 🐋 [Docker](https://www.docker.com/) images, so that all what you need to run it, either locally or on a server, is a machine with Docker installed. Of course, given the layered architecture, you are free to replace the layers you want, e.g. to use a different frontend, or a different storage technology. Yet, in most cases you can just put together object models created for several projects, and have your own up and running in a few hours.
 
