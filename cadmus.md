@@ -4,7 +4,7 @@ title: Cadmus
 subtitle: Structured Content Creation System
 ---
 
-📖 [Cadmus Documentation Site](https://vedph.github.io/cadmus-doc): the official documentation about Cadmus. This page is a stub, for Cadmus documentation refer to this site.
+📖 [Cadmus Documentation Site](https://vedph.github.io/cadmus-doc): the official documentation about Cadmus.
 
 ⚙️ [Cadmus Source Code](https://github.com/vedph/): the full source code of Cadmus is found in several VeDPH GitHub repositories. Some of the repositories implement the general infrastructure, while others are versions specialized for each real-world project using Cadmus.
 
