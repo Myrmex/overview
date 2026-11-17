@@ -4,33 +4,51 @@ layout: page
 
 ## Publications
 
-- 2026 G. Ferrante, A. La Veglia, D. Fusi, S.A. Rizzo, S. Palma, E. Lauro, _Computational Approaches to the Textual and Iconographical Criticism of Dante’s Commedia - Data Modeling, Handwritten Text Recognition, and Automatic Text Alignment_, Umanistica Digitale (ISSN: 2532-8816) n. 25, 2026: Special Issue, DOI <http://doi.org/10.60923/issn.2532-8816/25673>
+- 2026 G. Ferrante, A. La Veglia, D. Fusi, S.A. Rizzo, S. Palma, E. Lauro, _Computational Approaches to the Textual and Iconographical Criticism of Dante’s Commedia - Data Modeling, Handwritten Text Recognition, and Automatic Text Alignment_, Umanistica Digitale (ISSN: 2532-8816) n. 25, 2026: Special Issue, DOI <http://doi.org/10.60923/issn.2532-8816/25673>.
+- 2026 G. Baldelli, D. Fusi, F. Fischer, Cl. Zittel, M. Zupancic, _In Search of Lost Time: an Innovative Model for Representing Autograph Texts_, in _Proceedings del XV Convegno Annuale dell’Associazione per l’Informatica Umanistica e la Cultura Digitale AIUCD_, Cagliari 3-5 giugno 2026.
 - 2026 D. Fusi, _New approaches to processing and modeling judicial corpora_, in J. Visconti, _The Language of lawyers - a European Perspective_, Berlin 2026, pp.167-185.
+
 - 2025 D. Fusi, F. Fischer, Cl. Zittel, M. Zupancic, _Taming the Hydra: A Model for Textual Dynamics and Constellations of Goethe’s Venetian Epigrams_, in _Diversity, Equity, and Inclusion: Challenges and Opportunities for Digital Humanities in the Age of Artificial Intelligence, Proceedings del XIV Convegno Annuale AIUCD_, Verona 11-13 giugno 2025, Università di Verona, pp. 334-341.
+
 - 2024 B. Bessi, D. Fusi, _Modelling the Archipelago: Corfu as a Case Study for a Digital Edition of Cristoforo Buondelmonti’s Liber Insularum_, [Open Research Europe](https://open-research-europe.ec.europa.eu/articles/4-11/v1).
 - 2024 D. Fusi, _Il corpus digitale AttiChiari: costruzione, analisi, strumenti di ricerca_, in M.V. Dell'Anna (ed.), _La lingua e la scrittura forense: storia, temi, prospettive_, Torino 2024 (ISBN 979-12-211-0513-1), 157-174.
+
 - 2023 L. Clemenzi, F. Fusco, D. Fusi, G. Lombardi, _Testi in maschera: nuovi strumenti per la sicurezza e l’analisi linguistica di corpora giuridici_, «Umanistica Digitale», 7 (16) (2023) 1–32: <https://doi.org/10.6092/issn.2532-8816/15608>
 - 2023 D. Fusi, _EpiSearch. Digitally coalescing Ancient Inscriptions and Epigraphic Manuscripts_. Journal of Data Mining and Digital Humanities, Proceedings of the International Conference _On the Way to the Future of Digital Manuscript Studies_ (Radboud University Nijmegen, October 27th-29th 2021).
 - 2023 L. Clemenzi, F. Fusco, D.Fusi, G. Lombardi, _Processing of personal data in Court Proceedings: A model for linguistic and legal studies_, in P. Anesa, J. Engberg (edd.), _The digital (r)evolution of legal discourse. New genres, media, and linguistic practices_, _Foundations in Language and Law_ vol.10.
+
 - 2022 D. Fusi, _I due volti di Giano - Saggio di filologia classica e tardoantica allo specchio delle Digital Humanities_, Parma 2022 (ISBN 978-88-32158-49-6).
 - 2022 L. Clemenzi, F. Fusco, D. Fusi, G. Lombardi, _Analisi linguistica e pseudonimizzazione: strumenti e paradigmi_, in Fabio Ciracì, Giulia Miglietta, Carola Gatto (edd.), _AIUCD 2022 - Culture digitali. Intersezioni: filosofia, arti, media. Preceedings della 11a conferenza nazionale_, Lecce, 2022.
+
 - 2021 D. Fusi, _Digitalizzazione e marcatura XML degli atti_, in R. Gualdo (ed.), Atti chiari. Chiarezza e concisione nella scrittura forense ("Atti Chiari. Chiarezza e concisione nella scrittura forense", Viterbo 20 maggio 2021), 59-73.
 - 2021 D. Fusi, _Introducing Chiron, a Full-Stack Framework for Metrical Analysis: Part 2 - Data Interpretation_, «RCCM» 63, 2 (2021) 407-431.
 - 2021 D. Fusi, _Introducing Chiron, a Full-Stack Framework for Metrical Analysis: Part 1 - Data Collection_, «RCCM» 63, 1 (2021) 53-85.
+
 - 2020 D. Fusi, _Text Searching Beyond the Text: a Case Study_, «Rationes Rerum» 15 (2020) 199-230.
+
 - 2019 D. Fusi, Revision of the Greek and Latin parts of the etymologies and the appendix on the Latin and Greek phrases of the Zingarelli dictionary 2019.
+
 - 2018 D. Fusi, _Recovering Legacy in the Digital World: Tales and Tools_, "Rationes Rerum" 12 (2018) 203-262.
 - 2018 D. Fusi, _Sailing for a Second Navigation: Paradigms in Producing Digital Content_, «SemRom» ns 7 (2018) 213-276.
+
 - 2017 D. Fusi, _Tecnologie informatiche per l’umanista digitale_, Roma (Nuova Cultura) 2017 pp.1 316 (ISBN 978-88-6812-932-3)
+
 - 2016 D. Fusi, _Edizione digitale del Tommaseo-Bellini_, in L'italiano elettronico: vocabolari, corpora, archivi testuali e sonori, Atti del Convegno La piazza delle lingue, a c. di Claudio Marazzini e Ludovica Maconi, Firenze 6-8 novembre 2014, Florence 2016.
+
 - 2015 AA.VV., _Manuale Cremonese Informatica e Telecomunicazioni_, Bologna (Zanichelli) 2015: chapter 37, _Tecnologia .NET e linguaggio C#_, pp.1511-1599.
 - 2015 D. Fusi, _A Multilanguage, Modular Framework for Metrical Analysis: IT Patterns and Theorical Issues_, «Langages» 199 (2015) 41-66 (monographic issue: Traitement automatique des textes versifiés: problématiques et pratiques).
+
 - 2013 D. Fusi, _Edizione digitale degli Initia Hymnorum Ecclesiae Graecae_, in A. Rigo, A. Babuin, M. Trizio (edd.), Atti del Congresso “Vie per Bisanzio”, 25-28/11/2009, Venezia (Italy) – Università Ca’ Foscari: VII Congresso Nazionale dell’Associazione Italiana di Studi Bizantini.
+
 - 2011 D. Fusi, _Informatica per le scienze umane_, vol.I (Elementi), Roma (Nuova Cultura) 2011 pp.1-316 (ISBN 978-88-6134-767-0).
 - 2011 D. Fusi, _Informatica per le scienze umane_, vol.II (Modelli), Roma (Nuova Cultura) 2011 pp.1-548 (ISBN 978-88-6134-768-7).
+
 - 2009 D. Fusi, _Aspects of Application of Neural Recognition to Digital Editions_, in M. Rehbein, P. Sahle und T. Schaßan (edd.), Kodikologie und Paläologie im Digitalen Zeitalter - Codicology and Palaeography in the Digital Age, Norderstedt 2009, pp. 201-221.
+
 - 2008 D. Fusi, _An Expert System for the Classical Languages: Metrical Analysis Components_, in _Proceedings of the international conference Trends in Computational and Formal Philology - An Italian Overview_, Venice and Padua, 22-24 May 2008.
+
 - 2007 D. Fusi, _Edizione epigrafica digitale di testi greci e latini: dal testo marcato alla banca dati_, in A. Ciula, F. Stella (edd.), _Digital Philology and Medieval Texts_, Pisa 2007, pp.121-163.
+
 - 2002 D. Fusi, _Fra metrica e linguistica: per la contestualizzazione di alcune leggi esametriche_, in E. Di Lorenzo (ed.), _L'esametro greco e latino: analisi, problemi e prospettive - Atti del convegno di Fisciano 28-29 maggio 2002_, pp.33-63.
 - 2002 D. Fusi, _Epigrafia informatica: progetto per un’edizione elettronica di materiale epigrafico_, «Seia» n.s. 6-7 (2001-2002) pp.177-210.
 - 2002 D. Fusi, _Appunti sulla prosodia del Lussorio di Shackleton-Bailey: alcune questioni di metodo_, in F. Bertini (ed.), _Luxoriana_, pp.193 313, Genova 2002 (rec. «Maia» 40 (2003) pp.629-630).
