@@ -12,9 +12,8 @@ subtitle: Structured Content Creation System
 
 Cadmus is an open-ended, modular, and full-stack creation system for highly structured content, including text with any number of specialized annotation layers, and capable of multiple types of data export (including TEI and RDF) and import (mostly via the [Proteus](proteus.md) system).
 
-- 🕸️ [Cadmus graph studio online](https://cadmus-graph-studio.fusi-soft.com)
+- ✏️ [Cadmus graph studio demo](https://cadmus-graph-studio.fusi-soft.com)
 - 🧱 [Cadmus bricks demo](https://cadmus-bricks-v3.fusi-soft.com)
-- ✏️ [Cadmus graph studio](https://cadmus-graph-studio.fusi-soft.com)
 
 Cadmus presentation speech at [VeDPH](https://www.unive.it/pag/39287) seminars:
 
